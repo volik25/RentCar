@@ -1,0 +1,36 @@
+<div class="container align-items-center justify-content-center py-4">
+    <div class="card border-primary">
+      <div class="card-header text-primary bg-light">
+        <b>Регистрация</b>
+      </div>
+      <form formGroup="userForm" class="row card-body" (submit)="onSignUpClick()">
+        <div class="col-sm-6">
+          <div class="form-group"><label>Фамилия</label><input formControlName="surname" type="text" class="form-control" /></div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group"><label>Имя</label><input formControlName="name" type="text" class="form-control" /></div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group"><label>Отчество</label><input formControlName="middlename" type="text" class="form-control" /></div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group"><label>Телефон</label><input formControlName="phone" type="text" class="form-control" /></div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-group"><label>Email</label><input formControlName="email" type="text" class="form-control" /></div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-group"><label>Пароль</label><input formControlName="password" type="password" class="form-control" /></div>
+        </div>
+        <div class="col-sm-12">
+          <div class="alert alert-danger" role="alert" *ngIf="showError">
+            Пользователь с таким email уже существует
+          </div>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Регистрация</button>
+          <a class="btn btn-link" routerLink="/sign-in">Вход</a>
+        </div>
+      </form>
+    </div>
+</div>

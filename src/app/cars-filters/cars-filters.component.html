@@ -1,0 +1,87 @@
+<form class="px-4">
+    <div class="form-group">
+        <label for="formControlRange">Цена аренды</label>
+        <ng5-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ng5-slider>
+    </div>
+    <div>
+        <label>Подушки безопасности</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+            <label class="form-check-label" for="exampleRadios1">
+              Есть
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+            <label class="form-check-label" for="exampleRadios2">
+              Нет
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Тип кузова</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+          <option>Седан</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Тип топлива</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+          <option>АИ-92</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Тип КПП</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+          <option>Механическая</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Количество дверей</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+          <option>2</option>
+        </select>
+    </div>
+    <div>
+        <label>Наличие кондиционера</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadio" id="exampleRadio1" value="option1" checked>
+            <label class="form-check-label" for="exampleRadio1">
+              Есть
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadio" id="exampleRadio2" value="option2">
+            <label class="form-check-label" for="exampleRadio2">
+              Нет
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadio" id="exampleRadio3" value="option3">
+            <label class="form-check-label" for="exampleRadio3">
+              Не важно
+            </label>
+        </div>
+    </div>
+    <div>
+        <label>Руль</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRad" id="exampleRad1" value="option1" checked>
+            <label class="form-check-label" for="exampleRad1">
+              Слева
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRad" id="exampleRad2" value="option2">
+            <label class="form-check-label" for="exampleRad2">
+              Справа
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Количество мест</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+          <option>4</option>
+        </select>
+    </div>
+</form>
