@@ -7,6 +7,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { SignInComponent } from './profile/sign-in/sign-in.component';
 import { SignUpComponent } from './profile/sign-up/sign-up.component';
 import { ProfileSecurity } from './security/profile.security';
+import { AdminCarsComponent } from './profile/admin/admin-cars/admin-cars.component';
+import { AdminPlacesComponent } from './profile/admin/admin-places/admin-places.component';
+import { OrdersComponent } from './profile/orders/orders.component';
+import { AdminSecurity } from './security/admin.security';
 
 
 const routes: Routes = [
@@ -16,9 +20,13 @@ const routes: Routes = [
   { path: 'contacts', component: ContactsComponent},
   {path: 'sign-in', component: SignInComponent},
   {path: 'sign-up', component: SignUpComponent},
-  { path: 'profile', component: ProfileComponent, canActivate: [ProfileSecurity],
+  { path: 'profile', component: ProfileComponent,
+    canActivate: [ProfileSecurity],
     children: [
-      
+      { path: '', pathMatch: 'full', redirectTo: 'orders' },
+      { path: 'orders', component: OrdersComponent },
+      { path: 'admin-cars', component: AdminCarsComponent, canActivate: [AdminSecurity] },
+      { path: 'admin-places', component: AdminPlacesComponent, canActivate: [AdminSecurity] },
     ]},
 ];
 

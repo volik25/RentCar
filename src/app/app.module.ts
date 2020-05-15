@@ -7,7 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { CarsComponent } from './cars/cars.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { ProfileComponent } from './profile/profile.component';
-import { CarsFiltersComponent } from './cars-filters/cars-filters.component';
+import { CarsFiltersComponent } from './cars/cars-filters/cars-filters.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { SignInComponent } from './profile/sign-in/sign-in.component';
 import { SignUpComponent } from './profile/sign-up/sign-up.component';
@@ -20,6 +20,9 @@ import { AuthService } from './services/auth.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { UserComponent } from './profile/user/user.component';
+import { OrdersComponent } from './profile/orders/orders.component';
+import { AdminCarsComponent } from './profile/admin/admin-cars/admin-cars.component';
+import { AdminPlacesComponent } from './profile/admin/admin-places/admin-places.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,9 @@ import { UserComponent } from './profile/user/user.component';
     SignInComponent,
     SignUpComponent,
     UserComponent,
+    OrdersComponent,
+    AdminCarsComponent,
+    AdminPlacesComponent
   ],
   imports: [
     BrowserModule,

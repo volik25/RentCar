@@ -39,7 +39,6 @@ export class SignUpComponent implements OnInit {
     }
     console.log(this.userForm.getRawValue());
     const subscription = this.api.signUp(this.userForm.getRawValue()).subscribe((token) => {
-      console.log(token);
       if (token) {
         this.auth.setToken(token);
         this.router.navigate([this.auth.redirectUrl]);

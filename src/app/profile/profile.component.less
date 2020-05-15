@@ -1,0 +1,31 @@
+@import '../../colors.less';
+.menu{
+    min-width: 200px;
+    margin-right: 30px;
+    background-color: @light-blue;
+    color: white;
+    a{
+        color: white;
+    }
+    .menu-item{
+        padding: 10px;
+        display: flex;
+        max-width: 200px;
+        align-items: center;
+        cursor: pointer;
+
+        &:hover, &.active{
+            background-color: @darker-blue !important;
+        }
+        &:focus{
+            outline: none;
+        }
+        &:not(:last-child){
+            border-bottom: 1px solid @lighter-blue;
+        }
+    }
+
+}
+.content{
+    flex:1;
+}

@@ -35,7 +35,6 @@ export class SignInComponent implements OnInit {
     }
     const subscription = this.api.signIn(this.enterForm.getRawValue()).subscribe(
       (token) => {
-        console.log(token);
         if (token) {
           this.auth.setToken(token);
           this.router.navigate([this.auth.redirectUrl]);
