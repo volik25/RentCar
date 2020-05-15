@@ -13,12 +13,13 @@ import { SignInComponent } from './profile/sign-in/sign-in.component';
 import { SignUpComponent } from './profile/sign-up/sign-up.component';
 import { ApiService } from './services/api.service';
 import { LoadingService } from './services/loading.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ProfileSecurity } from './security/profile.security';
 import { AdminSecurity } from './security/admin.security';
 import { AuthService } from './services/auth.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { UserComponent } from './profile/user/user.component';
 
 @NgModule({
   declarations: [
@@ -31,12 +32,14 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     CarsFiltersComponent,
     SignInComponent,
     SignUpComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     Ng5SliderModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [
     LoadingService,

@@ -18,7 +18,7 @@ export class SignUpComponent implements OnInit {
     this.userForm = this.fb.group({
       name: [null, Validators.required],
       surname: [null, Validators.required],
-      middlename: null,
+      secondname: null,
       email: [null, [Validators.required, Validators.email]],
       phone: null,
       password: [null, Validators.required],
@@ -37,8 +37,9 @@ export class SignUpComponent implements OnInit {
       }
       return;
     }
-
+    console.log(this.userForm.getRawValue());
     const subscription = this.api.signUp(this.userForm.getRawValue()).subscribe((token) => {
+      console.log(token);
       if (token) {
         this.auth.setToken(token);
         this.router.navigate([this.auth.redirectUrl]);

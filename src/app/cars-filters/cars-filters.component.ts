@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Options, LabelType } from 'ng5-slider';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'cars-filters',
@@ -7,7 +8,6 @@ import { Options, LabelType } from 'ng5-slider';
   styleUrls: ['./cars-filters.component.less']
 })
 export class CarsFiltersComponent implements OnInit {
-
   minValue: number = 100;
   maxValue: number = 400;
   options: Options = {
@@ -23,7 +23,9 @@ export class CarsFiltersComponent implements OnInit {
           return value + '₽';
       }
     }
-  };
+  }
+  
+  filtersForm: FormBuilder;
 
   constructor() { }
 

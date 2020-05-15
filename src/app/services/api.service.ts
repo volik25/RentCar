@@ -29,6 +29,6 @@ export class ApiService {
   }
 
   public getUserInfo(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}?key=get-user-info`);
+    return this.http.get<any>(`${this.baseUrl}?key=get-user`);
   }
 }

@@ -3,19 +3,19 @@
         <div class="card-header text-primary bg-light">
             <b>Вход в личный кабинет</b>
         </div>
-        <form class="card-body" formGroup="enterForm" (submit)="onEnterClick()">
+        <form class="card-body" [formGroup]="enterForm">
             <div class="form-group">
-            <label for="login">Email</label>
-            <input id="login" class="form-control" formControlName="email" />
+                <label for="login">Email</label>
+                <input id="login" class="form-control" formControlName="email" />
             </div>
             <div class="form-group">
-            <label for="password">Пароль</label>
-            <input id="password" type="password" class="form-control" formControlName="password" />
+                <label for="password">Пароль</label>
+                <input id="password" type="password" class="form-control" formControlName="password" />
             </div>
             <div class="alert alert-danger" role="alert" *ngIf="showError">
             Неверный email или пароль
             </div>
-            <button type="submit" class="btn btn-primary">Вход</button>
+            <button class="btn btn-primary" (click) = "onEnterClick()">Вход</button>
             <a class="btn btn-link" routerLink="/sign-up">Регистрация</a>
         </form>
     </div>
