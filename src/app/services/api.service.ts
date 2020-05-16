@@ -36,6 +36,10 @@ export class ApiService {
     return this.http.get<any>(`${this.baseUrl}?key=get-car&carId=${carId}`);
   }
 
+  public removeCar(car): Observable<any> {
+    return this.http.post<string>(`${this.baseUrl}?key=remove-car`, car);
+  }
+
   public getCars(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}?key=get-cars`);
   }

@@ -181,6 +181,9 @@
             <div class="col">
                 <button type="button" class="btn btn-success" (click)="saveCar()">Сохранить</button>
             </div>
+            <div class="col">
+                <button *ngIf="car" type="button" class="btn btn-danger" (click)="removeCar()">Удалить</button>
+            </div>
         </div>
     </form>
 </div>
