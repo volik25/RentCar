@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditCarComponent } from './edit-car/edit-car.component';
+import { Car } from 'src/app/models/car';
 
 @Component({
   selector: 'admin-cars',
@@ -10,7 +11,7 @@ import { EditCarComponent } from './edit-car/edit-car.component';
   styleUrls: ['./admin-cars.component.less']
 })
 export class AdminCarsComponent implements OnInit {
-  cars;
+  cars:Car[];
   closeResult: string;
   constructor(private api: ApiService, private loadingService: LoadingService, private mS: NgbModal) {}
 
@@ -25,10 +26,24 @@ export class AdminCarsComponent implements OnInit {
     })
     this.loadingService.addSubscription(subscription);
   }
-  modalOpen(){
-    this.mS.open(EditCarComponent, {centered: true, size: 'xl'}).result.then((res)=>{
-      this.closeResult = res;
-      this.loadCars();
-    });
+  modalOpen(param, carId = null){
+    const modal = this.mS.open(EditCarComponent, {centered: true, size: 'xl', });
+    switch (param) {
+      case 'add':
+        modal.result.then((res)=>{
+          this.closeResult = res;
+          this.loadCars();
+        });
+        break;
+      case 'edit':
+        modal.componentInstance.carId = carId;
+        modal.result.then((res)=>{
+          this.closeResult = res;
+          this.loadCars();
+        });
+        break;
+      default:
+        break;
+    }
   }
 }

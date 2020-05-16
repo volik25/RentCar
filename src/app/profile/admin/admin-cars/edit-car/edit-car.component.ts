@@ -16,8 +16,8 @@ import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 })
 
 export class EditCarComponent implements OnInit {
-  @Input() car:Car;
-  
+  @Input() carId;
+  car: Car;
   public carForm: FormGroup;
   public bodyTypes = bodyOptions;
   public fuelTypes = fuelOptions;
@@ -29,53 +29,34 @@ export class EditCarComponent implements OnInit {
               private router: Router, private activeModal: NgbActiveModal) { }
 
   ngOnInit() {
-    // this.carForm = this.fb.group({
-    //   name:[null, Validators.required],
-    //   img:[null, Validators.required],
-    //   description:[null, Validators.required],
-    //   price:[null, Validators.required],
-    //   bodyType:[null, Validators.required],
-    //   fuelType:[null, Validators.required],
-    //   fuelCity:[null, Validators.required],
-    //   fuelTrack:[null, Validators.required],
-    //   enginePower:[null, Validators.required],
-    //   engineVolume:[null, Validators.required],
-    //   maxSpeed:[null, Validators.required],
-    //   accelerationTime:[null, Validators.required],
-    //   kpp:[null, Validators.required],
-    //   gears:[null, Validators.required],
-    //   doors:[null, Validators.required],
-    //   hasAirbags: [false],
-    //   airbags:[null, Validators.required],
-    //   AC:[null, Validators.required],
-    //   steering:[null, Validators.required],
-    //   trunkVolume:[null, Validators.required],
-    //   createYear:[null, Validators.required]
-    // });
-
     this.carForm = this.fb.group({
-      name:[null],
-      img:[null],
-      description:[null],
-      price:[null],
-      bodyType:[null],
-      fuelType:[null],
+      name:[null, Validators.required],
+      img:[null, Validators.required],
+      description:[null, Validators.required],
+      price:[null, Validators.required],
+      bodyType:[null, Validators.required],
+      fuelType:[null, Validators.required],
       fuelCity:[null],
       fuelTrack:[null],
       enginePower:[null],
       engineVolume:[null],
       maxSpeed:[null],
       accelerationTime:[null],
-      kpp:[null],
+      kpp:[null, Validators.required],
       gears:[null],
-      doors:[null],
+      doors:[null, Validators.required],
+      sits:[null, Validators.required],
       hasAirbags: [false],
       airbags:[null],
-      AC:[null],
-      steering:[null],
+      AC:[null, Validators.required],
+      steering:[null, Validators.required],
       trunkVolume:[null],
       createYear:[null]
     });
+
+    if(this.carId){
+      this.updateCar(this.carId);
+    }
   }
 
   public saveCar() {
@@ -90,7 +71,6 @@ export class EditCarComponent implements OnInit {
     const newCar = this.carForm.getRawValue();
     delete newCar.hasAirbags;
     const subs = this.uploadCarImg(newCar.img).subscribe((data) => {
-      console.log(data);
       newCar.img = data;
       if (this.car) {
         newCar.id = this.car.id;
@@ -117,6 +97,9 @@ export class EditCarComponent implements OnInit {
     const subscription = this.api.getCar(id).subscribe((car) => {
       this.car = car;
       this.carForm.patchValue(car);
+      if (car.airbags) {
+        this.carForm.get('hasAirbags').setValue(true);
+      }
       this.loadingService.removeSubscription(subscription);
     });
     this.loadingService.addSubscription(subscription);

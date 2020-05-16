@@ -11,9 +11,9 @@
                 <div class="form-group">
                     <label>Изображение</label>
                     <div>
-                      <div *ngIf="!isUploadFileShown()" class="position-relative d-inline-block">
+                      <div *ngIf="!isUploadFileShown()" class="position-relative d-flex">
                         <img [src]="carForm.get('img').value">
-                        <span class="remove-img" (click)="removeImg()">&times;</span>
+                        <button type="button" class="btn btn-danger dismiss-img" (click)="removeImg()"><i class="fas fa-times"></i></button>
                       </div>
                       <files-manager *ngIf="isUploadFileShown()" formControlName="img"></files-manager>
                     </div>
@@ -32,13 +32,13 @@
             <div class="col">
                 <div class="form-group">
                     <label for="createYear">Год выпуска</label>
-                    <input type="text" class="form-control" id="createYear" formControlName="createYear">
+                    <input type="number" class="form-control" id="createYear" formControlName="createYear">
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label for="price">Цена аренды, руб./сутки</label>
-                    <input type="text" class="form-control" id="price" formControlName="price">
+                    <input type="number" class="form-control" id="price" formControlName="price">
                 </div>
             </div>
             <div class="col">
@@ -62,13 +62,13 @@
             <div class="col">
                 <div class="form-group">
                     <label for="fuelCity">Расход по городу</label>
-                    <input type="text" class="form-control" id="fuelCity" formControlName="fuelCity">
+                    <input type="number" class="form-control" id="fuelCity" formControlName="fuelCity">
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label for="fuelTrack">Расход по трассе</label>
-                    <input type="text" class="form-control" id="fuelTrack" formControlName="fuelTrack">
+                    <input type="number" class="form-control" id="fuelTrack" formControlName="fuelTrack">
                 </div>
             </div>
         </div>
@@ -76,13 +76,13 @@
             <div class="col">
                 <div class="form-group">
                     <label for="enginePower">Мощность двигателя, л./с.</label>
-                    <input type="text" class="form-control" id="enginePower" formControlName="enginePower">
+                    <input type="number" class="form-control" id="enginePower" formControlName="enginePower">
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label for="engineVolume">Объем двигателя, л.</label>
-                    <input type="text" class="form-control" id="engineVolume" formControlName="engineVolume">
+                    <input type="number" class="form-control" id="engineVolume" formControlName="engineVolume">
                 </div>
             </div>
         </div>
@@ -90,13 +90,13 @@
             <div class="col">
                 <div class="form-group">
                     <label for="maxSpeed">Максимальная скорость, км/ч</label>
-                    <input type="text" class="form-control" id="maxSpeed" formControlName="maxSpeed">
+                    <input type="number" class="form-control" id="maxSpeed" formControlName="maxSpeed">
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label for="accelerationTime">Разгон до 100, сек.</label>
-                    <input type="text" class="form-control" id="accelerationTime" formControlName="accelerationTime">
+                    <input type="number" class="form-control" id="accelerationTime" formControlName="accelerationTime">
                 </div>
             </div>
         </div>
@@ -112,7 +112,7 @@
             <div class="col">
                 <div class="form-group">
                     <label for="gears">Количество передач</label>
-                    <input type="text" class="form-control" id="gears" formControlName="gears">
+                    <input type="number" class="form-control" id="gears" formControlName="gears">
                 </div>
             </div>
         </div>
@@ -120,13 +120,19 @@
             <div class="col">
                 <div class="form-group">
                     <label for="doors">Количество дверей</label>
-                    <input type="text" class="form-control" id="doors" formControlName="doors">
+                    <input type="number" class="form-control" id="doors" formControlName="doors">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="sits">Количество мест</label>
+                    <input type="number" class="form-control" id="sits" formControlName="sits">
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label for="trunkVolume">Объем багажника, л.</label>
-                    <input type="text" class="form-control" id="trunkVolume" formControlName="trunkVolume">
+                    <input type="number" class="form-control" id="trunkVolume" formControlName="trunkVolume">
                 </div>
             </div>
         </div>
@@ -150,7 +156,7 @@
             </div>
             <div class="col" *ngIf="carForm.get('hasAirbags').value">
                 <label for="airbags">Введите количество</label>
-                <input type="text" class="form-control" id="airbags" formControlName="airbags">
+                <input type="number" class="form-control" id="airbags" formControlName="airbags">
             </div>
         </div>
         <div class="row">
