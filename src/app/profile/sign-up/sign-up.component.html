@@ -3,7 +3,7 @@
       <div class="card-header text-primary bg-light">
         <b>Регистрация</b>
       </div>
-      <form [formGroup]="userForm" class="row card-body">
+      <form [formGroup]="userForm" class="row card-body" (submit)="onSignUpClick()">
         <div class="col-sm-6">
           <div class="form-group"><label>Фамилия</label><input formControlName="surname" type="text" class="form-control" /></div>
         </div>
@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="col-12">
-          <button class="btn btn-primary" (click)="onSignUpClick()">Регистрация</button>
+          <button type="submit" class="btn btn-primary">Регистрация</button>
           <a class="btn btn-link" routerLink="/sign-in">Вход</a>
         </div>
       </form>

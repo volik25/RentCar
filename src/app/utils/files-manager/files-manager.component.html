@@ -1,0 +1,7 @@
+<div [ngClass]="{ 'd-none': !value }">
+  <img class="file-img" #image />
+</div>
+
+<button *ngIf="!value" class="btn btn-outline-primary" [ngClass]="{ 'mt-3': value }" (click)="onUploadFileClick($event)">Загрузить</button>
+<button *ngIf="value" class="btn btn-outline-primary" [ngClass]="{ 'mt-3': value }" (click)="onRemoveFileClick($event)">Удалить</button>
+<div class="file-inputs" #inputFileContainer></div>

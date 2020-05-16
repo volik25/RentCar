@@ -3,7 +3,7 @@
         <div class="card-header text-primary bg-light">
             <b>Вход в личный кабинет</b>
         </div>
-        <form class="card-body" [formGroup]="enterForm">
+        <form class="card-body" [formGroup]="enterForm" (submit)="onEnterClick()">
             <div class="form-group">
                 <label for="login">Email</label>
                 <input id="login" class="form-control" formControlName="email" />
@@ -15,7 +15,7 @@
             <div class="alert alert-danger" role="alert" *ngIf="showError">
             Неверный email или пароль
             </div>
-            <button class="btn btn-primary" (click) = "onEnterClick()">Вход</button>
+            <button type="submit" class="btn btn-primary">Вход</button>
             <a class="btn btn-link" routerLink="/sign-up">Регистрация</a>
         </form>
     </div>

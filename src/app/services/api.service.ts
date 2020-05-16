@@ -31,4 +31,47 @@ export class ApiService {
   public getUserInfo(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}?key=get-user`);
   }
+
+  public getCar(carId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=get-car&carId=${carId}`);
+  }
+
+  public getCars(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=get-cars`);
+  }
+  // public getCars(model?: SearchModel, limit?: number): Observable<any> {
+  //   const url = new URL(this.baseUrl);
+  //   url.searchParams.set('key', 'get-cars');
+  //   if (model) {
+  //     if (model.period) {
+  //       url.searchParams.set('dateFrom', this.ngbDateToString(model.period.fromDate));
+  //       if (model.period.toDate) {
+  //         url.searchParams.set('dateTo', this.ngbDateToString(model.period.toDate));
+  //       }
+  //     }
+  //     if (model.price) {
+  //       if(model.price.from != 1500){
+  //         url.searchParams.set('priceFrom', model.price.from.toString());
+  //       }
+  //       if(model.price.to != 8000){
+  //         url.searchParams.set('priceTo', model.price.to.toString());
+  //       }
+  //     }
+  //   }
+  //   if (limit) {
+  //     url.searchParams.set('limit', limit.toString());
+  //   }
+  //   return this.http.get<any>(url.href);
+  // }
+  public addCar(data): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}?key=add-car`, data);
+  }
+
+  public updateCar(data): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}?key=update-car`, data);
+  }
+
+  public uploadCarImg(data): Observable<string> {
+    return this.http.post<string>(`${this.baseUrl}?key=upload-img`, data);
+  }
 }

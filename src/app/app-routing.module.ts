@@ -11,15 +11,17 @@ import { AdminCarsComponent } from './profile/admin/admin-cars/admin-cars.compon
 import { AdminPlacesComponent } from './profile/admin/admin-places/admin-places.component';
 import { OrdersComponent } from './profile/orders/orders.component';
 import { AdminSecurity } from './security/admin.security';
+import { EditCarComponent } from './profile/admin/admin-cars/edit-car/edit-car.component';
 
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomeComponent },
   { path: 'cars', component: CarsComponent},
+  { path: 'edit-car', component: EditCarComponent},
   { path: 'contacts', component: ContactsComponent},
-  {path: 'sign-in', component: SignInComponent},
-  {path: 'sign-up', component: SignUpComponent},
+  { path: 'sign-in', component: SignInComponent},
+  { path: 'sign-up', component: SignUpComponent},
   { path: 'profile', component: ProfileComponent,
     canActivate: [ProfileSecurity],
     children: [

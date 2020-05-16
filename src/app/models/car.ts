@@ -1,4 +1,5 @@
 import { DateRange } from './order';
+import { BodyTypes, FuelType, KPP, AC, SteeringType } from './enums';
 
 export interface Car {
   id?: number;
@@ -6,17 +7,20 @@ export interface Car {
   name: string;
   description: string;
   price: number;
-  fuelType: string;
-  engineVolume?: number;
+  bodyType: BodyTypes;
+  fuelType: FuelType;
+  fuelCity: number;
+  fuelTrack: number;
   enginePower: number;
-  speed?: number;
-  time?: number;
-  volumePerHundred?: number;
-  kpp: string;
-  driveUnit: string;
-  places: number;
-  backVolume?: number;
-  license?: string;
+  engineVolume?: number;
+  maxSpeed?: number;
+  accelerationTime?: number;
+  kpp: KPP;
+  gears: number;
+  doors: number;
+  airbags?: number;
+  AC: AC;
+  steering: SteeringType;
+  trunkVolume: number;
   createYear?: number;
-  dates?: DateRange[];
 }

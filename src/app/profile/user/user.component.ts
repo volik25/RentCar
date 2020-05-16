@@ -13,26 +13,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class UserComponent implements OnInit {
   public userInfo: User;
-  private rxAlive: boolean = true;
-  constructor(private modalService: NgbModal, private auth: AuthService, private router: Router, private api: ApiService, private loadingService: LoadingService,) {}
+  constructor( private auth: AuthService, private router: Router, private api: ApiService, private loadingService: LoadingService,) {}
 
   public ngOnInit(): void {
     this.getUser();
-  }
-
-  public edit() {
-    // const modal = this.modalService.open(EditUserFormComponent);
-    // modal.componentInstance.user = this.userInfo;
-    // modal.result
-    //   .then((user) => {
-    //     this.api
-    //       .editUser(user)
-    //       .pipe(takeWhile(() => this.rxAlive))
-    //       .subscribe(() => {
-    //         this.getUser();
-    //       });
-    //   })
-    //   .catch(() => {});
   }
 
   private getUser() {

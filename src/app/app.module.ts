@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
@@ -23,6 +24,8 @@ import { UserComponent } from './profile/user/user.component';
 import { OrdersComponent } from './profile/orders/orders.component';
 import { AdminCarsComponent } from './profile/admin/admin-cars/admin-cars.component';
 import { AdminPlacesComponent } from './profile/admin/admin-places/admin-places.component';
+import { EditCarComponent } from './profile/admin/admin-cars/edit-car/edit-car.component';
+import { FilesManagerComponent } from './utils/files-manager/files-manager.component';
 
 @NgModule({
   declarations: [
@@ -38,14 +41,17 @@ import { AdminPlacesComponent } from './profile/admin/admin-places/admin-places.
     UserComponent,
     OrdersComponent,
     AdminCarsComponent,
-    AdminPlacesComponent
+    AdminPlacesComponent,
+    EditCarComponent,
+    FilesManagerComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     Ng5SliderModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
   providers: [
     LoadingService,

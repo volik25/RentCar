@@ -1,0 +1,21 @@
+.file-inputs {
+    display: none;
+  }
+  img {
+    max-height: 5rem;
+  }
+  
+  :host {
+    &.ng-invalid.ng-dirty {
+      button {
+        @danger: #dc3545;
+        border-color: @danger;
+        color: @danger;
+  
+        &:hover {
+          background-color: @danger;
+          color: white;
+        }
+      }
+    }
+  }

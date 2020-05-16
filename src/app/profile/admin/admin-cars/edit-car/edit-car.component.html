@@ -1,0 +1,180 @@
+<div class="container p-3">
+    <form [formGroup]="carForm">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="name">Марка автомобиля</label>
+                    <input type="text" class="form-control" id="name" formControlName="name">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>Изображение</label>
+                    <div>
+                      <div *ngIf="!isUploadFileShown()" class="position-relative d-inline-block">
+                        <img [src]="carForm.get('img').value">
+                        <span class="remove-img" (click)="removeImg()">&times;</span>
+                      </div>
+                      <files-manager *ngIf="isUploadFileShown()" formControlName="img"></files-manager>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="description">Описание</label>
+                    <textarea class="form-control" id="description" rows="3" formControlName="description"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="createYear">Год выпуска</label>
+                    <input type="text" class="form-control" id="createYear" formControlName="createYear">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="price">Цена аренды, руб./сутки</label>
+                    <input type="text" class="form-control" id="price" formControlName="price">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="bodyType">Тип кузова</label>
+                    <select class="form-control" id="bodyType" formControlName="bodyType">
+                        <option *ngFor="let item of bodyTypes, let i = index" [value]="item.type">{{item.value}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="fuelType">Топливо</label>
+                    <select class="form-control" id="fuelType" formControlName="fuelType">
+                        <option *ngFor="let item of fuelTypes, let i = index" [value]="item.type">{{item.value}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="fuelCity">Расход по городу</label>
+                    <input type="text" class="form-control" id="fuelCity" formControlName="fuelCity">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="fuelTrack">Расход по трассе</label>
+                    <input type="text" class="form-control" id="fuelTrack" formControlName="fuelTrack">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="enginePower">Мощность двигателя, л./с.</label>
+                    <input type="text" class="form-control" id="enginePower" formControlName="enginePower">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="engineVolume">Объем двигателя, л.</label>
+                    <input type="text" class="form-control" id="engineVolume" formControlName="engineVolume">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="maxSpeed">Максимальная скорость, км/ч</label>
+                    <input type="text" class="form-control" id="maxSpeed" formControlName="maxSpeed">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="accelerationTime">Разгон до 100, сек.</label>
+                    <input type="text" class="form-control" id="accelerationTime" formControlName="accelerationTime">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="kpp">Тип коробки передач</label>
+                    <select class="form-control" id="kpp" formControlName="kpp">
+                        <option *ngFor="let item of kppTypes, let i = index" [value]="item.type">{{item.value}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="gears">Количество передач</label>
+                    <input type="text" class="form-control" id="gears" formControlName="gears">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="doors">Количество дверей</label>
+                    <input type="text" class="form-control" id="doors" formControlName="doors">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="trunkVolume">Объем багажника, л.</label>
+                    <input type="text" class="form-control" id="trunkVolume" formControlName="trunkVolume">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>Подушки безопасности</label>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" id="AirF" formControlName="hasAirbags" [value]="false" />
+                      <label class="form-check-label" for="AirF">
+                        Нет
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" id="AirT" formControlName="hasAirbags" [value]="true" />
+                      <label class="form-check-label" for="AirT">
+                        Да
+                      </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col" *ngIf="carForm.get('hasAirbags').value">
+                <label for="airbags">Введите количество</label>
+                <input type="text" class="form-control" id="airbags" formControlName="airbags">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="AC">Кондиционер</label>
+                    <select class="form-control" id="AC" formControlName="AC">
+                        <option *ngFor="let item of acTypes, let i = index" [value]="item.type">{{item.value}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="steering">Руль</label>
+                    <select class="form-control" id="steering" formControlName="steering">
+                        <option *ngFor="let item of steeringTypes, let i = index" [value]="item.type">{{item.value}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button type="button" class="btn btn-success" (click)="saveCar()">Сохранить</button>
+            </div>
+        </div>
+    </form>
+</div>
