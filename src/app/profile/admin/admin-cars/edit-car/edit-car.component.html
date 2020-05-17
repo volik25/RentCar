@@ -6,6 +6,7 @@
             </h2>
         </div>
         <div class="col-4 d-flex align-items-start justify-content-end">
+            <button *ngIf="car" type="button" class="btn btn-danger" (click)="removeCar()">Удалить</button>
             <button type="button" class="btn dismiss-img" (click)="close()"><i class="fas fa-times"></i></button>
         </div>
     </div>
@@ -196,11 +197,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-8">
                 <button type="button" class="btn btn-success" (click)="saveCar()">Сохранить</button>
             </div>
-            <div class="col">
-                <button *ngIf="car" type="button" class="btn btn-danger" (click)="removeCar()">Удалить</button>
+            <div class="col-4 d-flex align-items-start justify-content-end">
+                <button type="button" class="btn btn-warning" (click)="close()">Закрыть</button>
             </div>
         </div>
     </form>

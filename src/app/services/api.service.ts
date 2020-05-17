@@ -36,6 +36,22 @@ export class ApiService {
     return this.http.get<any>(`${this.baseUrl}?key=get-car&carId=${carId}`);
   }
 
+  public getPlaces(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=get-places`);
+  }
+
+  public addPlace(data): Observable<number> {
+    return this.http.post<number>(`${this.baseUrl}?key=add-place`, data);
+  }
+
+  public updatePlace(data): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}?key=update-place`, data);
+  }
+
+  public deletePlace(id): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=delete-place&placeId=${id}`);
+  }
+
   public removeCar(car): Observable<any> {
     return this.http.post<string>(`${this.baseUrl}?key=remove-car`, car);
   }

@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { BodyTypes } from 'src/app/models/enums';
 import { bodyOptions, fuelOptions, kppOptions, acOptions, steeringOptions, wdOptions } from 'src/app/models/options';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { Car } from 'src/app/models/car';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -18,6 +18,7 @@ import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 export class EditCarComponent implements OnInit {
   @Input() carId;
   car: Car;
+  public subs: Subscription = new Subscription()
   public carForm: FormGroup;
   public bodyTypes = bodyOptions;
   public fuelTypes = fuelOptions;
@@ -75,7 +76,7 @@ export class EditCarComponent implements OnInit {
     }
     const newCar = this.carForm.getRawValue();
     delete newCar.hasAirbags;
-    const subs = this.uploadCarImg(newCar.img).subscribe((data) => {
+    this.subs = this.uploadCarImg(newCar.img).subscribe((data) => {
       console.log(data);
       newCar.img = data;
       if (this.car) {
@@ -93,9 +94,9 @@ export class EditCarComponent implements OnInit {
         });
         this.loadingService.addSubscription(subscription);
       }
-      this.loadingService.removeSubscription(subs);
+      this.loadingService.removeSubscription(this.subs);
     });
-    this.loadingService.addSubscription(subs);
+    this.loadingService.addSubscription(this.subs);
   }
 
   updateCar(id) {

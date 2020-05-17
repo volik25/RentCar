@@ -19,6 +19,7 @@ export interface Car {
   gears: number;
   wheelDrive: WheelDrive;
   doors: number;
+  sits: number;
   airbags?: number;
   AC: AC;
   steering: SteeringType;

@@ -14,7 +14,7 @@ import { SignInComponent } from './profile/sign-in/sign-in.component';
 import { SignUpComponent } from './profile/sign-up/sign-up.component';
 import { ApiService } from './services/api.service';
 import { LoadingService } from './services/loading.service';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ProfileSecurity } from './security/profile.security';
 import { AdminSecurity } from './security/admin.security';
 import { AuthService } from './services/auth.service';
@@ -27,6 +27,7 @@ import { AdminPlacesComponent } from './profile/admin/admin-places/admin-places.
 import { EditCarComponent } from './profile/admin/admin-cars/edit-car/edit-car.component';
 import { FilesManagerComponent } from './utils/files-manager/files-manager.component';
 import { LoaderComponent } from './loader/loader.component';
+import { CarKppPipe, CarACPipe, CarFuelPipe } from './services/car.pipes';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,9 @@ import { LoaderComponent } from './loader/loader.component';
     EditCarComponent,
     FilesManagerComponent,
     LoaderComponent,
+    CarKppPipe,
+    CarACPipe,
+    CarFuelPipe
   ],
   imports: [
     BrowserModule,
@@ -53,6 +57,7 @@ import { LoaderComponent } from './loader/loader.component';
     Ng5SliderModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     NgbModule
   ],
   providers: [
