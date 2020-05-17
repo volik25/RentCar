@@ -26,6 +26,7 @@ import { AdminCarsComponent } from './profile/admin/admin-cars/admin-cars.compon
 import { AdminPlacesComponent } from './profile/admin/admin-places/admin-places.component';
 import { EditCarComponent } from './profile/admin/admin-cars/edit-car/edit-car.component';
 import { FilesManagerComponent } from './utils/files-manager/files-manager.component';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { FilesManagerComponent } from './utils/files-manager/files-manager.compo
     AdminPlacesComponent,
     EditCarComponent,
     FilesManagerComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
