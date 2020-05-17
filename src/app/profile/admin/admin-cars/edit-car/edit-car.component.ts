@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { BodyTypes } from 'src/app/models/enums';
-import { bodyOptions, fuelOptions, kppOptions, acOptions, steeringOptions } from 'src/app/models/options';
+import { bodyOptions, fuelOptions, kppOptions, acOptions, steeringOptions, wdOptions } from 'src/app/models/options';
 import { Observable, of } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { Car } from 'src/app/models/car';
@@ -23,12 +23,20 @@ export class EditCarComponent implements OnInit {
   public fuelTypes = fuelOptions;
   public kppTypes = kppOptions;
   public acTypes = acOptions;
+  public wdTypes = wdOptions;
   public steeringTypes = steeringOptions;
   constructor(private fb: FormBuilder, private api: ApiService, 
               private loadingService: LoadingService,
               private router: Router, private activeModal: NgbActiveModal) { }
 
   ngOnInit() {
+    this.initForm();
+    if(this.carId){
+      this.updateCar(this.carId);
+    }
+  }
+
+  private initForm(){
     this.carForm = this.fb.group({
       name:[null, Validators.required],
       img:[null, Validators.required],
@@ -44,6 +52,7 @@ export class EditCarComponent implements OnInit {
       accelerationTime:[null],
       kpp:[null, Validators.required],
       gears:[null],
+      wheelDrive:[null],
       doors:[null, Validators.required],
       sits:[null, Validators.required],
       hasAirbags: [false],
@@ -53,10 +62,6 @@ export class EditCarComponent implements OnInit {
       trunkVolume:[null],
       createYear:[null]
     });
-
-    if(this.carId){
-      this.updateCar(this.carId);
-    }
   }
 
   public saveCar() {
@@ -71,6 +76,7 @@ export class EditCarComponent implements OnInit {
     const newCar = this.carForm.getRawValue();
     delete newCar.hasAirbags;
     const subs = this.uploadCarImg(newCar.img).subscribe((data) => {
+      console.log(data);
       newCar.img = data;
       if (this.car) {
         newCar.id = this.car.id;
@@ -82,7 +88,6 @@ export class EditCarComponent implements OnInit {
         this.loadingService.addSubscription(subscription);
       } else {
         const subscription = this.api.addCar(newCar).subscribe((carId) => {
-          console.log(carId);
           this.loadingService.removeSubscription(subscription);
           this.activeModal.close(carId);
         });
@@ -131,5 +136,9 @@ export class EditCarComponent implements OnInit {
     const value = this.carForm.get('img').value;
 
     return !value || value instanceof File;
+  }
+
+  close(){
+    this.activeModal.close();
   }
 }

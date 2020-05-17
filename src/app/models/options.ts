@@ -1,4 +1,4 @@
-import { BodyTypes, FuelType, KPP, AC, SteeringType } from './enums';
+import { BodyTypes, FuelType, KPP, AC, SteeringType, WheelDrive } from './enums';
 
 export interface Option{
     value: string;
@@ -15,6 +15,10 @@ export interface FuelOption extends Option{
 
 export interface KppOption extends Option{
     type: KPP
+}
+
+export interface WDOption extends Option{
+    type: WheelDrive
 }
 
 export interface AcOption extends Option{
@@ -93,6 +97,21 @@ export const bodyOptions: BodyOption[] = [
       value: 'Вариатор',
     }
   ];
+
+  export const wdOptions: WDOption[] = [
+      {
+          type: WheelDrive.FWD,
+          value: 'Передний привод'
+      },
+      {
+          type: WheelDrive.RWD,
+          value: 'Задний привод'
+      },
+      {
+          type: WheelDrive.AWD,
+          value: 'Полный привод'
+      }
+  ]
 
   export const acOptions: AcOption[] = [
     {

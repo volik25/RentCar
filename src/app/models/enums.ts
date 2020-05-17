@@ -22,6 +22,12 @@ export enum KPP{
     Variator = '4'
 }
 
+export enum WheelDrive{
+    FWD = '1',
+    RWD = '2',
+    AWD = '3',
+}
+
 export enum AC{
     None = '0',
     OneZone = '1',
