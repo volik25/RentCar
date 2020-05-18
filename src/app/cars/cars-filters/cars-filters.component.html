@@ -1,87 +1,132 @@
-<form class="px-4" [formGroup] = "filtersForm">
-    <div class="form-group">
+<div *ngIf="filtersForm">
+  <form [formGroup]="filtersForm" class="px-4" (submit)="refresh()">
+    <div class="form-group" formGroupName="price">
         <label for="formControlRange">Цена аренды</label>
-        <ng5-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ng5-slider>
+        <ng5-slider formControlName="priceRange" [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ng5-slider>
     </div>
-    <div>
-        <label>Подушки безопасности</label>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-            <label class="form-check-label" for="exampleRadios1">
-              Есть
-            </label>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="bodyType">Тип кузова</label>
+          <select class="form-control" id="bodyType" formControlName="bodyType">
+            <option *ngFor="let item of bodyTypes" [value]="item.type">{{item.value}}</option>
+          </select>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-            <label class="form-check-label" for="exampleRadios2">
-              Нет
-            </label>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="fuelType">Тип топлива</label>
+          <select class="form-control" id="fuelType" formControlName="fuelType">
+            <option *ngFor="let item of fuelTypes" [value]="item.type">{{item.value}}</option>
+          </select>
         </div>
+      </div>
     </div>
-    <div class="form-group">
-        <label for="exampleFormControlSelect1">Тип кузова</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-          <option>Седан</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="exampleFormControlSelect1">Тип топлива</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-          <option>АИ-92</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="exampleFormControlSelect1">Тип КПП</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-          <option>Механическая</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="exampleFormControlSelect1">Количество дверей</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-          <option>2</option>
-        </select>
-    </div>
-    <div>
-        <label>Наличие кондиционера</label>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadio" id="exampleRadio1" value="option1" checked>
-            <label class="form-check-label" for="exampleRadio1">
-              Есть
-            </label>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="kpp">Тип КПП</label>
+          <select class="form-control" id="kpp" formControlName="kpp">
+            <option *ngFor="let item of kppTypes" [value]="item.type">{{item.value}}</option>
+          </select>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadio" id="exampleRadio2" value="option2">
-            <label class="form-check-label" for="exampleRadio2">
-              Нет
-            </label>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="wheelDrive">Привод</label>
+          <select class="form-control" id="wheelDrive" formControlName="wheelDrive">
+            <option *ngFor="let item of wdTypes" [value]="item.type">{{item.value}}</option>
+          </select>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadio" id="exampleRadio3" value="option3">
-            <label class="form-check-label" for="exampleRadio3">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="doors">Количество дверей</label>
+          <select class="form-control" id="doors" formControlName="doors">
+            <option *ngFor="let item of doorsCount" [value]="item">{{item}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="sits">Количество мест</label>
+          <select class="form-control" id="sits" formControlName="sits">
+            <option *ngFor="let item of sitsCount" [value]="item">{{item}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div>
+          <label>Подушки безопасности</label>
+          <div class="form-check">
+              <input formControlName="hasAirbags" class="form-check-input" type="radio" name="hasAirbags" id="hasAirbagsT" [value]="true">
+              <label class="form-check-label" for="hasAirbagsT">
+                Есть
+              </label>
+          </div>
+          <div class="form-check">
+              <input formControlName="hasAirbags" class="form-check-input" type="radio" name="hasAirbags" id="hasAirbagsF" [value]="false">
+              <label class="form-check-label" for="hasAirbagsF">
+                Нет
+              </label>
+          </div>
+          <div class="form-check">
+            <input formControlName="hasAirbags" class="form-check-input" type="radio" formControlName="hasAirbags" name="hasAirbags" id="hasAirbagsNaN" [value]="null">
+            <label class="form-check-label" for="hasAirbagsNaN">
               Не важно
             </label>
         </div>
-    </div>
-    <div>
-        <label>Руль</label>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRad" id="exampleRad1" value="option1" checked>
-            <label class="form-check-label" for="exampleRad1">
-              Слева
-            </label>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRad" id="exampleRad2" value="option2">
-            <label class="form-check-label" for="exampleRad2">
-              Справа
-            </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div>
+          <label>Наличие кондиционера</label>
+          <div class="form-check">
+              <input class="form-check-input" type="radio" formControlName="AC" name="AC" id="ACt" [value]="true">
+              <label class="form-check-label" for="ACt">
+                Есть
+              </label>
+          </div>
+          <div class="form-check">
+              <input class="form-check-input" type="radio" formControlName="AC" name="AC" id="ACf" [value]="false">
+              <label class="form-check-label" for="ACf">
+                Нет
+              </label>
+          </div>
+          <div class="form-check">
+              <input class="form-check-input" type="radio" formControlName="AC" name="AC" id="ACNaN" [value]="null">
+              <label class="form-check-label" for="ACNaN">
+                Не важно
+              </label>
+          </div>
         </div>
+      </div>
     </div>
-    <div class="form-group">
-        <label for="exampleFormControlSelect1">Количество мест</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-          <option>4</option>
-        </select>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="steering">Руль</label>
+          <select class="form-control" id="steering" formControlName="steering">
+            <option *ngFor="let item of steeringTypes" [value]="item.type">{{item.value}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="years">Год выпуска</label>
+          <select class="form-control" id="years" formControlName="createYear">
+            <option *ngFor="let item of years" [value]="item">{{item}}</option>
+          </select>
+        </div>
+      </div>
     </div>
-</form>
+    <button type="submit" class="btn btn-primary">Поиск</button>
+    <button type="button" class="btn btn-link" (click)="reset()">Очистить</button>
+  </form>
+</div>

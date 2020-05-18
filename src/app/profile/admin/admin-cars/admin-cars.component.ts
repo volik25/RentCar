@@ -13,8 +13,9 @@ import { Car } from 'src/app/models/car';
 export class AdminCarsComponent implements OnInit {
   cars:Car[];
   closeResult: string;
+  carsLength;
   public page = 1;
-  public pageSize = 5;
+  public pageSize = 9;
   constructor(private api: ApiService, private loadingService: LoadingService, private mS: NgbModal) {}
 
   ngOnInit(): void {
@@ -28,6 +29,15 @@ export class AdminCarsComponent implements OnInit {
     })
     this.loadingService.addSubscription(subscription);
   }
+  
+  removeCar(id, img){
+    const subscription = this.api.removeCar({carId: id, filelink: img}).subscribe(() => {
+      this.loadCars();
+      this.loadingService.removeSubscription(subscription);
+    });
+    this.loadingService.addSubscription(subscription);
+  }
+
   modalOpen(param, carId = null){
     const modal = this.mS.open(EditCarComponent, {centered: true, size: 'xl', });
     switch (param) {

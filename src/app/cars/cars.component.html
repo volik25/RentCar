@@ -1,10 +1,44 @@
 <div class="container-fluid">
     <div class="d-flex py-4">
-        <div class="filters">
-            <cars-filters></cars-filters>
+        <div class="filters" *ngIf="cars">
+            <cars-filters [cars]="cars" (data)="update($event)"></cars-filters>
         </div>
         <div class="cars-page">
-
+            <div class="d-flex flex-column" *ngIf="cars">
+              <div class="d-flex justify-content-end align-items-center">Показывать на странице: 
+                <button type="button" class="btn btn-link" ngClass="pageSize == 3 : '.active'" (click)="pageSize=3">3</button>
+                <button type="button" class="btn btn-link" ngClass="pageSize == 9 : '.active'" (click)="pageSize=9">9</button>
+                <button type="button" class="btn btn-link" ngClass="pageSize == 12 : '.active'" (click)="pageSize=12">12</button>
+                <button type="button" class="btn btn-link" ngClass="pageSize == 24 : '.active'" (click)="pageSize=24">24</button>
+                <button type="button" class="btn btn-link" ngClass="pageSize == 36 : '.active'" (click)="pageSize=36">36</button>
+              </div>
+              <div class="flex-container" *ngIf="cars.length != 0">
+                <div class="car d-flex" *ngFor="let car of cars | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                  <img [src]="car.img"/>
+                  <div class="title">
+                    <b>{{car.name}}</b>
+                    <div class="year">{{car.createYear}} год</div>
+                  </div>
+                  <div class="details">
+                    <span><i class="fas fa-users"></i>{{ car.sits }}</span>
+                    <span><i class="fas fa-cogs"></i>{{ car.kpp | carKPP}}</span>
+                    <span><i class="fas fa-fan"></i>{{ car.AC | carAC}}</span>
+                    <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
+                  </div>
+                  <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
+                  <button type="button" class="btn btn-link" (click) = "ngOnInit()">Карточка автомобиля</button>
+                  <button type="button" class="btn btn-info" (click) = "ngOnInit()">Забронировать</button>
+                </div>
+              </div>
+              <div class="d-flex flex-column justify-content-center align-items-center py-3" *ngIf="cars.length != 0">
+                <button *ngIf="pageSize < cars.length" type="button" class="btn btn-light mb-2" (click)="pageSize = pageSize + 9">Показать ещё</button>
+                <ngb-pagination [collectionSize]="cars.length" [(page)]="page" [maxSize]="5" [pageSize]="pageSize" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+              </div>
+            </div>
+            <div class="d-flex flex-column justify-content-center align-items-center" *ngIf="cars && cars.length == 0">
+              <h3>Не удалось подобрать автомобиль</h3>
+              <pre>Пожалуйста, выберите другие параметры</pre>
+            </div>
         </div>
     </div>
 </div>

@@ -26,10 +26,10 @@ export class CarACPipe implements PipeTransform {
   transform(value): String {
     switch (value) {
         case "0": {
-            return "Нет";
+            return "без AC";
         }
         default: {
-            return "Есть";
+            return "AC";
         };
     }
   }

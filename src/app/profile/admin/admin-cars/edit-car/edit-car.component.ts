@@ -111,14 +111,6 @@ export class EditCarComponent implements OnInit {
     this.loadingService.addSubscription(subscription);
   }
 
-  removeCar(){
-    const subscription = this.api.removeCar({carId: this.carId, filelink: this.car.img}).subscribe(() => {
-      this.activeModal.close();
-      this.loadingService.removeSubscription(subscription);
-    });
-    this.loadingService.addSubscription(subscription);
-  }
-
   uploadCarImg(img): Observable<string> {
     if (img instanceof File) {
       const formData = new FormData();
