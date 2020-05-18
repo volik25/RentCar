@@ -30,7 +30,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   getUser() {
     this.user = null;
     if (this.auth.getToken()) {
-      const subscription = this.api.getUserInfo().subscribe((user) => {
+      const subscription = this.api.getUser().subscribe((user) => {
         this.user = user;
         this.loadingService.removeSubscription(subscription);
       });

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 @Component({
   selector: 'user',
@@ -12,19 +13,30 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./user.component.less']
 })
 export class UserComponent implements OnInit {
-  public userInfo: User;
-  constructor( private auth: AuthService, private router: Router, private api: ApiService, private loadingService: LoadingService,) {}
+  public user: User;
+  closeResult: string;
+  constructor( private auth: AuthService, private router: Router, private api: ApiService,
+    private loadingService: LoadingService, private mS: NgbModal) {}
 
   public ngOnInit(): void {
     this.getUser();
   }
 
   private getUser() {
-    const subscription = this.api.getUserInfo().subscribe((info) => {
-      this.userInfo = info;
+    const subscription = this.api.getUser().subscribe((user) => {
+      this.user = user;
+      console.log(user);
       this.loadingService.removeSubscription(subscription);
     });
     this.loadingService.addSubscription(subscription);
+  }
+
+  modalOpen(){
+    const modal = this.mS.open(EditUserComponent, {centered: true, size: 'xl', });
+    modal.result.then((res)=>{
+      this.closeResult = res;
+      this.getUser();
+    });
   }
 
   public exit() {

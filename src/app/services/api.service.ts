@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/internal/operators';
 //import { User } from '../models/user';
 import { environment } from 'src/environments/environment.prod';
+import { User } from '../models/user';
 // import { environment } from 'src/environments/environment';
 
 @Injectable()
@@ -28,7 +29,11 @@ export class ApiService {
     return this.http.post<string>(`${this.baseUrl}?key=sign-up`, userData);
   }
 
-  public getUserInfo(): Observable<any> {
+  public updateUser(user: User): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}?key=update-user`, user);
+  }
+
+  public getUser(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}?key=get-user`);
   }
 

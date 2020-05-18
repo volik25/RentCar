@@ -28,6 +28,7 @@ import { EditCarComponent } from './profile/admin/admin-cars/edit-car/edit-car.c
 import { FilesManagerComponent } from './utils/files-manager/files-manager.component';
 import { LoaderComponent } from './loader/loader.component';
 import { CarKppPipe, CarACPipe, CarFuelPipe } from './services/car.pipes';
+import { EditUserComponent } from './profile/user/edit-user/edit-user.component';
 
 @NgModule({
   declarations: [
@@ -45,11 +46,12 @@ import { CarKppPipe, CarACPipe, CarFuelPipe } from './services/car.pipes';
     AdminCarsComponent,
     AdminPlacesComponent,
     EditCarComponent,
+    EditUserComponent,
     FilesManagerComponent,
     LoaderComponent,
     CarKppPipe,
     CarACPipe,
-    CarFuelPipe
+    CarFuelPipe,
   ],
   imports: [
     BrowserModule,

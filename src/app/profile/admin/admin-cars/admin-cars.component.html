@@ -3,21 +3,26 @@
         Добавить автомобиль <i class="fas fa-plus mt-1"></i>
     </button>
 </div>
-<div class="flex-container" *ngIf="cars">
-  <div class="car d-flex" *ngFor="let car of cars">
-    <img [src]="car.img"/>
-    <div class="title">
-      <b>{{car.name}}</b>
-      <div class="year">{{car.createYear}} год</div>
+<div class="d-flex flex-column" *ngIf="cars">
+  <div class="flex-container">
+    <div class="car d-flex" *ngFor="let car of cars | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+      <img [src]="car.img"/>
+      <div class="title">
+        <b>{{car.name}}</b>
+        <div class="year">{{car.createYear}} год</div>
+      </div>
+      <div class="details">
+        <span><i class="fas fa-users"></i>{{ car.sits }}</span>
+        <span><i class="fas fa-cogs"></i>{{ car.kpp | carKPP}}</span>
+        <span><i class="fas fa-fan"></i>{{ car.AC | carAC}}</span>
+        <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
+      </div>
+      <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
+      <button type="button" class="btn btn-info" (click) = "modalOpen('edit', car.id)">Изменить</button>
     </div>
-    <div class="details">
-      <span><i class="fas fa-users"></i>{{ car.sits }}</span>
-      <span><i class="fas fa-cogs"></i>{{ car.kpp | carKPP}}</span>
-      <span><i class="fas fa-fan"></i>{{ car.AC | carAC}}</span>
-      <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
-    </div>
-    <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
-    <button type="button" class="btn btn-info" (click) = "modalOpen('edit', car.id)">Изменить</button>
+  </div>
+  <div class="d-flex justify-content-center align-items-center py-3">
+    <ngb-pagination [collectionSize]="cars.length" [(page)]="page" [maxSize]="5" [pageSize]="pageSize" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
   </div>
 </div>
 <div *ngIf="!cars?.length" class="no-data">

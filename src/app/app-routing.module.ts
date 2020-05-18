@@ -12,6 +12,7 @@ import { AdminPlacesComponent } from './profile/admin/admin-places/admin-places.
 import { OrdersComponent } from './profile/orders/orders.component';
 import { AdminSecurity } from './security/admin.security';
 import { EditCarComponent } from './profile/admin/admin-cars/edit-car/edit-car.component';
+import { EditUserComponent } from './profile/user/edit-user/edit-user.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'cars', component: CarsComponent},
   { path: 'edit-car', component: EditCarComponent},
+  { path: 'edit-user', component: EditUserComponent},
   { path: 'contacts', component: ContactsComponent},
   { path: 'sign-in', component: SignInComponent},
   { path: 'sign-up', component: SignUpComponent},

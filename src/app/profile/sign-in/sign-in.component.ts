@@ -41,13 +41,14 @@ export class SignInComponent implements OnInit {
         } else {
           this.showError = true;
         }
-        this.loadingService.addSubscription(subscription);
+        this.loadingService.removeSubscription(subscription);
 
       },
       (error) => {
         console.log(error);
-        this.loadingService.addSubscription(subscription);
+        this.loadingService.removeSubscription(subscription);
       }
-    );
+    )
+    this.loadingService.addSubscription(subscription);
   }
 }

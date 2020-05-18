@@ -13,6 +13,8 @@ import { Car } from 'src/app/models/car';
 export class AdminCarsComponent implements OnInit {
   cars:Car[];
   closeResult: string;
+  public page = 1;
+  public pageSize = 5;
   constructor(private api: ApiService, private loadingService: LoadingService, private mS: NgbModal) {}
 
   ngOnInit(): void {
