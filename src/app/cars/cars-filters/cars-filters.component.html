@@ -1,13 +1,19 @@
 <div *ngIf="filtersForm">
   <form [formGroup]="filtersForm" class="px-4" (submit)="refresh()">
-    <div class="form-group" formGroupName="price">
+    <div class="form-group d-flex flex-column justify-content-center">
         <label for="formControlRange">Цена аренды</label>
-        <ng5-slider formControlName="priceRange" [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ng5-slider>
+        <ng5-slider
+          formControlName="price"
+          [options]="options"></ng5-slider>
+          <button type="button" class="btn btn-light mt-2" (click)="clearFilter('price')">Сбросить цену</button>
     </div>
     <div class="row">
       <div class="col">
         <div class="form-group">
           <label for="bodyType">Тип кузова</label>
+          <button type="button" class="btn dismiss" title="Сбросить фильтр"
+            (click)="clearFilter('bodyType')"
+            *ngIf="filtersForm.get('bodyType').value"><i class="fas fa-times"></i></button>
           <select class="form-control" id="bodyType" formControlName="bodyType">
             <option *ngFor="let item of bodyTypes" [value]="item.type">{{item.value}}</option>
           </select>
@@ -16,6 +22,9 @@
       <div class="col">
         <div class="form-group">
           <label for="fuelType">Тип топлива</label>
+          <button type="button" class="btn dismiss" title="Сбросить фильтр"
+            (click)="clearFilter('fuelType')"
+            *ngIf="filtersForm.get('fuelType').value"><i class="fas fa-times"></i></button>
           <select class="form-control" id="fuelType" formControlName="fuelType">
             <option *ngFor="let item of fuelTypes" [value]="item.type">{{item.value}}</option>
           </select>
@@ -26,6 +35,9 @@
       <div class="col">
         <div class="form-group">
           <label for="kpp">Тип КПП</label>
+          <button type="button" class="btn dismiss" title="Сбросить фильтр"
+            (click)="clearFilter('kpp')"
+            *ngIf="filtersForm.get('kpp').value"><i class="fas fa-times"></i></button>
           <select class="form-control" id="kpp" formControlName="kpp">
             <option *ngFor="let item of kppTypes" [value]="item.type">{{item.value}}</option>
           </select>
@@ -34,6 +46,9 @@
       <div class="col">
         <div class="form-group">
           <label for="wheelDrive">Привод</label>
+          <button type="button" class="btn dismiss" title="Сбросить фильтр"
+            (click)="clearFilter('wheelDrive')"
+            *ngIf="filtersForm.get('wheelDrive').value"><i class="fas fa-times"></i></button>
           <select class="form-control" id="wheelDrive" formControlName="wheelDrive">
             <option *ngFor="let item of wdTypes" [value]="item.type">{{item.value}}</option>
           </select>
@@ -44,6 +59,9 @@
       <div class="col">
         <div class="form-group">
           <label for="doors">Количество дверей</label>
+          <button type="button" class="btn dismiss" title="Сбросить фильтр"
+            (click)="clearFilter('doors')"
+            *ngIf="filtersForm.get('doors').value"><i class="fas fa-times"></i></button>
           <select class="form-control" id="doors" formControlName="doors">
             <option *ngFor="let item of doorsCount" [value]="item">{{item}}</option>
           </select>
@@ -52,6 +70,9 @@
       <div class="col">
         <div class="form-group">
           <label for="sits">Количество мест</label>
+          <button type="button" class="btn dismiss" title="Сбросить фильтр"
+            (click)="clearFilter('sits')"
+            *ngIf="filtersForm.get('sits').value"><i class="fas fa-times"></i></button>
           <select class="form-control" id="sits" formControlName="sits">
             <option *ngFor="let item of sitsCount" [value]="item">{{item}}</option>
           </select>
@@ -62,6 +83,10 @@
       <div class="col">
         <div>
           <label>Подушки безопасности</label>
+          <button type="button" class="btn dismiss" title="Сбросить фильтр"
+            (click)="clearFilter('hasAirbags')"
+            *ngIf="filtersForm.get('hasAirbags').value == true ||
+              filtersForm.get('hasAirbags').value == false"><i class="fas fa-times"></i></button>
           <div class="form-check">
               <input formControlName="hasAirbags" class="form-check-input" type="radio" name="hasAirbags" id="hasAirbagsT" [value]="true">
               <label class="form-check-label" for="hasAirbagsT">
@@ -87,6 +112,10 @@
       <div class="col">
         <div>
           <label>Наличие кондиционера</label>
+          <button type="button" class="btn dismiss" title="Сбросить фильтр"
+            (click)="clearFilter('AC')"
+            *ngIf="filtersForm.get('AC').value == true ||
+              filtersForm.get('AC').value == false"><i class="fas fa-times"></i></button>
           <div class="form-check">
               <input class="form-check-input" type="radio" formControlName="AC" name="AC" id="ACt" [value]="true">
               <label class="form-check-label" for="ACt">
@@ -112,6 +141,9 @@
       <div class="col">
         <div class="form-group">
           <label for="steering">Руль</label>
+          <button type="button" class="btn dismiss" title="Сбросить фильтр"
+            (click)="clearFilter('steering')"
+            *ngIf="filtersForm.get('steering').value"><i class="fas fa-times"></i></button>
           <select class="form-control" id="steering" formControlName="steering">
             <option *ngFor="let item of steeringTypes" [value]="item.type">{{item.value}}</option>
           </select>
@@ -120,6 +152,9 @@
       <div class="col">
         <div class="form-group">
           <label for="years">Год выпуска</label>
+          <button type="button" class="btn dismiss" title="Сбросить фильтр"
+            (click)="clearFilter('createYear')"
+            *ngIf="filtersForm.get('createYear').value"><i class="fas fa-times"></i></button>
           <select class="form-control" id="years" formControlName="createYear">
             <option *ngFor="let item of years" [value]="item">{{item}}</option>
           </select>
@@ -127,6 +162,6 @@
       </div>
     </div>
     <button type="submit" class="btn btn-primary">Поиск</button>
-    <button type="button" class="btn btn-link" (click)="reset()">Очистить</button>
+    <button type="button" class="btn btn-link" (click)="reset()">Сбросить фильтры</button>
   </form>
 </div>

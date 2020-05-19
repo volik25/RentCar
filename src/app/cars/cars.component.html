@@ -1,7 +1,10 @@
 <div class="container-fluid">
     <div class="d-flex py-4">
-        <div class="filters" *ngIf="cars">
-            <cars-filters [cars]="cars" (data)="update($event)"></cars-filters>
+        <div class="filters" *ngIf="showFilters">
+            <cars-filters [allCars]="this.allCars"
+                          [cars]="cars"
+                          (data)="update($event)">
+            </cars-filters>
         </div>
         <div class="cars-page">
             <div class="d-flex flex-column" *ngIf="cars">
@@ -35,7 +38,7 @@
                 <ngb-pagination [collectionSize]="cars.length" [(page)]="page" [maxSize]="5" [pageSize]="pageSize" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
               </div>
             </div>
-            <div class="d-flex flex-column justify-content-center align-items-center" *ngIf="cars && cars.length == 0">
+            <div class="d-flex flex-column justify-content-center align-items-center mt-5" *ngIf="cars && cars.length == 0">
               <h3>Не удалось подобрать автомобиль</h3>
               <pre>Пожалуйста, выберите другие параметры</pre>
             </div>
