@@ -15,7 +15,7 @@ export class AdminPlacesComponent implements OnInit {
   public places: Place[];
   public place: Place;
   public page = 1;
-  public pageSize = 5;
+  public pageSize = 9;
   constructor(private fb: FormBuilder, private api: ApiService, private loadingService: LoadingService) { }
 
   ngOnInit() {

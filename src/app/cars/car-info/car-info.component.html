@@ -1,1 +1,106 @@
-<p>car-info works!</p>
+<div class="flex-container">
+    <div class="row">
+        <div class="col-8 d-flex justify-content-center align-items-center">
+            <h2 class="mt-3">
+                {{car.name}}
+            </h2>
+            <h4 class="mt-3 mx-2">
+                {{car.createYear}} год
+            </h4>
+        </div>
+        <div class="col-3 d-flex align-items-center justify-content-center mt-3">
+            <h2>{{car.price}}₽</h2>&nbsp;<small>в сутки</small>
+        </div>
+        <div class="col-1 d-flex align-items-start justify-content-end">
+            <button type="button" class="btn dismiss-img" (click)="close()"><i class="fas fa-times"></i></button>
+        </div>
+    </div>
+    <div class="card my-3">
+        <div class="d-flex justify-content-center align-items-center image">
+            <img src="{{car.img}}">
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center my-3 p-2 desc">
+            <h6>Описание:</h6>
+            <div class="d-flex justify-content-center align-items-center">
+                {{car.description}}
+            </div>
+        </div>
+        <div class="row px-2">
+            <div class="col-4 d-flex flex-column justify-content-center align-items-center">
+                <b>Тип кузова:</b>
+                <div>{{car.bodyType | BodyTypes}}</div>
+            </div>
+            <div class="col-4 d-flex flex-column justify-content-center align-items-center">
+                <b>Тип топлива:</b>
+                <div>{{car.fuelType | carFuel}}</div>
+            </div>
+            <div class="col-4 d-flex flex-column justify-content-center align-items-center">
+                <b>Расход топлива (город/трасса/средний):</b>
+                <div>{{car.fuelCity}}/{{car.fuelTrack}}/{{(car.fuelCity+car.fuelTrack)/2}}</div>
+            </div>
+        </div>
+        <div class="row px-2">
+            <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                <b>Объем двигателя:</b>
+                <div>{{car.engineVolume}} л</div>
+            </div>
+            <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                <b>Мощность двигателя:</b>
+                <div>{{car.enginePower}} л/с</div>
+            </div>
+            <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                <b>Максимальная скорость:</b>
+                <div>{{car.maxSpeed}} км/ч</div>
+            </div>
+            <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                <b>Разгон до 100 км/ч:</b>
+                <div>{{car.accelerationTime}} сек.</div>
+            </div>
+        </div>
+        <div class="row px-2">
+            <div class="col-4 d-flex flex-column justify-content-center align-items-center">
+                <b>Тип коробки передач:</b>
+                <div>{{car.kpp | carInfoKPP}}</div>
+            </div>
+            <div class="col-4 d-flex flex-column justify-content-center align-items-center">
+                <b>Количество передач:</b>
+                <div>{{car.gears}}</div>
+            </div>
+            <div class="col-4 d-flex flex-column justify-content-center align-items-center">
+                <b>Привод:</b>
+                <div>{{car.wheelDrive | carWD}}</div>
+            </div>
+        </div>
+        <div class="row px-2">
+            <div class="col-6 d-flex flex-column justify-content-center align-items-center">
+                <b>Количество дверей:</b>
+                <div>{{car.doors}}</div>
+            </div>
+            <div class="col-6 d-flex flex-column justify-content-center align-items-center">
+                <b>Объем багажника:</b>
+                <div>{{car.trunkVolume}} л</div>
+            </div>
+        </div>
+        <div class="row px-2">
+            <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                <b>Количество мест:</b>
+                <div>{{car.sits}}</div>
+            </div>
+            <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                <b>Подушки безопасности:</b>
+                <div>{{car.airbags ? car.airbags : 'Нет'}}</div>
+            </div>
+            <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                <b>Кондиционер:</b>
+                <div>{{car.AC | carInfoAC}}</div>
+            </div>
+            <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                <b>Расположение руля:</b>
+                <div>{{car.steering | steeringType}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center align-items-center mb-3 btn-order">
+        <button class="btn btn-info btn-block" (click)="order()">Забронировать</button>
+    </div>
+</div>

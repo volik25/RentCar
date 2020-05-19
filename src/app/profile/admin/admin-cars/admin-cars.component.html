@@ -5,11 +5,11 @@
 </div>
 <div class="d-flex flex-column" *ngIf="cars">
   <div class="d-flex justify-content-end align-items-center">Показывать на странице: 
-    <button type="button" class="btn btn-link" ngClass="pageSize == 3 : '.active'" (click)="pageSize=3">3</button>
-    <button type="button" class="btn btn-link" ngClass="pageSize == 9 : '.active'" (click)="pageSize=9">9</button>
-    <button type="button" class="btn btn-link" ngClass="pageSize == 12 : '.active'" (click)="pageSize=12">12</button>
-    <button type="button" class="btn btn-link" ngClass="pageSize == 24 : '.active'" (click)="pageSize=24">24</button>
-    <button type="button" class="btn btn-link" ngClass="pageSize == 36 : '.active'" (click)="pageSize=36">36</button>
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 3}" (click)="pageSize=3">3</button>
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 9}" (click)="pageSize=9">9</button>
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 12}" (click)="pageSize=12">12</button>
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 24}" (click)="pageSize=24">24</button>
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 36}" (click)="pageSize=36">36</button>
   </div>
   <div class="flex-container">
     <div class="car d-flex" *ngFor="let car of cars | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
@@ -26,7 +26,7 @@
         <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
       </div>
       <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
-      <button type="button" class="btn btn-info" (click) = "modalOpen('edit', car.id)">Изменить</button>
+      <button type="button" class="btn btn-info" (click) = "modalOpen('edit', car)">Изменить</button>
     </div>
   </div>
   <div class="d-flex flex-column justify-content-center align-items-center py-3">

@@ -38,7 +38,7 @@ export class AdminCarsComponent implements OnInit {
     this.loadingService.addSubscription(subscription);
   }
 
-  modalOpen(param, carId = null){
+  modalOpen(param, car = null){
     const modal = this.mS.open(EditCarComponent, {centered: true, size: 'xl', });
     switch (param) {
       case 'add':
@@ -48,7 +48,7 @@ export class AdminCarsComponent implements OnInit {
         });
         break;
       case 'edit':
-        modal.componentInstance.carId = carId;
+        modal.componentInstance.car = car;
         modal.result.then((res)=>{
           this.closeResult = res;
           this.loadCars();

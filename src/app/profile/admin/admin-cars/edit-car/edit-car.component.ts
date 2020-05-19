@@ -16,8 +16,7 @@ import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 })
 
 export class EditCarComponent implements OnInit {
-  @Input() carId;
-  car: Car;
+  @Input() car;
   public subs: Subscription = new Subscription()
   public carForm: FormGroup;
   public bodyTypes = bodyOptions;
@@ -32,8 +31,8 @@ export class EditCarComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    if(this.carId){
-      this.updateCar(this.carId);
+    if(this.car){
+      this.updateCar(this.car);
     }
   }
 
@@ -99,16 +98,11 @@ export class EditCarComponent implements OnInit {
     this.loadingService.addSubscription(this.subs);
   }
 
-  updateCar(id) {
-    const subscription = this.api.getCar(id).subscribe((car) => {
-      this.car = car;
-      this.carForm.patchValue(car);
-      if (car.airbags) {
-        this.carForm.get('hasAirbags').setValue(true);
-      }
-      this.loadingService.removeSubscription(subscription);
-    });
-    this.loadingService.addSubscription(subscription);
+  updateCar(car) {
+    this.carForm.patchValue(car);
+    if (car.airbags) {
+      this.carForm.get('hasAirbags').setValue(true);
+    }
   }
 
   uploadCarImg(img): Observable<string> {

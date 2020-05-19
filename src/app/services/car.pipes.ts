@@ -1,5 +1,32 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+@Pipe({name: 'BodyTypes'})
+export class BodyTypesPipe implements PipeTransform {
+  transform(value): String {
+    switch (value) {
+      case "1": {
+        return "Седан";
+      }
+      case "2": {
+          return "Хэтчбек"
+      }
+      case "3": {
+          return "Универсал"
+      }
+      case "4": {
+        return "Лифтбек";
+      }
+      case "5": {
+        return "Купе";
+      }
+      case "6": {
+        return "Кабриолет";
+      }
+      default: ;
+    }
+  }
+}
+
 @Pipe({ name: 'carKPP' })
 export class CarKppPipe implements PipeTransform {
   transform(value): String {
@@ -21,6 +48,45 @@ export class CarKppPipe implements PipeTransform {
   }
 }
 
+@Pipe({ name: 'carInfoKPP' })
+export class CarInfoKppPipe implements PipeTransform {
+  transform(value): String {
+    switch (value) {
+      case "1": {
+        return "Механическая";
+      }
+      case "2": {
+          return "Автоматическая"
+      }
+      case "3": {
+          return "Роботизированная"
+      }
+      case "4": {
+        return "Вариаторная";
+      }
+      default: ;
+    }
+  }
+}
+
+@Pipe({ name: 'carWD' })
+export class CarWheelDrivePipe implements PipeTransform {
+  transform(value): String {
+    switch (value) {
+      case "1": {
+        return "Передний";
+      }
+      case "2": {
+          return "Задний"
+      }
+      case "3": {
+          return "Полный"
+      }
+      default: ;
+    }
+  }
+}
+
 @Pipe({ name: 'carAC' })
 export class CarACPipe implements PipeTransform {
   transform(value): String {
@@ -31,6 +97,30 @@ export class CarACPipe implements PipeTransform {
         default: {
             return "AC";
         };
+    }
+  }
+}
+
+@Pipe({ name: 'carInfoAC' })
+export class CarInfoACPipe implements PipeTransform {
+  transform(value): String {
+    switch (value) {
+      case "0": {
+          return "Не установлен";
+      }
+      case "1": {
+          return "Однозонный"
+      }
+      case "2": {
+        return "Двухзонный"
+      }
+      case "3": {
+        return "Трехзонный"
+      }
+      case "4": {
+        return "Четырехзонный"
+      }
+      default: ;
     }
   }
 }
@@ -53,6 +143,21 @@ export class CarFuelPipe implements PipeTransform {
         }
         case "100": {
             return "АИ-100";
+        }
+        default: ;
+    }
+  }
+}
+
+@Pipe({ name: 'steeringType' })
+export class SteeringPipe implements PipeTransform {
+  transform(value): String {
+    switch (value) {
+        case "1": {
+            return "Левый руль";
+        }
+        case "2": {
+            return "Правый руль";
         }
         default: ;
     }

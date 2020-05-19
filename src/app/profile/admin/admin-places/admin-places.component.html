@@ -1,19 +1,27 @@
 <div class="container" *ngIf="places">
-    <form [formGroup]="addForm" class="border border-primary p-3">
-      <div class="form-group">
-        <label>Адрес (город, улица, метро)</label>
-        <input formControlName="name" class="form-control" type="text" >
-      </div>
-      <button [disabled]="this.addForm.invalid" class="btn btn-primary" (click)="save()">Сохранить</button>
-      <button class="btn btn-link" *ngIf="place" (click)="clear()">Очистить</button>
-      <button class="btn btn-link text-danger" *ngIf="place" (click)="remove()">Удалить</button>
-    </form>
-    <div class="places">
-        <div class="place" *ngFor="let place of places| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize" (click)="setForm(place.id)">
-            <h4>{{place.name}}</h4>
-        </div>
-        <div class="d-flex justify-content-center align-items-center py-3">
-            <ngb-pagination [collectionSize]="places.length" [(page)]="page" [maxSize]="5" [pageSize]="pageSize" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
-        </div>
+  <div class="d-flex justify-content-end align-items-center">Показывать на странице: 
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 3}" (click)="pageSize=3">3</button>
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 9}" (click)="pageSize=9">9</button>
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 18}" (click)="pageSize=18">18</button>
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 36}" (click)="pageSize=36">36</button>
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 64}" (click)="pageSize=64">64</button>
+  </div>
+  <form [formGroup]="addForm" class="border border-primary p-3">
+    <div class="form-group">
+      <label>Адрес (город, улица, метро)</label>
+      <input formControlName="name" class="form-control" type="text" >
     </div>
+    <button [disabled]="this.addForm.invalid" class="btn btn-primary" (click)="save()">Сохранить</button>
+    <button class="btn btn-link" *ngIf="place" (click)="clear()">Очистить</button>
+    <button class="btn btn-link text-danger" *ngIf="place" (click)="remove()">Удалить</button>
+  </form>
+  <div class="places">
+      <div class="place" *ngFor="let place of places| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize" (click)="setForm(place.id)">
+          <h4>{{place.name}}</h4>
+      </div>
+      <div class="d-flex flex-column justify-content-center align-items-center py-3">
+        <button *ngIf="pageSize < places.length" type="button" class="btn btn-light mb-2" (click)="pageSize = pageSize + 9">Показать ещё</button>
+          <ngb-pagination [collectionSize]="places.length" [(page)]="page" [maxSize]="5" [pageSize]="pageSize" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+      </div>
+  </div>
 </div>

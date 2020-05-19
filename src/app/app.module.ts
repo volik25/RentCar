@@ -27,7 +27,7 @@ import { AdminPlacesComponent } from './profile/admin/admin-places/admin-places.
 import { EditCarComponent } from './profile/admin/admin-cars/edit-car/edit-car.component';
 import { FilesManagerComponent } from './utils/files-manager/files-manager.component';
 import { LoaderComponent } from './loader/loader.component';
-import { CarKppPipe, CarACPipe, CarFuelPipe } from './services/car.pipes';
+import { CarKppPipe, CarACPipe, CarFuelPipe, BodyTypesPipe, CarInfoACPipe, SteeringPipe, CarWheelDrivePipe, CarInfoKppPipe } from './services/car.pipes';
 import { EditUserComponent } from './profile/user/edit-user/edit-user.component';
 import { CarInfoComponent } from './cars/car-info/car-info.component';
 import { CarOrderComponent } from './cars/car-order/car-order.component';
@@ -51,8 +51,13 @@ import { CarOrderComponent } from './cars/car-order/car-order.component';
     EditUserComponent,
     FilesManagerComponent,
     LoaderComponent,
+    BodyTypesPipe,
     CarKppPipe,
+    CarInfoKppPipe,
     CarACPipe,
+    CarInfoACPipe,
+    SteeringPipe,
+    CarWheelDrivePipe,
     CarFuelPipe,
     CarInfoComponent,
     CarOrderComponent

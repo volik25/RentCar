@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Car } from 'src/app/models/car';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'car-order',
@@ -6,10 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./car-order.component.less']
 })
 export class CarOrderComponent implements OnInit {
-
-  constructor() { }
+  @Input() car: Car[];
+  constructor(private activeModal: NgbActiveModal) { }
 
   ngOnInit() {
+    
   }
 
 }
