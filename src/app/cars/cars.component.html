@@ -16,21 +16,25 @@
                 <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 36}" (click)="pageSize=36">36</button>
               </div>
               <div class="flex-container" *ngIf="cars.length != 0">
-                <div class="car d-flex" *ngFor="let car of cars | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                  <img [src]="car.img"/>
-                  <div class="title">
-                    <b>{{car.name}}</b>
-                    <div class="year">{{car.createYear}} год</div>
+                <div class="car d-flex flex-column justify-content-between" *ngFor="let car of cars | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                  <div>
+                    <img [src]="car.img"/>
                   </div>
-                  <div class="details">
-                    <span><i class="fas fa-users"></i>{{ car.sits }}</span>
-                    <span><i class="fas fa-cogs"></i>{{ car.kpp | carKPP}}</span>
-                    <span><i class="fas fa-fan"></i>{{ car.AC | carAC}}</span>
-                    <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
+                  <div>
+                    <div class="title">
+                      <b>{{car.name}}</b>
+                      <div class="year">{{car.createYear}} год</div>
+                    </div>
+                    <div class="details">
+                      <span><i class="fas fa-users"></i>{{ car.sits }}</span>
+                      <span><i class="fas fa-cogs"></i>{{ car.kpp | carKPP}}</span>
+                      <span><i class="fas fa-fan"></i>{{ car.AC | carAC}}</span>
+                      <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
+                    </div>
+                    <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
+                    <button type="button" class="btn btn-link btn-block" (click) = "modalOpen(car, 'info')">Карточка автомобиля</button>
+                    <button type="button" class="btn btn-info btn-block" (click) = "modalOpen(car, 'order')">Забронировать</button>
                   </div>
-                  <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
-                  <button type="button" class="btn btn-link" (click) = "modalOpen(car, 'info')">Карточка автомобиля</button>
-                  <button type="button" class="btn btn-info" (click) = "modalOpen(car, 'order')">Забронировать</button>
                 </div>
               </div>
               <div class="d-flex flex-column justify-content-center align-items-center py-3" *ngIf="cars.length != 0">

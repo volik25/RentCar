@@ -1,1 +1,39 @@
-<p>orders works!</p>
+<div class="d-flex flex-column" *ngIf="orders">
+  <div class="d-flex justify-content-end align-items-center">Показывать на странице: 
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 3}" (click)="pageSize=3">3</button>
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 9}" (click)="pageSize=9">9</button>
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 12}" (click)="pageSize=12">12</button>
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 24}" (click)="pageSize=24">24</button>
+    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 36}" (click)="pageSize=36">36</button>
+  </div>
+  <div class="flex-container">
+    <div class="car d-flex flex-column justify-content-between align-items-center" *ngFor="let order of orders | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+      <div>
+        <img [src]="order.car.img"/>
+      </div>
+      <div class="w-100">
+        <div class="title">
+          <b>{{order.car.name}}</b>
+        </div>
+        <div class="price">
+          <b>{{order.orderSum}}₽</b>
+          <span>&nbsp;за {{
+              order.orderSum/order.car.price === 1 ||  order.orderSum/order.car.price % 10 === 1 ?
+              order.orderSum/order.car.price + ' сутки' : order.orderSum/order.car.price + ' суток'}}
+            </span>
+        </div>
+        <button type="button" class="btn btn-info btn-block" (click) = "modalOpen('edit', order)">Изменить</button>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex flex-column justify-content-center align-items-center py-3">
+    <button *ngIf="pageSize < orders.length" type="button" class="btn btn-light mb-2" (click)="pageSize = pageSize + 9">Показать ещё</button>
+    <ngb-pagination [collectionSize]="orders.length" [(page)]="page" [maxSize]="5" [pageSize]="pageSize" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+  </div>
+</div>
+<div *ngIf="!orders?.length" class="d-flex flex-column justify-content-center align-items-center">
+    <div>
+        <h2>Вы ещё не сделали ни одного заказа</h2>
+    </div>
+    <button type="button" class="btn btn-link" routerLink = "/cars">К автомобилям</button>
+</div>

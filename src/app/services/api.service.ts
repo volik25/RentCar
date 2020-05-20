@@ -9,7 +9,7 @@ import { tap } from 'rxjs/internal/operators';
 //import { User } from '../models/user';
 import { environment } from 'src/environments/environment.prod';
 import { User } from '../models/user';
-import { Order } from '../models/order';
+import { Order, UpdateOrder } from '../models/order';
 import { NgbDate, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 // import { environment } from 'src/environments/environment';
 
@@ -86,6 +86,28 @@ export class ApiService {
     return this.http.post<any>(`${this.baseUrl}?key=add-order`, order);
   }
 
+  public updateOrder(order: UpdateOrder): Observable<any> {
+    order.dateFrom = this.ngbDateToString(order.dateFrom as NgbDate);
+    order.dateTo = order.dateTo ? this.ngbDateToString(order.dateTo as NgbDate) : null;
+    order.time = this.ngbTimeToString(order.time as NgbTimeStruct);
+    return this.http.post<any>(`${this.baseUrl}?key=update-order`, order);
+  }
+
+  public cancelOrder(orderId: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}?key=remove-order&orderId=${orderId}`);
+  }
+
+  public getOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.baseUrl}?key=get-orders`).pipe(
+      tap((orders) => {
+        orders.forEach((order) => {
+          order.dateFrom = this.stringToNgbDate(order.dateFrom as string);
+          order.dateTo = order.dateTo ? this.stringToNgbDate(order.dateTo as string) : null;
+          order.time = this.stringToNgbTime(order.time as string);
+        });
+      })
+    );
+  }
 
   private ngbDateToString(date: NgbDate): string {
     if(!date){

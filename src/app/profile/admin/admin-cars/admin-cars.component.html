@@ -12,21 +12,25 @@
     <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 36}" (click)="pageSize=36">36</button>
   </div>
   <div class="flex-container">
-    <div class="car d-flex" *ngFor="let car of cars | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+    <div class="car d-flex flex-column justify-content-between" *ngFor="let car of cars | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
       <button type="button" class="btn dismiss" title="Удалить" (click)="removeCar(car.id, car.img)"><i class="fas fa-times"></i></button>
-      <img [src]="car.img"/>
-      <div class="title">
-        <b>{{car.name}}</b>
-        <div class="year">{{car.createYear}} год</div>
+      <div>
+        <img [src]="car.img"/>
       </div>
-      <div class="details">
-        <span><i class="fas fa-users"></i>{{ car.sits }}</span>
-        <span><i class="fas fa-cogs"></i>{{ car.kpp | carKPP}}</span>
-        <span><i class="fas fa-fan"></i>{{ car.AC | carAC}}</span>
-        <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
+      <div>
+        <div class="title">
+          <b>{{car.name}}</b>
+          <div class="year">{{car.createYear}} год</div>
+        </div>
+        <div class="details">
+          <span><i class="fas fa-users"></i>{{ car.sits }}</span>
+          <span><i class="fas fa-cogs"></i>{{ car.kpp | carKPP}}</span>
+          <span><i class="fas fa-fan"></i>{{ car.AC | carAC}}</span>
+          <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
+        </div>
+        <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
+        <button type="button" class="btn btn-info btn-block" (click) = "modalOpen('edit', car)">Изменить</button>
       </div>
-      <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
-      <button type="button" class="btn btn-info" (click) = "modalOpen('edit', car)">Изменить</button>
     </div>
   </div>
   <div class="d-flex flex-column justify-content-center align-items-center py-3">
@@ -34,6 +38,6 @@
     <ngb-pagination [collectionSize]="cars.length" [(page)]="page" [maxSize]="5" [pageSize]="pageSize" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
   </div>
 </div>
-<div *ngIf="!cars?.length" class="no-data">
-  Нет автомобилей
+<div *ngIf="!cars?.length" class="d-flex justify-content-center align-items-center">
+  <h4>Нет автомобилей</h4>
 </div>
