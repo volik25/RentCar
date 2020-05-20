@@ -1,6 +1,6 @@
 <div *ngIf="filtersForm">
   <form [formGroup]="filtersForm" class="px-4" (submit)="refresh()">
-    <div class="form-group d-flex flex-column justify-content-center">
+    <div class="form-group d-flex flex-column justify-content-center align-items-center">
         <label for="formControlRange">Цена аренды</label>
         <ng5-slider
           formControlName="price"

@@ -16,7 +16,7 @@
             Неверный email или пароль
             </div>
             <button type="submit" class="btn btn-primary">Вход</button>
-            <a class="btn btn-link" routerLink="/sign-up">Регистрация</a>
+            <a *ngIf='!modal' class="btn btn-link" routerLink="/sign-up">Регистрация</a>
         </form>
     </div>
 </div>

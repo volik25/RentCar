@@ -9,6 +9,8 @@ import { tap } from 'rxjs/internal/operators';
 //import { User } from '../models/user';
 import { environment } from 'src/environments/environment.prod';
 import { User } from '../models/user';
+import { Order } from '../models/order';
+import { NgbDate, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 // import { environment } from 'src/environments/environment';
 
 @Injectable()
@@ -64,30 +66,7 @@ export class ApiService {
   public getCars(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}?key=get-cars`);
   }
-  // public getCars(model?: SearchModel, limit?: number): Observable<any> {
-  //   const url = new URL(this.baseUrl);
-  //   url.searchParams.set('key', 'get-cars');
-  //   if (model) {
-  //     if (model.period) {
-  //       url.searchParams.set('dateFrom', this.ngbDateToString(model.period.fromDate));
-  //       if (model.period.toDate) {
-  //         url.searchParams.set('dateTo', this.ngbDateToString(model.period.toDate));
-  //       }
-  //     }
-  //     if (model.price) {
-  //       if(model.price.from != 1500){
-  //         url.searchParams.set('priceFrom', model.price.from.toString());
-  //       }
-  //       if(model.price.to != 8000){
-  //         url.searchParams.set('priceTo', model.price.to.toString());
-  //       }
-  //     }
-  //   }
-  //   if (limit) {
-  //     url.searchParams.set('limit', limit.toString());
-  //   }
-  //   return this.http.get<any>(url.href);
-  // }
+
   public addCar(data): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}?key=add-car`, data);
   }
@@ -98,5 +77,39 @@ export class ApiService {
 
   public uploadCarImg(data): Observable<string> {
     return this.http.post<string>(`${this.baseUrl}?key=upload-img`, data);
+  }
+
+  public addOrder(order: Order): Observable<any> {
+    order.dateFrom = this.ngbDateToString(order.dateFrom as NgbDate);
+    order.dateTo = order.dateTo ? this.ngbDateToString(order.dateTo as NgbDate) : null;
+    order.time = this.ngbTimeToString(order.time as NgbTimeStruct);
+    return this.http.post<any>(`${this.baseUrl}?key=add-order`, order);
+  }
+
+
+  private ngbDateToString(date: NgbDate): string {
+    if(!date){
+      return null;
+    }
+    const newDate = new Date(date.year, date.month - 1, date.day);
+    const [year, month, day] = [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()];
+    return `${year < 10 ? `0${year}` : year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`;
+  }
+
+  private stringToNgbDate(date: string): NgbDate {
+    if(!date){
+      return null;
+    }
+    const newDate = date.split('-');
+    return NgbDate.from({ year: +newDate[0], month: +newDate[1], day: +newDate[2] });
+  }
+
+  public ngbTimeToString(time: NgbTimeStruct): string {
+    return `${time.hour < 10 ? `0${time.hour}` : time.hour}:${time.minute < 10 ? `0${time.minute}` : time.minute}`;
+  }
+
+  private stringToNgbTime(time: string): NgbTimeStruct {
+    const newTime = time.split(':');
+    return { hour: +newTime[0], minute: +newTime[1], second: 0 };
   }
 }

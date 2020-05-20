@@ -1,0 +1,121 @@
+<div class="row d-flex justify-content-center align-items-center relative pt-2">
+    <h3>Оформить заказ</h3>
+    <div class="close">
+        <button type="button" class="btn btn-outline-danger" (click)="close()">Отмена</button>
+    </div>
+</div>
+<form [formGroup]="orderForm">
+    <div formGroupName="order">
+        <div class="container d-flex justify-content-around">
+            <div class="car d-flex flex-column">
+                <div class="d-flex flex-column align-items-center">
+                    <h4>{{car.name}}</h4>
+                    <h6><b>{{car.price}}₽</b> в сутки</h6>
+                    <img src="{{car.img}}">
+                </div>
+                <div class="d-flex flex-column justify-content-center align-items-center pt-3">
+                    <h6>Время подачи:</h6>
+                    <ngb-timepicker
+                        [readonlyInputs]="true"
+                        formControlName="time"
+                        [(ngModel)]="time"
+                        [minuteStep]="30"></ngb-timepicker>
+                </div>
+            </div>
+            <div class="row p-4">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <h6 class="pb-2">Период аренды:</h6>
+                    <ngb-datepicker
+                        #dp
+                        (dateSelect)="onDateSelection($event)"
+                        [displayMonths]="2"
+                        [dayTemplate]="t"
+                        [minDate]="minDate"
+                        [markDisabled]="isDisabled"
+                        outsideDays="hidden">
+                    </ngb-datepicker>
+                    <ng-template #t let-date let-focused="focused">
+                      <span class="custom-day"
+                            [class.disabled]="isDisabled(date)"
+                            [class.focused]="focused"
+                            [class.range]="isRange(date)"
+                            [class.faded]="isHovered(date) || isInside(date)"
+                            (mouseenter)="hoveredDate = date"
+                            (mouseleave)="hoveredDate = null">
+                        {{ date.day }}
+                      </span>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+        <div class="form-group w-100 d-flex flex-column justify-content-center align-items-center px-4">
+            <label for="places"><h6>Место подачи:</h6></label>
+            <select class="form-control" id="places" formControlName="place">
+                <option *ngFor="let place of places" [value]="place.id">{{place.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="container-fluid d-flex flex-column">
+        <div class="d-flex justify-content-center align-items-center">
+            <h4>Данные заказа:</h4>
+        </div>
+        <div *ngIf="user" class="d-flex flex-column justify-content-center align-items-center border-bottom border-top">
+            <h6>Ваши данные:</h6>
+            <div formGroupName="user" class="row card-body">
+                <div class="col-sm-6">
+                  <div class="form-group"><label>Фамилия</label><input formControlName="surname" type="text" class="form-control" /></div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group"><label>Имя</label><input formControlName="name" type="text" class="form-control" /></div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group"><label>Отчество</label><input formControlName="secondname" type="text" class="form-control" /></div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group"><label>Телефон</label><input formControlName="phone" type="text" class="form-control" /></div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group"><label>Email</label><input formControlName="email" type="text" class="form-control" /></div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!user" class="d-flex flex-column justify-content-center align-items-center border-bottom border-top p-3">
+            <button class="btn btn-outline-primary" (click)="enter()">Войти в личный кабинет</button>
+            <small class="text-muted d-block mt-1">Необходимо войти в личный кабинет или зарегистрироваться</small>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+            <b>Автомобиль:</b>&nbsp;{{car.name}}
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-column justify-content-around align-items-start">
+                <div>
+                    <b>Дата начала аренды:</b>&nbsp;{{fromDate ? fromDate?.day + '/' + fromDate?.month + '/' + fromDate?.year : 'Не выбрано'}}
+                </div>
+                <div>
+                    <b>Дата окончания аренды:</b>&nbsp;{{toDate ? toDate?.day + '/' + toDate?.month + '/' + toDate?.year : 'Не выбрано'}}
+                </div>
+            </div>
+            <div class="d-flex flex-column justify-content-around align-items-end">
+                <div>
+                    <b>Время подачи:</b>&nbsp;{{time.hour}}:{{time.minute === 0 ? '00' : time.minute}}
+                </div>
+                <div>
+                    <b>Место подачи:</b>&nbsp;{{currentPlace ? currentPlace : 'Не выбрано'}}
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center w-100">
+            <div>
+                <b>Итоговая стоимость:</b>&nbsp;{{ car.price * rangeDays }} ₽ за {{ rangeDays }} {{ rangeDays === 1 ||  rangeDays % 10 === 1 ? 'сутки' : 'суток' }}
+            </div>
+        </div>
+        <div class="w-100 py-3">
+            <button
+                [title]="!user ? 'Необходимо войти или зарегистрироваться' : ''"
+                [disabled]="!user"
+                type="submit"
+                class="btn btn-primary btn-block"
+                (click)="addOrder()">Подтвердить</button>
+        </div>
+    </div>
+</form>

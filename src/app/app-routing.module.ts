@@ -15,6 +15,7 @@ import { EditCarComponent } from './profile/admin/admin-cars/edit-car/edit-car.c
 import { EditUserComponent } from './profile/user/edit-user/edit-user.component';
 import { CarInfoComponent } from './cars/car-info/car-info.component';
 import { CarOrderComponent } from './cars/car-order/car-order.component';
+import { AuthModalComponent } from './profile/auth-modal/auth-modal.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'contacts', component: ContactsComponent},
   { path: 'sign-in', component: SignInComponent},
   { path: 'sign-up', component: SignUpComponent},
+  { path: 'auth-modal', component: AuthModalComponent},
   { path: 'profile', component: ProfileComponent,
     canActivate: [ProfileSecurity],
     children: [

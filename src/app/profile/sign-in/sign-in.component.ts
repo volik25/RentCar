@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { ApiService } from 'src/app/services/api.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'sign-in',
@@ -11,9 +12,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./sign-in.component.less']
 })
 export class SignInComponent implements OnInit {
+  @Input() modal = false;
+  @Output() closed: EventEmitter<any> = new EventEmitter<any>();
   public enterForm: FormGroup;
   public showError: boolean;
-  constructor( private auth: AuthService, private api: ApiService, private loadingService: LoadingService, private router: Router, private fb: FormBuilder) {
+  constructor( private auth: AuthService, private api: ApiService,
+              private loadingService: LoadingService, private router: Router,
+              private fb: FormBuilder, private activeModal: NgbActiveModal) {
     this.enterForm = this.fb.group({
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required]],
@@ -37,7 +42,10 @@ export class SignInComponent implements OnInit {
       (token) => {
         if (token) {
           this.auth.setToken(token);
-          this.router.navigate([this.auth.redirectUrl]);
+          if (this.modal) {
+            this.closed.emit();
+          }
+          else this.router.navigate([this.auth.redirectUrl]);
         } else {
           this.showError = true;
         }

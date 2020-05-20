@@ -25,7 +25,6 @@ export class UserComponent implements OnInit {
   private getUser() {
     const subscription = this.api.getUser().subscribe((user) => {
       this.user = user;
-      console.log(user);
       this.loadingService.removeSubscription(subscription);
     });
     this.loadingService.addSubscription(subscription);

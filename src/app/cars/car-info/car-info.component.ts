@@ -10,12 +10,9 @@ import { CarOrderComponent } from '../car-order/car-order.component';
 })
 export class CarInfoComponent implements OnInit {
   @Input() car: Car;
-  closeResult: boolean;
-  fuelAvg;
   constructor(private activeModal: NgbActiveModal, private ms: NgbModal) { }
 
   ngOnInit() {
-    this.fuelAvg = Number((this.car.fuelCity + this.car.fuelTrack)/2);
   }
 
   close(){
@@ -26,7 +23,7 @@ export class CarInfoComponent implements OnInit {
     const modal = this.ms.open(CarOrderComponent, {centered: true, size: 'lg'});
       modal.componentInstance.car = this.car;
       modal.result.then((res)=>{
-        this.closeResult = res;
+        this.activeModal.close();
       });
   }
 

@@ -36,7 +36,7 @@
             </div>
             <div class="col-4 d-flex flex-column justify-content-center align-items-center">
                 <b>Расход топлива (город/трасса/средний):</b>
-                <div>{{car.fuelCity}}/{{car.fuelTrack}}/{{(car.fuelCity+car.fuelTrack)/2}}</div>
+                <div>{{car.fuelCity}}/{{car.fuelTrack}}/{{((+this.car.fuelCity + +this.car.fuelTrack)/2).toFixed(1)}}</div>
             </div>
         </div>
         <div class="row px-2">

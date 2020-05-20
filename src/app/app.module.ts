@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
@@ -31,6 +31,7 @@ import { CarKppPipe, CarACPipe, CarFuelPipe, BodyTypesPipe, CarInfoACPipe, Steer
 import { EditUserComponent } from './profile/user/edit-user/edit-user.component';
 import { CarInfoComponent } from './cars/car-info/car-info.component';
 import { CarOrderComponent } from './cars/car-order/car-order.component';
+import { AuthModalComponent } from './profile/auth-modal/auth-modal.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { CarOrderComponent } from './cars/car-order/car-order.component';
     CarWheelDrivePipe,
     CarFuelPipe,
     CarInfoComponent,
-    CarOrderComponent
+    CarOrderComponent,
+    AuthModalComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +74,7 @@ import { CarOrderComponent } from './cars/car-order/car-order.component';
     NgbModule
   ],
   providers: [
+    NgbActiveModal,
     LoadingService,
     FormBuilder,
     ProfileSecurity,

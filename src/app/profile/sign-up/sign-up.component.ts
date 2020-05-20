@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./sign-up.component.less']
 })
 export class SignUpComponent implements OnInit {
+  @Input() modal = false;
+  @Output() closed: EventEmitter<any> = new EventEmitter<any>();
   public userForm: FormGroup;
   public showError: boolean;
 
@@ -41,7 +43,10 @@ export class SignUpComponent implements OnInit {
     const subscription = this.api.signUp(this.userForm.getRawValue()).subscribe((token) => {
       if (token) {
         this.auth.setToken(token);
-        this.router.navigate([this.auth.redirectUrl]);
+        if (this.modal) {
+          this.closed.emit();
+        }
+        else this.router.navigate([this.auth.redirectUrl]);
       } else {
         this.showError = true;
       }
