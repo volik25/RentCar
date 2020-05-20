@@ -28,8 +28,9 @@
           {{order.place.name}}
         </div>
         <div class="d-flex flex-column justify-content-center align-items-center"
-        [ngClass]="{'planned': order.status == 1, 'activeOrder': order.status == 2,
-                    'canceled': order.status == 3, 'complete': order.status == 4}">
+        [ngClass]="{'planned': order.status == '1', 'activeOrder': order.status == '2',
+                    'complete': order.status == '3', 'canceled': order.status == '4', 'admin': isAdmin}"
+                    (click) = "isAdmin ? changeStatus(order) : ''">
           <b>Статус заказа: </b>
           {{order.status | orderStatus}}
         </div>

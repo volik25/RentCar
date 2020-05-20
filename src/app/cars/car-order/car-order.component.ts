@@ -193,6 +193,7 @@ export class CarOrderComponent implements OnInit {
       this.loadingService.removeSubscription(subscription);
       this.activeModal.close();
     });
+    this.loadingService.addSubscription(subscription);
   }
 
   onDateSelection(date: NgbDate) {

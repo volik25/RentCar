@@ -1,5 +1,5 @@
 <div class="row d-flex justify-content-center align-items-center relative pt-2">
-    <div *ngIf="order && order.status != 3" class="cancel">
+    <div *ngIf="order && order.status != '4'" class="cancel">
         <button type="button" class="btn btn-danger" (click)="removeOrder()">Отменить заказ</button>
     </div>
     <h3>{{order ? 'Изменить заказ' : 'Оформить заказ'}}</h3>

@@ -23,10 +23,12 @@ export class AdminPlacesComponent implements OnInit {
   }
 
   public initForm(){
-    this.place = null
-    this.api.getPlaces().subscribe(places => {
+    this.place = null;
+    const sub = this.api.getPlaces().subscribe(places => {
       this.places = places;
-    })
+      this.loadingService.removeSubscription(sub);
+    });
+    this.loadingService.addSubscription(sub);
     this.addForm = this.fb.group({
       name:[null, Validators.required]
     })

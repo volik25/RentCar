@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { OrderStatus } from '../models/order';
 
 @Pipe({name: 'BodyTypes'})
 export class BodyTypesPipe implements PipeTransform {
@@ -168,16 +169,16 @@ export class SteeringPipe implements PipeTransform {
 export class StatusPipe implements PipeTransform {
   transform(value): String {
     switch (value) {
-        case "1": {
+        case OrderStatus.Planned: {
             return "Оформлен";
         }
-        case "2": {
+        case OrderStatus.Active: {
             return "В работе";
         }
-        case "3": {
+        case OrderStatus.Canceled: {
             return "Отменен";
         }
-        case "4": {
+        case OrderStatus.Complete: {
             return "Выполнен";
         }
         default: ;
