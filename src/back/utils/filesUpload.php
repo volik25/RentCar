@@ -14,6 +14,13 @@ class FilesUpload{
             }
         }
     }
+    
+    public function remove($filelink){
+        $path = explode('RentCarBack/',$filelink);
+        if($path[1]){
+            unlink($path[1]);
+        }
+    }
 }
 
 ?>

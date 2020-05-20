@@ -1,9 +1,9 @@
 <?php
     //класс базы данных
     class DataBase {
-        private $dbname = "booking"; //nomokoiw_car
-        private $login = "root";
-        private $password = ""; // 7N&ybAaa
+        private $dbname = "vdknf_volik";
+        private $login = "vdknf_volik";
+        private $password = "QaZmLp1098";
         public $db;
         public function __construct()
         {

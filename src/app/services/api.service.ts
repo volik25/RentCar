@@ -63,8 +63,8 @@ export class ApiService {
     return this.http.post<string>(`${this.baseUrl}?key=remove-car`, car);
   }
 
-  public getCars(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}?key=get-cars`);
+  public getCars(lim:number = null): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=get-cars&limit=${lim}`);
   }
 
   public addCar(data): Observable<any> {
@@ -101,9 +101,10 @@ export class ApiService {
     return this.http.post<any>(`${this.baseUrl}?key=update-statuses`, data);
   }
 
-  public getOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}?key=get-orders`).pipe(
+  public getOrders(lim:boolean = false): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.baseUrl}?key=get-orders&limit=${lim}`).pipe(
       tap((orders) => {
+        console.log(orders);
         orders.forEach((order) => {
           order.dateFrom = this.stringToNgbDate(order.dateFrom as string);
           order.dateTo = order.dateTo ? this.stringToNgbDate(order.dateTo as string) : null;

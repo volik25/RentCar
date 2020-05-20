@@ -17,48 +17,21 @@
             $this->filesUpload = new FilesUpload();
         }
 
-        public function GetCars($query){
-            
-            $queryText = "SELECT * FROM car ";
-            if(isset($query['priceFrom']) && $priceFrom = $query['priceFrom']){
-                $queryText = $queryText."WHERE price > $priceFrom ";
-            }
-            if(isset($query['priceTo']) && $priceTo = $query['priceTo']){
-                if(isset($priceFrom)) {
-                    $queryText = $queryText."AND ";
-                } else {
-                    $queryText = $queryText."WHERE ";
-                }
-                $queryText = $queryText."price < $priceTo ";
-            }
-            if(isset($query['dateFrom']) && isset($query['dateTo']) && !!($dateFrom = $query['dateFrom']) && $dateTo = $query['dateTo']){
-                if(isset($priceFrom) || isset($priceTo)) {
-                    $queryText = $queryText."AND ";
-                } else {
-                    $queryText = $queryText."WHERE ";
-                }
-                $queryText = $queryText."0 = (SELECT COUNT(*) FROM carOrder co WHERE co.carId = car.id ) OR 0 = (SELECT COUNT(*) FROM carOrder co WHERE co.status IN (1,2) AND co.dateFrom = '$dateFrom' OR co.dateTo = '$dateTo' OR co.dateFrom > '$dateFrom' AND co.dateTo < '$dateTo' OR co.dateFrom < '$dateFrom' AND co.dateTo > '$dateTo' OR co.dateFrom > '$dateFrom' AND co.dateFrom < '$dateTo' AND co.dateTo > '$dateTo' OR co.dateTo > '$dateFrom' AND co.dateTo < '$dateTo' AND co.dateFrom < '$dateFrom') ";
-            }
-            if(!isset($query['dateTo']) && isset($query['dateFrom']) && $dateFrom = $query['dateFrom']){
-                if(isset($priceFrom) || isset($priceTo)) {
-                    $queryText = $queryText."AND ";
-                } else {
-                    $queryText = $queryText."WHERE ";
-                }
-                $queryText = $queryText."0 = (SELECT COUNT(*) FROM carOrder co WHERE co.carId = car.id ) OR 0 = (SELECT COUNT(*) FROM carOrder co WHERE co.status IN (1,2) AND co.dateFrom = '$dateFrom' OR co.dateTo = '$dateFrom' OR co.dateFrom < '$dateFrom' AND co.dateTo > '$dateFrom') ";
-            }
-            if(isset($query['limit']) && $limit = $query['limit']){
-                $queryText = $queryText."LIMIT $limit";
+        public function GetCars($limit){
+            $queryText = "SELECT * FROM cars";
+            if($limit == 1){
+                $queryText.=" ORDER BY price ASC LIMIT 2";
+            };
+            if($limit == 2){
+                $queryText.=" ORDER BY price DESC LIMIT 2";
             }
             $query = $this->database->db->query($queryText);
             $query->setFetchMode(PDO::FETCH_CLASS, 'Car');
-            
             return $query->fetchAll();
-            
         }
 
         public function GetPlaces(){
-            $query = $this->database->db->query("SELECT * FROM place");
+            $query = $this->database->db->query("SELECT * FROM places");
             $query->setFetchMode(PDO::FETCH_CLASS, 'Place');
             return $query->fetchAll();
             
@@ -68,7 +41,7 @@
             if(!isset($place->name) || !$place->name){
                 return array("message" => "Укажите название места сдачи", "method" => "AddPlace", "requestData" => $place);
             }
-            $insert = $this->database->genInsertQuery((array)$place, 'place');
+            $insert = $this->database->genInsertQuery((array)$place, 'places');
             $query = $this->database->db->prepare($insert[0]);
             if($insert[1][0]!=null){
                 $query->execute($insert[1]);
@@ -86,29 +59,29 @@
 
             $placeId = $place->id;
             unset($place->id);
-            $a = $this->database->genUpdateQuery(array_keys((array)$place), array_values((array)$place), "place", $placeId);
+            $a = $this->database->genUpdateQuery(array_keys((array)$place), array_values((array)$place), "places", $placeId);
             $query = $this->database->db->prepare($a[0]);
             $query->execute($a[1]);
             return array('message' => 'Место обновлено');
         }
 
         public function DeletePlace($placeId){
-            $query = $this->database->db->prepare("DELETE FROM place WHERE id = ?");
+            $query = $this->database->db->prepare("DELETE FROM places WHERE id = ?");
             $query->execute(array($placeId));
             return array('message' => 'Место удалено');
         }
 
-        public function UploadCarImg($file){
+        public function UploadImg($file){
             $newFileName = $this->filesUpload->upload($file, 'Files', uniqid());
             return $this->baseUrl.'/Files'.'/'.$newFileName;
         }
 
-        public function GetCarDetails($carId){
+        public function GetCar($carId){
             if($carId == null){
-                return array("message" => "Введите id автомобиля", "method" => "GetCarDetails", "requestData" => $carId);
+                return array("message" => "Введите id автомобиля", "method" => "GetCar", "requestData" => $carId);
             }
 
-            $query = $this->database->db->prepare("SELECT * from car WHERE id = ?");
+            $query = $this->database->db->prepare("SELECT * from cars WHERE id = ?");
             $query->execute(array($carId));
             $query->setFetchMode(PDO::FETCH_CLASS, 'Car');
             
@@ -116,12 +89,24 @@
             
         }
 
+        public function RemoveCar($car){
+            $id = $car->carId;
+            $file = $car->filelink;
+            if($id == null){
+                return array("message" => "Введите id автомобиля", "method" => "RemoveCar", "requestData" => $carId);
+            }
+            $query = $this->database->db->prepare("delete from cars where id= ?");
+            $query->execute(array($id));
+            $this->filesUpload->remove($file);
+            return array('message' => 'Автомобиль удален');
+        }
+
         public function GetPlace($id){
             if($id == null){
                 return array("message" => "Введите id места", "method" => "GetPlace", "requestData" => $id);
             }
 
-            $query = $this->database->db->prepare("SELECT * from place WHERE id = ?");
+            $query = $this->database->db->prepare("SELECT * from places WHERE id = ?");
             $query->execute(array($id));
             $query->setFetchMode(PDO::FETCH_CLASS, 'Place');
             
@@ -129,41 +114,31 @@
             
         }
 
-        public function GetCarDates($carId, $orderId = null){
-            if($carId == null){
-                return array("message" => "Введите id автомобиля", "method" => "GetCarDates", "requestData" => $carId);
+        public function GetOrders($userId, $isAdmin, $limit){
+            if($limit == 'true'){
+               $text = "SELECT * from carOrders WHERE status = 3 ORDER BY dateFrom DESC";
+               //return array("message" => "limit!", "method" => "GetOrders", "requestData" => $limit);
             }
-
-            $str = "SELECT id, dateFrom, dateTo from carOrder WHERE dateFrom > now() AND carId = ? AND status IN (1,2)";
-            if($orderId){
-                $str = $str." AND id != $orderId";
+            else{
+                if($userId == null){
+                    return array("message" => "Введите id пользователя", "method" => "GetOrders", "requestData" => $userId);
+                }
+                //return array("message" => "noLimit!", "method" => "GetOrders", "requestData" => $limit);
+                $text = "SELECT * from carOrders WHERE userId = ? ORDER BY status ASC, dateFrom DESC";
+                if($isAdmin){
+                    $text = "SELECT * from carOrders ORDER BY status ASC, dateFrom DESC";
+                }
             }
-
-            $query = $this->database->db->prepare($str);
-            $query->execute(array($carId));
-            $query->setFetchMode(PDO::FETCH_CLASS, 'DateRange');
-            return $query->fetchAll();
-            
-        }
-
-        public function GetHistory($userId, $isAdmin){
-            if($userId == null){
-                return array("message" => "Введите id пользователя", "method" => "GetHistory", "requestData" => $userId);
-            }
-            $text = "SELECT * from carOrder WHERE userId = ? ORDER BY status ASC, dateFrom DESC";
-            if($isAdmin){
-                $text = "SELECT * from carOrder ORDER BY status ASC, dateFrom DESC";
-            }
+            //return array("message" => "notworking!", "method" => "GetOrders", "requestData" => array($limit, $userId, $isAdmin));
             $query = $this->database->db->prepare($text);
             $query->execute(array($userId));
             $query->setFetchMode(PDO::FETCH_CLASS, 'Order');
             $orders = [];
             while ($order = $query->fetch()) {
-                $order->car = $this->GetCarDetails($order->carId);
-                $order->car->dates = $this->GetCarDates($order->carId, $order->id);
+                $order->car = $this->GetCar($order->carId);
                 $order->place = $this->GetPlace($order->placeId);
                 if($isAdmin){
-                    $order->user = $this->getUserInfo($order->userId);
+                    $order->user = $this->getUser($order->userId);
                 }
                 unset($order->userId);
                 $orders[] = $order;
@@ -180,14 +155,27 @@
                 return array("message" => "Заказ пуст", "method" => "AddOrder", "requestData" => array("userId" => $userId, "order" => $order));
             }
             $order->userId = $userId;
-            $insert = $this->database->genInsertQuery((array)$order, 'carOrder');
+            $insert = $this->database->genInsertQuery((array)$order, 'carOrders');
             $query = $this->database->db->prepare($insert[0]);
             if($insert[1][0]!=null){
                 $query->execute($insert[1]);
             }
-
             return $this->database->db->lastInsertId();
             
+        }
+        
+        public function UpdateStatuses($orders){
+            if(!$orders){
+                return array("message" => "Измененных статусов нет!", "method" => "UpdateStatuses", "requestData" => $orders);
+            }
+            foreach($orders as $order){
+                $orderId = $order->id;
+                unset($order->id);
+                $a = $this->database->genUpdateQuery(array_keys((array)$order), array_values((array)$order), "carOrders", $orderId);
+                $query = $this->database->db->prepare($a[0]);
+                $query->execute($a[1]);
+            }
+            return array("message" => "Статусы обновлены!");
         }
 
         public function UpdateOrder($order){
@@ -197,24 +185,24 @@
 
             $orderId = $order->id;
             unset($order->id);
-            $a = $this->database->genUpdateQuery(array_keys((array)$order), array_values((array)$order), "carOrder", $orderId);
+            $a = $this->database->genUpdateQuery(array_keys((array)$order), array_values((array)$order), "carOrders", $orderId);
             $query = $this->database->db->prepare($a[0]);
             $query->execute($a[1]);
             return array('message' => 'Заказ обновлен');
         }
 
-        public function CancelOrder($orderId){
+        public function RemoveOrder($orderId){
             if(!$orderId){
-                return array("message" => "Укажите id заказа", "method" => "CancelOrder", "requestData" => $orderId);
+                return array("message" => "Укажите id заказа", "method" => "RemoveOrder", "requestData" => $orderId);
             }
-            $query = $this->database->db->prepare("UPDATE carOrder SET status=3 WHERE id=?");
+            $query = $this->database->db->prepare("UPDATE carOrders SET status=4 WHERE id=?");
             $query->execute(array($orderId));
             return array('message' => 'Заказ отменен');
         }
 
         public function SignIn($user = null){
             if($user != null){
-                $sth = $this->database->db->prepare("SELECT id, password, isAdmin FROM user WHERE email = ? LIMIT 1");
+                $sth = $this->database->db->prepare("SELECT id, password, isAdmin FROM users WHERE email = ? LIMIT 1");
                 $sth->setFetchMode(PDO::FETCH_CLASS, 'User');
                 $sth->execute(array($user->email));
                 $fullUser = $sth->fetch();
@@ -232,27 +220,7 @@
                 return array("message" => "Введите данные для регистрации");
             }
         }
-
-        public function getUserInfo($userId){
-            $sth = $this->database->db->prepare("SELECT name, surname, middlename, phone, email FROM user WHERE id = ? LIMIT 1");
-            $sth->setFetchMode(PDO::FETCH_CLASS, 'User');
-            $sth->execute(array($userId));
-            return $sth->fetch();
-        }
-
-        public function UpdateUserInfo($userId, $user){
-            if(!$userId){
-                return array("message" => "Укажите id пользователя", "method" => "UpdateUserInfo", "requestData" => array($userId, $user));
-            }
-            if(!$user){
-                return array("message" => "Укажите данные", "method" => "UpdateUserInfo", "requestData" => $user);
-            }
-            $a = $this->database->genUpdateQuery(array_keys((array)$user), array_values((array)$user), "user", $userId);
-            $query = $this->database->db->prepare($a[0]);
-            $query->execute($a[1]);
-            return array('message' => 'Пользователь обновлен');
-        }
-
+        
         public function SignUp($user = null){
             if($user != null){
                 try{
@@ -260,7 +228,7 @@
                         return false;
                     }
                     $user->password = password_hash($user->password, PASSWORD_BCRYPT);
-                    $insert = $this->database->genInsertQuery((array)$user, 'user');
+                    $insert = $this->database->genInsertQuery((array)$user, 'users');
                     $query = $this->database->db->prepare($insert[0]);
                     if ($insert[1][0]!=null) {
                         $query->execute($insert[1]);
@@ -275,10 +243,31 @@
             }
         }
 
+        public function getUser($userId){
+            $sth = $this->database->db->prepare("SELECT name, surname, secondname, phone, email FROM users WHERE id = ? LIMIT 1");
+            $sth->setFetchMode(PDO::FETCH_CLASS, 'User');
+            $sth->execute(array($userId));
+            return $sth->fetch();
+        }
+
+        public function updateUser($userId, $user){
+            if(!$userId || $userId == 0){
+                return array("message" => "Укажите id пользователя", "method" => "updateUser", "requestData" => array($userId, $user));
+            }
+            if(!$user){
+                return array("message" => "Укажите данные", "method" => "updateUser", "requestData" => $user);
+            }
+            unset ($user->id);
+            $a = $this->database->genUpdateQuery(array_keys((array)$user), array_values((array)$user), "users", $userId);
+            $query = $this->database->db->prepare($a[0]);
+            $query->execute($a[1]);
+            return array('message' => 'Пользователь обновлен');
+        }
+
         public function AddCar($car = null){
             if($car != null){
                 try{
-                    $insert = $this->database->genInsertQuery((array)$car, 'car');
+                    $insert = $this->database->genInsertQuery((array)$car, 'cars');
                     $query = $this->database->db->prepare($insert[0]);
                     if ($insert[1][0]!=null) {
                         $query->execute($insert[1]);
@@ -292,23 +281,7 @@
                 return array("message" => "Введите данные автомобиля");
             }
         }
-
-        private function EmailExists(string $email){
-            $query = "SELECT id, email FROM user WHERE email = ?";
- 
-            // подготовка запроса 
-            $stmt = $this->database->db->prepare( $query );
-            // инъекция 
-            $email=htmlspecialchars(strip_tags($email));
-            // выполняем запрос 
-            $stmt->execute(array($email));
         
-            // получаем количество строк 
-            $num = $stmt->rowCount();
-
-            return $num > 0;
-        }
-
         public function UpdateCar($car){
             if($car == null || !isset($car->id)){
                 return array("message" => "Укажите id автомобиля", "method" => "UpdateCar", "requestData" => $car);
@@ -317,20 +290,29 @@
             $carId = $car->id;
             unset($car->id);
             if($car->oldImg && $car->img != $car->oldImg){
-                $this->removeFile($car->oldImg);
+                $this->filesUpload->remove($car->oldImg);
             }
             unset($car->oldImg);
-            $a = $this->database->genUpdateQuery(array_keys((array)$car), array_values((array)$car), "car", $carId);
+            $a = $this->database->genUpdateQuery(array_keys((array)$car), array_values((array)$car), "cars", $carId);
             $query = $this->database->db->prepare($a[0]);
             $query->execute($a[1]);
             return array('message' => 'Автомобиль обновлен');
         }
 
-        private function removeFile($filelink){
-            $path = explode($this->baseUrl.'/', $filelink);
-            if($path[1] && file_exists($path[1])){
-                unlink($path[1]);
-            }
+        public function EmailExists($email){
+            $query = "SELECT id, email FROM users WHERE email = ?";
+ 
+            // подготовка запроса 
+            $stmt = $this->database->db->prepare( $query );
+            // инъекция 
+            //$email=htmlspecialchars(strip_tags($email));
+            // выполняем запрос 
+            $stmt->execute(array($email));
+        
+            // получаем количество строк 
+            $num = $stmt->rowCount();
+
+            return $num > 0;
         }
 
     }

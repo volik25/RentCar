@@ -1,1 +1,80 @@
-<p>home works!</p>
+<h4>Несколько наших довольных клиентов:</h4>
+<div class="flex-container">
+    <div class="car d-flex flex-column justify-content-between align-items-center" *ngFor="let order of completeOrders">
+      <div>
+        <img [src]="order.car.img"/>
+      </div>
+      <div class="w-100">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <b>{{order.car.name}}</b>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <b>Дата аренды: </b>
+          {{ngbDateToString(order.dateFrom)}} - {{ngbDateToString(order.dateTo)}}
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <b>Время подачи: </b>
+          {{ngbTimeToString(order.time)}}
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <b>Место подачи: </b>
+          {{order.place.name}}
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center"
+        [ngClass]="{'planned': order.status == '1', 'activeOrder': order.status == '2',
+                    'complete': order.status == '3', 'canceled': order.status == '4'}">
+          <b>Статус заказа: </b>
+          {{order.status | orderStatus}}
+        </div>
+        <div class="price">
+          <b>{{order.orderSum}}₽</b>
+          <span>&nbsp;за {{
+              order.orderSum/order.car.price === 1 ||  order.orderSum/order.car.price % 10 === 1 ?
+              order.orderSum/order.car.price + ' сутки' : order.orderSum/order.car.price + ' суток'}}
+            </span>
+        </div>
+        <button type="button" class="btn btn-info btn-block">Хочу такую же!</button>
+      </div>
+    </div>
+</div>
+
+<div class="flex-container">
+    <div class="car d-flex flex-column justify-content-between" *ngFor="let car of lowCars">
+      <div>
+        <img [src]="car.img"/>
+      </div>
+      <div>
+        <div class="title">
+          <b>{{car.name}}</b>
+          <div class="year">{{car.createYear}} год</div>
+        </div>
+        <div class="details">
+          <span><i class="fas fa-users"></i>{{ car.sits }}</span>
+          <span><i class="fas fa-cogs"></i>{{ car.kpp | carKPP}}</span>
+          <span><i class="fas fa-fan"></i>{{ car.AC | carAC}}</span>
+          <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
+        </div>
+        <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
+        <button type="button" class="btn btn-info btn-block">Мне нравится!</button>
+      </div>
+    </div>
+    <div class="car d-flex flex-column justify-content-between" *ngFor="let car of hightCars">
+        <div>
+          <img [src]="car.img"/>
+        </div>
+        <div>
+          <div class="title">
+            <b>{{car.name}}</b>
+            <div class="year">{{car.createYear}} год</div>
+          </div>
+          <div class="details">
+            <span><i class="fas fa-users"></i>{{ car.sits }}</span>
+            <span><i class="fas fa-cogs"></i>{{ car.kpp | carKPP}}</span>
+            <span><i class="fas fa-fan"></i>{{ car.AC | carAC}}</span>
+            <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
+          </div>
+          <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
+          <button type="button" class="btn btn-info btn-block">Мне нравится!</button>
+        </div>
+    </div>
+</div>

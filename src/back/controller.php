@@ -15,15 +15,17 @@ if(isset($_GET['key'])){
             if($decodeToken = checkToken($token, true)){
                 if($decodeToken){
                     echo json_encode($decodeToken->isAdmin == "1");
+                    return;
                 } else {
                     echo json_encode($decodeToken);
+                    return;
                 }
                 
             }
             echo json_encode(false);
             return;
         case 'get-cars':
-            echo json_encode($repository->GetCars($_GET));
+            echo json_encode($repository->GetCars($_GET['limit']));
             return;
         case 'get-places':
             echo json_encode($repository->GetPlaces());
@@ -46,15 +48,36 @@ if(isset($_GET['key'])){
             }
             return;
         case 'get-car':
-            echo json_encode($repository->GetCarDetails($_GET['carId']));
+            echo json_encode($repository->GetCar($_GET['carId']));
             return;
-        case 'get-car-dates':
-            echo json_encode($repository->GetCarDates($_GET['carId']));
+        case 'remove-car':
+            if($decodeToken = checkToken($token, true)){
+                $data = json_decode(file_get_contents("php://input"));
+                echo json_encode($repository->RemoveCar($data));
+            }
+            return;
+        case 'get-orders':
+            if($decodeToken = checkToken($token, true)){
+                echo json_encode($repository->GetOrders($decodeToken->id, true, $_GET['limit']));
+                return;
+            }
+            if($decodeToken = checkToken($token)){
+                echo json_encode($repository->GetOrders($decodeToken->id, false, $_GET['limit']));
+            }
+            else{
+                echo json_encode($repository->GetOrders(null, null, $_GET['limit']));
+            }
             return;
         case 'add-order':
             if($decodeToken = checkToken($token)){
                 $data = json_decode(file_get_contents("php://input"));
                 echo json_encode($repository->AddOrder($decodeToken->id, $data));
+            }
+            return;
+        case 'update-statuses':
+            if($decodeToken = checkToken($token, true)){
+                $data = json_decode(file_get_contents("php://input"));
+                echo json_encode($repository->UpdateStatuses($data));
             }
             return;
         case 'sign-in':
@@ -65,19 +88,10 @@ if(isset($_GET['key'])){
             $data = json_decode(file_get_contents("php://input"));
             echo json_encode($repository->SignUp($data));
             return;
-        case 'get-history':
-            if($decodeToken = checkToken($token, true)){
-                echo json_encode($repository->GetHistory($decodeToken->id, true));
-                return;
-            }
-            if($decodeToken = checkToken($token)){
-                echo json_encode($repository->GetHistory($decodeToken->id, false));
-            }
-            return;
-        case 'get-user-info':
+        case 'get-user':
             if($decodeToken = checkToken($token)){
                 $data = json_decode(file_get_contents("php://input"));
-                echo json_encode($repository->GetUserInfo($decodeToken->id));
+                echo json_encode($repository->getUser($decodeToken->id));
                 return;
             }
             return;
@@ -93,10 +107,10 @@ if(isset($_GET['key'])){
                 echo json_encode($repository->UpdateCar($data));
             }
             return;
-        case 'update-user-info':
+        case 'update-user':
             if($decodeToken = checkToken($token)){
                 $data = json_decode(file_get_contents("php://input"));
-                echo json_encode($repository->UpdateUserInfo($decodeToken->id, $data));
+                echo json_encode($repository->updateUser($decodeToken->id, $data));
             }
             return;
         case 'update-order':
@@ -105,14 +119,14 @@ if(isset($_GET['key'])){
                 echo json_encode($repository->UpdateOrder($data));
             }
             return;
-        case 'cancel-order':
+        case 'remove-order':
             if($decodeToken = checkToken($token)){
-                echo json_encode($repository->CancelOrder($_GET['orderId']));
+                echo json_encode($repository->RemoveOrder($_GET['orderId']));
             }
             return;
-        case 'upload-car-img':
+        case 'upload-img':
             if($decodeToken = checkToken($token, true)){
-                echo json_encode($repository->UploadCarImg($_FILES['CarImage']));
+                echo json_encode($repository->UploadImg($_FILES['CarImage']));
             } else {
                 echo json_encode(array("message" => "В доступе отказано"));
             }

@@ -3,7 +3,7 @@
         public $id;
         public $name;
         public $surname;
-        public $middlename;
+        public $secondname;
         public $phone;
         public $email;
     }
@@ -14,17 +14,24 @@
         public $name;
         public $description;
         public $price;
+        public $bodyType;
         public $fuelType;
-        public $engineVolume;
+        public $fuelCity;
+        public $fuelTrack;
         public $enginePower;
-        public $speed;
-        public $time;
+        public $engineVolume;
+        public $maxSpeed;
+        public $accelerationTime;
         public $volumePerHundred;
         public $kpp;
-        public $driveUnit;
-        public $places;
-        public $backVolume;
-        public $license;
+        public $gears;
+        public $wheelDrive;
+        public $doors;
+        public $sits;
+        public $airbags;
+        public $AC;
+        public $steering;
+        public $trunkVolume;
         public $createYear;
     }
 
@@ -46,10 +53,5 @@
         public $user;
         public $car;
         public $place;
-    }
-
-    class DateRange {
-        public $dateFrom;
-        public $dateTo;
     }
 ?>
