@@ -135,12 +135,9 @@ export class CarsFiltersComponent implements OnInit {
               if (property>=filter[0] && property<=filter[1]) this.factFilter++;
               else break;
             }
-            if (propKey == 'AC' && property == AC.None) {
-              if (filter == false) this.factFilter++;
-              else break;
-            }
-            if (propKey == 'AC' && property != AC.None) {
-              if (filter == true) this.factFilter++;
+            if (propKey == 'AC') {
+              if (filter == false && property == AC.None) this.factFilter++;
+              if (filter == true && property != AC.None) this.factFilter++;
               else break;
             }
             else if (property == filter) this.factFilter++;
