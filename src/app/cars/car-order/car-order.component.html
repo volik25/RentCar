@@ -1,7 +1,10 @@
 <div class="row d-flex justify-content-center align-items-center relative pt-2">
-    <h3>Оформить заказ</h3>
+    <div *ngIf="order && order.status != 3" class="cancel">
+        <button type="button" class="btn btn-danger" (click)="removeOrder()">Отменить заказ</button>
+    </div>
+    <h3>{{order ? 'Изменить заказ' : 'Оформить заказ'}}</h3>
     <div class="close">
-        <button type="button" class="btn btn-outline-danger" (click)="close()">Отмена</button>
+        <button type="button" class="btn btn-outline-danger" (click)="close()">Закрыть</button>
     </div>
 </div>
 <form [formGroup]="orderForm">
@@ -115,7 +118,7 @@
                 [disabled]="!user"
                 type="submit"
                 class="btn btn-primary btn-block"
-                (click)="addOrder()">Подтвердить</button>
+                (click)="addOrder()">{{order ? 'Сохранить изменения' : 'Подтвердить заказ'}}</button>
         </div>
     </div>
 </form>

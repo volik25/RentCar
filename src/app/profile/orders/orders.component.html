@@ -12,8 +12,26 @@
         <img [src]="order.car.img"/>
       </div>
       <div class="w-100">
-        <div class="title">
+        <div class="d-flex flex-column justify-content-center align-items-center">
           <b>{{order.car.name}}</b>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <b>Дата аренды: </b>
+          {{ngbDateToString(order.dateFrom)}} - {{ngbDateToString(order.dateTo)}}
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <b>Время подачи: </b>
+          {{ngbTimeToString(order.time)}}
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <b>Место подачи: </b>
+          {{order.place.name}}
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center"
+        [ngClass]="{'planned': order.status == 1, 'activeOrder': order.status == 2,
+                    'canceled': order.status == 3, 'complete': order.status == 4}">
+          <b>Статус заказа: </b>
+          {{order.status | orderStatus}}
         </div>
         <div class="price">
           <b>{{order.orderSum}}₽</b>
@@ -22,7 +40,7 @@
               order.orderSum/order.car.price + ' сутки' : order.orderSum/order.car.price + ' суток'}}
             </span>
         </div>
-        <button type="button" class="btn btn-info btn-block" (click) = "modalOpen('edit', order)">Изменить</button>
+        <button type="button" class="btn btn-info btn-block" (click) = "modalOpen(order)">Изменить</button>
       </div>
     </div>
   </div>

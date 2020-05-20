@@ -163,3 +163,24 @@ export class SteeringPipe implements PipeTransform {
     }
   }
 }
+
+@Pipe({ name: 'orderStatus' })
+export class StatusPipe implements PipeTransform {
+  transform(value): String {
+    switch (value) {
+        case "1": {
+            return "Оформлен";
+        }
+        case "2": {
+            return "В работе";
+        }
+        case "3": {
+            return "Отменен";
+        }
+        case "4": {
+            return "Выполнен";
+        }
+        default: ;
+    }
+  }
+}

@@ -27,7 +27,7 @@ export enum OrderStatus {
   Planned = 1,
   Active = 2,
   Canceled = 3,
-  Ready = 4,
+  Complete = 4,
 }
 export interface DateRange {
   dateFrom: NgbDate;

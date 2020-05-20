@@ -21,6 +21,7 @@ import { Order } from 'src/app/models/order';
 export class CarOrderComponent implements OnInit {
   @Input() car: Car;
   @Input() carInfoOpen = false;
+  @Input() order: Order;
   //@Output() data: EventEmitter<any> = new EventEmitter<any>();
   user: User;
   time: NgbTimeStruct = { hour: 13, minute: 30, second: 0 };
@@ -86,13 +87,19 @@ export class CarOrderComponent implements OnInit {
     if (this.auth.getToken()) {
       requests.push(this.api.getUser());
     }
-    //const orderDetailForm = this.orderForm.get('order') as FormGroup;
 
     const subscription = forkJoin(requests).subscribe(([places, user]) => {
       this.places = places;
       this.fromDate = this.calendar.getToday();
       this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 2);
       this.minDate = this.fromDate;
+      this.orderForm.get('order').get('time').setValue(this.time);
+
+      if (this.order) {
+        this.orderForm.get('order').get('period').setValue({fromDate: this.order.dateFrom, toDate: this.order.dateTo});
+        this.orderForm.get('order').get('time').setValue(this.order.time);
+        this.orderForm.get('order').get('place').setValue(this.order.placeId);
+      }
       if (user) {
         this.user = user;
         const userForm = this.orderForm.get('user') as FormGroup;
@@ -102,8 +109,8 @@ export class CarOrderComponent implements OnInit {
       this.loadingService.removeSubscription(subscription);
     });
     this.loadingService.addSubscription(subscription);
+    
     this.period = this.orderForm.get('order').get('period') as FormControl;
-    this.orderForm.get('order').get('time').setValue(this.time);
 
     this.orderForm.get('order').valueChanges.subscribe((value) => {
       if (this.places) {
@@ -135,7 +142,6 @@ export class CarOrderComponent implements OnInit {
   }
 
   addOrder(){
-    //this.submitted = true;
     const orderForm = this.orderForm.get('order') as FormGroup;
     if (orderForm.invalid) {
       for (const control of Object.values(orderForm.controls)) {
@@ -150,7 +156,7 @@ export class CarOrderComponent implements OnInit {
       return;
     }
     const orderFormValue = orderForm.getRawValue();
-    const order: Order = {
+    let order: Order = {
       carId: this.car.id,
       placeId: orderFormValue.place,
       dateFrom: orderFormValue.period.fromDate,
@@ -159,12 +165,34 @@ export class CarOrderComponent implements OnInit {
       orderSum: this.car.price * this.rangeDays,
     };
 
-    const subscription = this.api.addOrder(order).subscribe((v) => {
+    if (this.order) {
+      order.id = this .order.id;
+      const subscription = this.api.updateOrder(order).subscribe((v) => {
+        console.log(v);
+        this.loadingService.removeSubscription(subscription);
+      });
+      this.loadingService.addSubscription(subscription);
+    }
+    else{
+      const subscription = this.api.addOrder(order).subscribe((v) => {
+        this.loadingService.removeSubscription(subscription);
+        this.router.navigate(['/profile']);
+        this.activeModal.close();
+      });
+      this.loadingService.addSubscription(subscription);
+    }
+  }
+
+  updateOrder(){
+
+  }
+
+  
+  removeOrder(){
+    const subscription = this.api.cancelOrder(this.order.id).subscribe((v) => {
       this.loadingService.removeSubscription(subscription);
-      this.router.navigate(['/profile']);
       this.activeModal.close();
     });
-    this.loadingService.addSubscription(subscription);
   }
 
   onDateSelection(date: NgbDate) {
