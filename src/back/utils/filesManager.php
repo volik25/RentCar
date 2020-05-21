@@ -1,5 +1,5 @@
 <?php
-class FilesUpload{
+class FilesManager{
     public function upload($file, $path, $prefix){
         if(!file_exists($path)){
             mkdir($path);

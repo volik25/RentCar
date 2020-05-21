@@ -7,7 +7,7 @@ header("Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Autho
 include_once 'repository.php';
 include_once './utils/token.php';
 
-$repository = new BookingRepository();
+$repository = new Repository();
 $token = new Token();
 if(isset($_GET['key'])){
     switch($_GET['key']){

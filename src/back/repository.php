@@ -2,28 +2,28 @@
     //обработка запросов
     include_once './utils/token.php';
     include_once './utils/database.php';
-    include_once './utils/filesUpload.php';
+    include_once './utils/filesManager.php';
     include_once 'models.php';
-    class BookingRepository{
+    class Repository{
         private $database;
         private $token;
-        private $filesUpload;
+        private $filesManager;
         private $baseUrl = 'http://vdknf.beget.tech/RentCarBack';
 
         public function __construct()
         {
             $this->database = new DataBase();
             $this->token = new Token();
-            $this->filesUpload = new FilesUpload();
+            $this->filesManager = new FilesManager();
         }
 
         public function GetCars($limit){
-            $queryText = "SELECT * FROM cars";
+            $queryText = "SELECT * FROM cars ORDER BY name ASC";
             if($limit == 1){
-                $queryText.=" ORDER BY price ASC LIMIT 2";
+                $queryText="SELECT * FROM cars ORDER BY price ASC LIMIT 2";
             };
             if($limit == 2){
-                $queryText.=" ORDER BY price DESC LIMIT 2";
+                $queryText="SELECT * FROM cars ORDER BY price DESC LIMIT 2";
             }
             $query = $this->database->db->query($queryText);
             $query->setFetchMode(PDO::FETCH_CLASS, 'Car');
@@ -31,7 +31,7 @@
         }
 
         public function GetPlaces(){
-            $query = $this->database->db->query("SELECT * FROM places");
+            $query = $this->database->db->query("SELECT * FROM places ORDER BY name ASC");
             $query->setFetchMode(PDO::FETCH_CLASS, 'Place');
             return $query->fetchAll();
             
@@ -72,7 +72,7 @@
         }
 
         public function UploadImg($file){
-            $newFileName = $this->filesUpload->upload($file, 'Files', uniqid());
+            $newFileName = $this->filesManager->upload($file, 'Files', uniqid());
             return $this->baseUrl.'/Files'.'/'.$newFileName;
         }
 
@@ -97,7 +97,7 @@
             }
             $query = $this->database->db->prepare("delete from cars where id= ?");
             $query->execute(array($id));
-            $this->filesUpload->remove($file);
+            $this->filesManager->remove($file);
             return array('message' => 'Автомобиль удален');
         }
 
@@ -290,7 +290,7 @@
             $carId = $car->id;
             unset($car->id);
             if($car->oldImg && $car->img != $car->oldImg){
-                $this->filesUpload->remove($car->oldImg);
+                $this->filesManager->remove($car->oldImg);
             }
             unset($car->oldImg);
             $a = $this->database->genUpdateQuery(array_keys((array)$car), array_values((array)$car), "cars", $carId);
