@@ -16,8 +16,8 @@
                 <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 36}" (click)="pageSize=36">36</button>
               </div>
               <div class="flex-container" *ngIf="cars.length != 0">
-                <div class="car d-flex flex-column justify-content-between" *ngFor="let car of cars | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                  <div>
+                <div class="car" *ngFor="let car of cars | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                  <div class="image">
                     <img [src]="car.img"/>
                   </div>
                   <div>

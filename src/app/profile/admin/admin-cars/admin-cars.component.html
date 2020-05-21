@@ -12,9 +12,9 @@
     <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 36}" (click)="pageSize=36">36</button>
   </div>
   <div class="flex-container">
-    <div class="car d-flex flex-column justify-content-between" *ngFor="let car of cars | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+    <div class="car" *ngFor="let car of cars | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
       <button type="button" class="btn dismiss" title="Удалить" (click)="removeCar(car.id, car.img)"><i class="fas fa-times"></i></button>
-      <div>
+      <div class="image">
         <img [src]="car.img"/>
       </div>
       <div>

@@ -5,6 +5,7 @@ import { LoadingService } from 'src/app/services/loading.service';
 import { NgbDate, NgbTimeStruct, NgbModal, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { CarOrderComponent } from 'src/app/cars/car-order/car-order.component';
 import { AuthService } from 'src/app/services/auth.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'orders',
@@ -13,13 +14,19 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class OrdersComponent implements OnInit, OnDestroy {
   public orders: Order[];
+  public newStatuses = [];
   public statusesChanged = [];
   public isAdmin = true;
+  public forciblyStatuses: FormGroup;
   public page = 1;
   public pageSize = 9;
   constructor(private api: ApiService, private loadingService: LoadingService,
-              private ms: NgbModal, private auth: AuthService,
-              private calendar: NgbCalendar) { }
+    private ms: NgbModal, private auth: AuthService,
+    private calendar: NgbCalendar, private fb: FormBuilder) {
+      this.forciblyStatuses = this.fb.group({
+        statusCheck: false
+      })
+    }
 
   ngOnInit() {
     const subscription = this.api.checkAccess().subscribe(res => {
@@ -28,12 +35,21 @@ export class OrdersComponent implements OnInit, OnDestroy {
     })
     this.loadingService.addSubscription(subscription);
     this.loadCars();
+    this.forciblyStatuses.get('statusCheck').valueChanges.subscribe((value) => {
+      console.log(value);
+    })
   }
 
   ngOnDestroy(){
     if (this.statusesChanged.length > 0) {
-      const subscription = this.api.updateStatuses(this.statusesChanged).subscribe(res => {
-        //console.log(res);
+      this.statusesChanged.forEach(el => {
+        this.orders.forEach(order => {
+          if (el.id == order.id && el.status == order.status){
+            this.newStatuses.push(el);
+          }
+        })
+      });
+      const subscription = this.api.updateStatuses(this.newStatuses).subscribe(res => {
         this.loadingService.removeSubscription(subscription);
       })
       this.loadingService.addSubscription(subscription);
@@ -60,48 +76,53 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
   changeStatus(order:Order){
     const today = this.calendar.getToday();
-    switch (order.status) {
-      case OrderStatus.Planned:
-        if (today.after(order.dateFrom as NgbDate) && today.before(order.dateTo as NgbDate)) {
+    const isForsib = this.forciblyStatuses.get('statusCheck').value;
+    if (isForsib) {
+      switch (order.status) {
+        case OrderStatus.Planned:
           order.status = OrderStatus.Active;
           this.statusesChanged.push({id: order.id, status: order.status});
-        }
-        break;
-      case OrderStatus.Active:
-        if (today.after(order.dateFrom as NgbDate) && today.after(order.dateTo as NgbDate)) {
+          break;
+        case OrderStatus.Active:
           order.status = OrderStatus.Complete;
           this.statusesChanged.push({id: order.id, status: order.status});
-        }
-        break;
-      case OrderStatus.Canceled:
-        if (today.before(order.dateFrom as NgbDate) && today.before(order.dateTo as NgbDate)) {
+          break;
+        case OrderStatus.Complete:
+          order.status = OrderStatus.Canceled;
+          this.statusesChanged.push({id: order.id, status: order.status});
+          break;
+        case OrderStatus.Canceled:
           order.status = OrderStatus.Planned;
           this.statusesChanged.push({id: order.id, status: order.status});
-        }
-        if (today.after(order.dateFrom as NgbDate) && today.before(order.dateTo as NgbDate)) {
-          order.status = OrderStatus.Active;
-          this.statusesChanged.push({id: order.id, status: order.status});
-        }
-        break;
+          break;
+      }
     }
-    // switch (order.status) {
-    //   case OrderStatus.Planned:
-    //     order.status = OrderStatus.Active;
-    //     this.statusesChanged.push({id: order.id, status: order.status});
-    //     break;
-    //   case OrderStatus.Active:
-    //     order.status = OrderStatus.Complete;
-    //     this.statusesChanged.push({id: order.id, status: order.status});
-    //     break;
-    //   case OrderStatus.Complete:
-    //     order.status = OrderStatus.Canceled;
-    //     this.statusesChanged.push({id: order.id, status: order.status});
-    //     break;
-    //   case OrderStatus.Canceled:
-    //     order.status = OrderStatus.Planned;
-    //     this.statusesChanged.push({id: order.id, status: order.status});
-    //     break;
-    // }
+    else{
+      switch (order.status) {
+        case OrderStatus.Planned:
+          if (today.after(order.dateFrom as NgbDate) && today.before(order.dateTo as NgbDate)) {
+            order.status = OrderStatus.Active;
+            this.statusesChanged.push({id: order.id, status: order.status});
+          }
+          break;
+        case OrderStatus.Active:
+          if (today.after(order.dateFrom as NgbDate) && today.after(order.dateTo as NgbDate)) {
+            order.status = OrderStatus.Complete;
+            this.statusesChanged.push({id: order.id, status: order.status});
+          }
+          break;
+        case OrderStatus.Canceled:
+          if (today.before(order.dateFrom as NgbDate) && today.before(order.dateTo as NgbDate)) {
+            order.status = OrderStatus.Planned;
+            this.statusesChanged.push({id: order.id, status: order.status});
+          }
+          if (today.after(order.dateFrom as NgbDate) && today.before(order.dateTo as NgbDate)) {
+            order.status = OrderStatus.Active;
+            this.statusesChanged.push({id: order.id, status: order.status});
+          }
+          break;
+      }
+    }
   }
 
   public ngbDateToString(date: NgbDate): string {

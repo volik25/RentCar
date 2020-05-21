@@ -4,7 +4,9 @@ import { LoadingService } from '../services/loading.service';
 import { Car } from '../models/car';
 import { forkJoin } from 'rxjs';
 import { Order } from '../models/order';
-import { NgbDate, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbTimeStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { CarInfoComponent } from '../cars/car-info/car-info.component';
 
 @Component({
   selector: 'home',
@@ -15,7 +17,9 @@ export class HomeComponent implements OnInit {
   public lowCars: Car[];
   public hightCars: Car[];
   public completeOrders: Order[];
-  constructor(private api: ApiService, private loadingService: LoadingService) { }
+  closeResult;
+  constructor(private api: ApiService, private loadingService: LoadingService, 
+              private router: Router, private ms: NgbModal) { }
 
   ngOnInit() {
     const requests = [this.api.getCars(1), this.api.getCars(2), this.api.getOrders(true)];
@@ -26,6 +30,15 @@ export class HomeComponent implements OnInit {
       this.loadingService.removeSubscription(subscription);
     })
     this.loadingService.addSubscription(subscription);
+  }
+
+  toCar(car){
+    this.router.navigate(['/cars']);
+    const modal = this.ms.open(CarInfoComponent, {centered: true, size: 'lg'});
+      modal.componentInstance.car = car;
+      modal.result.then((res)=>{
+        this.closeResult = res;
+      });
   }
 
   public ngbDateToString(date: NgbDate): string {

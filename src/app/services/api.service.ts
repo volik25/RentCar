@@ -104,7 +104,6 @@ export class ApiService {
   public getOrders(lim:boolean = false): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.baseUrl}?key=get-orders&limit=${lim}`).pipe(
       tap((orders) => {
-        console.log(orders);
         orders.forEach((order) => {
           order.dateFrom = this.stringToNgbDate(order.dateFrom as string);
           order.dateTo = order.dateTo ? this.stringToNgbDate(order.dateTo as string) : null;
