@@ -62,35 +62,20 @@ export class CarsFiltersComponent implements OnInit {
   }
 
   setOptions(carArray){
-    for (let i = 0; i < carArray.length; ++i) {
-      if (carArray[i].price > this.maxValue) this.maxValue = carArray[i].price;
-      else this.minValue = carArray[i].price;
-      if (carArray[i].price < this.minValue) this.minValue = carArray[i].price;
-      if (!this.doorsCount.includes(carArray[i].doors))this.doorsCount.push(carArray[i].doors);
-      if (!this.sitsCount.includes(carArray[i].sits)) this.sitsCount.push(carArray[i].sits);
-      if (!this.years.includes(carArray[i].createYear)) this.years.push(carArray[i].createYear);
-    }
+    carArray.forEach(car => {
+      if (car.price > this.maxValue) this.maxValue = car.price;
+      if (car.price < this.minValue) this.minValue = car.price;
+      else if (this.minValue == 0) this.minValue = this.maxValue;
+      if (!this.doorsCount.includes(car.doors))this.doorsCount.push(car.doors);
+      if (!this.sitsCount.includes(car.sits)) this.sitsCount.push(car.sits);
+      if (!this.years.includes(car.createYear)) this.years.push(car.createYear);
+    });
     if (this.doorsCount.length > 1) this.doorsCount.sort();
     if (this.sitsCount.length > 1) this.sitsCount.sort();
     if (this.years.length > 1) this.years.sort();
     this.options.floor = this.minValue;
     this.options.ceil = this.maxValue;
-    this.sliderRefresh();
-  }
 
-  sliderRefresh(cars = null){
-    if (cars) {
-      this.maxValue = 0;
-      this.minValue = this.options.ceil;
-      for (let i = 0; i < cars.length; ++i) {
-        if (cars[i].price > this.maxValue) this.maxValue = cars[i].price;
-        if (cars[i].price < this.minValue) this.minValue = cars[i].price;
-      }
-    }
-    else{
-      this.minValue = this.options.floor;
-      this.maxValue = this.options.ceil;
-    }
     this.filtersForm.get('price').setValue([this.minValue, this.maxValue]);
     this.options.translate = (value: number, label: LabelType): string => {
       switch (label) {
