@@ -1,18 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-//import { SearchModel } from './search.service';
-//import { NgbDate, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-//import { Place } from '../models/place';
-//import { Order, UpdateOrder, DateRange } from '../models/order';
 import { tap } from 'rxjs/internal/operators';
-//import { User } from '../models/user';
-import { environment } from 'src/environments/environment.prod';
 import { User } from '../models/user';
-import { Order, UpdateOrder } from '../models/order';
+import { Order, UpdateOrder, CarDates } from '../models/order';
 import { NgbDate, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { CarDates } from '../models/dates';
-// import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class ApiService {

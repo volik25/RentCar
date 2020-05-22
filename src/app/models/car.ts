@@ -1,4 +1,3 @@
-import { DateRange } from './order';
 import { BodyTypes, FuelType, KPP, AC, SteeringType, WheelDrive } from './enums';
 
 export interface Car {

@@ -29,7 +29,7 @@ export enum OrderStatus {
   Complete = '3',
   Canceled = '4',
 }
-export interface DateRange {
-  dateFrom: NgbDate;
-  dateTo?: NgbDate;
+export interface CarDates {
+  dateFrom: NgbDate | string;
+  dateTo?: NgbDate | string;
 }

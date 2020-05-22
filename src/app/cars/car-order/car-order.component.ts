@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 import { SignInComponent } from 'src/app/profile/sign-in/sign-in.component';
 import { AuthModalComponent } from 'src/app/profile/auth-modal/auth-modal.component';
 import { Order } from 'src/app/models/order';
-import { CarDates } from 'src/app/models/dates';
+import { CarDates } from 'src/app/models/order';
 
 @Component({
   selector: 'car-order',
