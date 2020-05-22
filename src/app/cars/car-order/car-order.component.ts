@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { SignInComponent } from 'src/app/profile/sign-in/sign-in.component';
 import { AuthModalComponent } from 'src/app/profile/auth-modal/auth-modal.component';
 import { Order } from 'src/app/models/order';
+import { CarDates } from 'src/app/models/dates';
 
 @Component({
   selector: 'car-order',
@@ -22,12 +23,13 @@ export class CarOrderComponent implements OnInit {
   @Input() car: Car;
   @Input() carInfoOpen = false;
   @Input() order: Order;
-  //@Output() data: EventEmitter<any> = new EventEmitter<any>();
   user: User;
   time: NgbTimeStruct = { hour: 13, minute: 30, second: 0 };
   places: Place[];
+  dates: CarDates[];
   hoveredDate: NgbDate | null = null;
   minDate: NgbDate;
+  maxDate: NgbDate;
   period: FormControl;
   currentPlace: string;
 
@@ -83,15 +85,16 @@ export class CarOrderComponent implements OnInit {
   }
 
   ngOnInit() {
-    const requests = [this.api.getPlaces()];
+    const requests = [this.api.getPlaces(), this.api.getCarDates(this.car.id)];
     if (this.auth.getToken()) {
       requests.push(this.api.getUser());
     }
 
-    const subscription = forkJoin(requests).subscribe(([places, user]) => {
+    const subscription = forkJoin(requests).subscribe(([places, dates, user]) => {
       this.places = places;
-      this.fromDate = this.calendar.getToday();
-      this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 2);
+      this.dates = dates;
+      // this.fromDate = this.calendar.getToday();
+      // this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 2);
       this.minDate = this.fromDate;
       this.orderForm.get('order').get('time').setValue(this.time);
 
@@ -182,11 +185,6 @@ export class CarOrderComponent implements OnInit {
       this.loadingService.addSubscription(subscription);
     }
   }
-
-  updateOrder(){
-
-  }
-
   
   removeOrder(){
     const subscription = this.api.cancelOrder(this.order.id).subscribe((v) => {
@@ -199,11 +197,27 @@ export class CarOrderComponent implements OnInit {
   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
+      this.setMaxDate(date);
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
       this.toDate = date;
+      this.maxDate = null;
     } else {
       this.toDate = null;
       this.fromDate = date;
+      this.setMaxDate(date);
+    } 
+  }
+
+  setMaxDate(date: NgbDate) {
+    if (!this.dates) {
+      this.maxDate = null;
+      return;
+    }
+    const maxDate = this.dates.filter((range: CarDates) => (range.dateFrom as NgbDate).after(date))[0];
+    if (maxDate) {
+      this.maxDate = maxDate.dateFrom as NgbDate;
+    } else {
+      this.maxDate = null;
     }
   }
 
@@ -222,6 +236,24 @@ export class CarOrderComponent implements OnInit {
   isDisabled = (date: NgbDate) => {
     if (date.before(this.minDate)) {
       return true;
+    }
+    if (date.after(this.maxDate)) {
+      return true;
+    }
+    if (this.dates) {
+      for (let range of this.dates) {
+        if (date.equals(range.dateFrom as NgbDate) || date.equals(range.dateTo as NgbDate)) {
+          return true;
+        }
+  
+        if (!range.dateTo) {
+          continue;
+        }
+  
+        if (date.after(range.dateFrom as NgbDate) && date.before(range.dateTo as NgbDate)) {
+          return true;
+        }
+      }
     }
   }
 }

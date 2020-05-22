@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment.prod';
 import { User } from '../models/user';
 import { Order, UpdateOrder } from '../models/order';
 import { NgbDate, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+import { CarDates } from '../models/dates';
 // import { environment } from 'src/environments/environment';
 
 @Injectable()
@@ -108,6 +109,17 @@ export class ApiService {
           order.dateFrom = this.stringToNgbDate(order.dateFrom as string);
           order.dateTo = order.dateTo ? this.stringToNgbDate(order.dateTo as string) : null;
           order.time = this.stringToNgbTime(order.time as string);
+        });
+      })
+    );
+  }
+  
+  public getCarDates(id: number): Observable<CarDates[]> {
+    return this.http.get<CarDates[]>(`${this.baseUrl}?key=get-car-dates&carId=${id}`).pipe(
+      tap((dates) => {
+        dates.forEach((date) => {
+          date.dateFrom = this.stringToNgbDate(date.dateFrom as string);
+          date.dateTo = date.dateTo ? this.stringToNgbDate(date.dateTo as string) : null;
         });
       })
     );
