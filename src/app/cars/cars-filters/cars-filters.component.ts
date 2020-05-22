@@ -90,7 +90,6 @@ export class CarsFiltersComponent implements OnInit {
   }
 
   refresh(){
-    console.log(this.allCars);
     this.planFilter = 0;
     this.filteredCars = [];
     const params = this.filtersForm.getRawValue();
@@ -103,7 +102,6 @@ export class CarsFiltersComponent implements OnInit {
         this.planFilter++;
       }
     }
-    console.log(params);
     this.allCars.forEach(car => {
       this.factFilter = 0;
       for (const propKey in car) {
@@ -133,7 +131,6 @@ export class CarsFiltersComponent implements OnInit {
         this.filteredCars.push(car);
       }
     });
-    console.log(this.filteredCars);
     this.data.emit(this.filteredCars);
   }
 
