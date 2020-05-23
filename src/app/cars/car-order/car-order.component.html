@@ -19,10 +19,13 @@
                 <div class="d-flex flex-column justify-content-center align-items-center pt-3">
                     <h6>Время подачи:</h6>
                     <ngb-timepicker
+                        [ngClass] = "{'notValid' : isMinTime}"
                         [readonlyInputs]="true"
+                        [spinners]="true"
                         formControlName="time"
-                        [(ngModel)]="time"
+                        [(ngModel)] = "time"
                         [minuteStep]="30"></ngb-timepicker>
+                    <small *ngIf="isMinTime">Минимальное время подачи -  {{minTime.hour}}:{{minTime.minute === 0 ? '00' : minTime.minute}}</small>
                 </div>
             </div>
             <div class="row p-4">
@@ -93,15 +96,15 @@
         <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex flex-column justify-content-around align-items-start">
                 <div>
-                    <b>Дата начала аренды:</b>&nbsp;{{fromDate ? fromDate?.day + '/' + fromDate?.month + '/' + fromDate?.year : 'Не выбрано'}}
+                    <b>Дата начала аренды:</b>&nbsp;{{fromDate ? fromDate?.day + '.' + fromDate?.month + '.' + fromDate?.year : 'Не выбрано'}}
                 </div>
                 <div>
-                    <b>Дата окончания аренды:</b>&nbsp;{{toDate ? toDate?.day + '/' + toDate?.month + '/' + toDate?.year : 'Не выбрано'}}
+                    <b>Дата окончания аренды:</b>&nbsp;{{toDate ? toDate?.day + '.' + toDate?.month + '.' + toDate?.year : 'Не выбрано'}}
                 </div>
             </div>
             <div class="d-flex flex-column justify-content-around align-items-end">
                 <div>
-                    <b>Время подачи:</b>&nbsp;{{time.hour}}:{{time.minute === 0 ? '00' : time.minute}}
+                    <b>Время подачи:</b>&nbsp;{{time?.hour}}:{{time?.minute === 0 ? '00' : time?.minute}}
                 </div>
                 <div>
                     <b>Место подачи:</b>&nbsp;{{currentPlace ? currentPlace : 'Не выбрано'}}

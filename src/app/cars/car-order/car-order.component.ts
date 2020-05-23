@@ -24,12 +24,14 @@ export class CarOrderComponent implements OnInit {
   @Input() carInfoOpen = false;
   @Input() order: Order;
   user: User;
-  time: NgbTimeStruct = { hour: 13, minute: 30, second: 0 };
+  time: NgbTimeStruct;
+  minTime: NgbTimeStruct;
   places: Place[];
   dates: CarDates[];
   hoveredDate: NgbDate | null = null;
   minDate: NgbDate;
   maxDate: NgbDate;
+  isMinTime: boolean = false;
   period: FormControl;
   currentPlace: string;
 
@@ -73,11 +75,11 @@ export class CarOrderComponent implements OnInit {
           period: [
             {
               fromDate: this.calendar.getToday(),
-              toDate: this.calendar.getNext(this.calendar.getToday(), 'd', 2),
+              toDate: null,
             },[Validators.required]
           ],
           place: [null, Validators.required],
-          time: null,
+          time: [{hour: 12, minute: 0, second: 0}, Validators.required],
           carId: null,
           sum: null,
         }),
@@ -87,24 +89,33 @@ export class CarOrderComponent implements OnInit {
   ngOnInit() {
     const requests = [this.api.getPlaces(), this.api.getCarDates(this.car.id)];
     if (this.auth.getToken()) {
-      requests.push(this.api.getUser());
+      requests.push(this.api.getUser(), this.api.checkAccess());
     }
 
-    const subscription = forkJoin(requests).subscribe(([places, dates, user]) => {
+    const subscription = forkJoin(requests).subscribe(([places, dates, user, isAdmin]) => {
       this.places = places;
       this.dates = dates;
-      // this.fromDate = this.calendar.getToday();
-      // this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 2);
+      this.dates.forEach(date => {
+        if (this.fromDate.equals(date.dateFrom as NgbDate) || this.fromDate.equals(date.dateTo as NgbDate) ||
+        this.fromDate.after(date.dateFrom as NgbDate) && this.fromDate.before(date.dateTo as NgbDate)){
+            if (date.dateTo) this.fromDate = this.calendar.getNext(date.dateTo as NgbDate, 'd', 1);
+            else this.fromDate = this.calendar.getNext(date.dateFrom as NgbDate, 'd', 1);
+        }
+      })
       this.minDate = this.fromDate;
-      this.orderForm.get('order').get('time').setValue(this.time);
+
+      if (this.fromDate.equals(this.calendar.getToday())) this.setMinTime();
 
       if (this.order) {
         this.orderForm.get('order').get('period').setValue({fromDate: this.order.dateFrom, toDate: this.order.dateTo});
         this.orderForm.get('order').get('time').setValue(this.order.time);
+        this.time = this.order.time as NgbTimeStruct;
         this.orderForm.get('order').get('place').setValue(this.order.placeId);
       }
+      this.setMaxDate(this.fromDate);
       if (user) {
-        this.user = user;
+        if (isAdmin && this.order) this.user = this.order.user;
+        else this.user = user;
         const userForm = this.orderForm.get('user') as FormGroup;
         userForm.patchValue(this.user);
         userForm.disable();
@@ -116,6 +127,14 @@ export class CarOrderComponent implements OnInit {
     this.period = this.orderForm.get('order').get('period') as FormControl;
 
     this.orderForm.get('order').valueChanges.subscribe((value) => {
+      if (value.time && this.time && this.fromDate.equals(this.calendar.getToday())) {
+        if (value.time.hour < this.minTime.hour || value.time.hour == this.minTime.hour && value.time.minute < this.minTime.minute) {
+          this.isMinTime = true;
+        }
+        else {
+          this.isMinTime = false;
+        };
+      }
       if (this.places) {
         this.places.forEach(place => {
           if (place.id == this.orderForm.get('order').get('place').value) this.currentPlace = place.name
@@ -158,6 +177,10 @@ export class CarOrderComponent implements OnInit {
       this.orderForm.markAsDirty();
       return;
     }
+    if (this.isMinTime) {
+      this.orderForm.markAsDirty();
+      return;
+    }
     const orderFormValue = orderForm.getRawValue();
     let order: Order = {
       carId: this.car.id,
@@ -171,7 +194,6 @@ export class CarOrderComponent implements OnInit {
     if (this.order) {
       order.id = this .order.id;
       const subscription = this.api.updateOrder(order).subscribe((v) => {
-        console.log(v);
         this.loadingService.removeSubscription(subscription);
       });
       this.loadingService.addSubscription(subscription);
@@ -199,13 +221,17 @@ export class CarOrderComponent implements OnInit {
       this.fromDate = date;
       this.setMaxDate(date);
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      this.setMinTime();
       this.toDate = date;
       this.maxDate = null;
     } else {
       this.toDate = null;
       this.fromDate = date;
+      this.setMinTime();
       this.setMaxDate(date);
-    } 
+    }
+    if (!this.fromDate.equals(this.calendar.getToday()))
+    this.orderForm.get('order').get('time').setValue({hour: 12, minute: 0, second: 0});
   }
 
   setMaxDate(date: NgbDate) {
@@ -219,6 +245,22 @@ export class CarOrderComponent implements OnInit {
     } else {
       this.maxDate = null;
     }
+  }
+
+  setMinTime(){
+    if (new Date().getMinutes() > 30) {
+      this.time = {hour: new Date().getHours() + 2, minute: 0, second: 0};
+      this.minTime = this.time;
+    }
+    if (new Date().getMinutes() < 30) {
+      this.time = {hour: new Date().getHours() + 1, minute: 30, second: 0};
+      this.minTime = this.time;
+    }
+    if (new Date().getMinutes() == 30) {
+      this.time = {hour: new Date().getHours() + 1, minute: 30, second: 0};
+      this.minTime = this.time;
+    }
+    this.orderForm.get('order').get('time').setValue(this.time);
   }
 
   isHovered(date: NgbDate) {

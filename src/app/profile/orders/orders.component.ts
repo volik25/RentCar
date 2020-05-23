@@ -14,12 +14,14 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class OrdersComponent implements OnInit, OnDestroy {
   public orders: Order[];
+  public allOrders: Order[];
   public newStatuses = [];
   public statusesChanged = [];
   public isAdmin = true;
   public forciblyStatuses: FormGroup;
   public page = 1;
   public pageSize = 9;
+  public statuses: number = 1;
   constructor(private api: ApiService, private loadingService: LoadingService,
     private ms: NgbModal, private auth: AuthService,
     private calendar: NgbCalendar, private fb: FormBuilder) {
@@ -30,6 +32,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const subscription = this.api.checkAccess().subscribe(res => {
+      console.log(res);
       this.isAdmin = res;
       this.loadingService.removeSubscription(subscription);
     })
@@ -58,7 +61,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
   loadCars(){
     const subscription = this.api.getOrders().subscribe(orders => {
-      this.orders = orders;
+      this.allOrders = orders;
+      this.showOrders(1);
       this.loadingService.removeSubscription(subscription);
     })
     this.loadingService.addSubscription(subscription);
@@ -100,23 +104,29 @@ export class OrdersComponent implements OnInit, OnDestroy {
     else{
       switch (order.status) {
         case OrderStatus.Planned:
-          if (today.after(order.dateFrom as NgbDate) && today.before(order.dateTo as NgbDate)) {
+          if (today.after(order.dateFrom as NgbDate) && today.before(order.dateTo as NgbDate) ||
+              today.equals(order.dateFrom as NgbDate) &&
+              order.time < {hour: new Date().getHours(), minute: new Date().getMinutes(), second: 0}) {
             order.status = OrderStatus.Active;
             this.statusesChanged.push({id: order.id, status: order.status});
           }
           break;
         case OrderStatus.Active:
-          if (today.after(order.dateFrom as NgbDate) && today.after(order.dateTo as NgbDate)) {
+          if (today.after(order.dateFrom as NgbDate) && today.after(order.dateTo as NgbDate) ||
+              today.equals(order.dateTo as NgbDate)) {
             order.status = OrderStatus.Complete;
             this.statusesChanged.push({id: order.id, status: order.status});
           }
           break;
         case OrderStatus.Canceled:
-          if (today.before(order.dateFrom as NgbDate) && today.before(order.dateTo as NgbDate)) {
+          if (today.before(order.dateFrom as NgbDate) && today.before(order.dateTo as NgbDate) ||
+              today.equals(order.dateTo as NgbDate)) {
             order.status = OrderStatus.Planned;
             this.statusesChanged.push({id: order.id, status: order.status});
           }
-          if (today.after(order.dateFrom as NgbDate) && today.before(order.dateTo as NgbDate)) {
+          if (today.after(order.dateFrom as NgbDate) && today.before(order.dateTo as NgbDate) ||
+              today.equals(order.dateFrom as NgbDate) &&
+              order.time < {hour: new Date().getHours(), minute: new Date().getMinutes(), second: 0}) {
             order.status = OrderStatus.Active;
             this.statusesChanged.push({id: order.id, status: order.status});
           }
@@ -125,13 +135,23 @@ export class OrdersComponent implements OnInit, OnDestroy {
     }
   }
 
+  showOrders(status: number){
+    this.statuses = status;
+    this.orders = [];
+    this.allOrders.forEach(order => {
+      if (parseInt(order.status) == status) {
+        this.orders.push(order);
+      }
+    })
+  }
+
   public ngbDateToString(date: NgbDate): string {
     if(!date){
       return null;
     }
     const newDate = new Date(date.year, date.month - 1, date.day);
     const [year, month, day] = [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()];
-    return `${day < 10 ? `0${day}` : day}/${month < 10 ? `0${month}` : month}/${year < 10 ? `0${year}` : year}`;
+    return `${day < 10 ? `0${day}` : day}.${month < 10 ? `0${month}` : month}.${year < 10 ? `0${year}` : year}`;
   }
 
   public ngbTimeToString(time: NgbTimeStruct): string {
