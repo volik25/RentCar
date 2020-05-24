@@ -1,10 +1,15 @@
 <div class="container" *ngIf="places">
-  <div class="d-flex justify-content-end align-items-center">Показывать на странице: 
-    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 3}" (click)="pageSize=3">3</button>
-    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 9}" (click)="pageSize=9">9</button>
-    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 18}" (click)="pageSize=18">18</button>
-    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 36}" (click)="pageSize=36">36</button>
-    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 64}" (click)="pageSize=64">64</button>
+  <div class="pager mb-2">
+    <div>
+      Показывать на странице: 
+    </div>
+    <div>
+      <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 3}" (click)="pageSize=3">3</button>
+      <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 9}" (click)="pageSize=9">9</button>
+      <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 18}" (click)="pageSize=18">18</button>
+      <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 36}" (click)="pageSize=36">36</button>
+      <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 64}" (click)="pageSize=64">64</button>
+    </div>
   </div>
   <form [formGroup]="addForm" class="border border-primary p-3">
     <div class="form-group">

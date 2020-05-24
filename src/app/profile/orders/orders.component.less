@@ -36,3 +36,40 @@
     cursor: pointer;  
     }  
 }
+
+.pager{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .pager-select{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+}
+
+.statuses{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media(max-width: 600px){
+    .pager{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .pager-select{
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    .statuses{
+        flex-direction: column;
+    }
+    .form-check{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}

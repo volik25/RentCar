@@ -1,7 +1,25 @@
+@import '../../colors.less';
+
 .header{
-    background-color: rgb(27,105,158);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: @light-blue;
     height: 50px;
+    .menu-btn{
+        display: none;
+        margin-right: 10px;
+        width: 80px;
+        height: 40px;
+        border: none;
+        background: @tube-blue;
+        color: whitesmoke;
+        border-radius: 5px;
+    }
     .menu-box{
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 70%;
         height: 100%;
         color: white;
@@ -13,8 +31,45 @@
             align-items: center;
             &:hover, &.active{
                 cursor: pointer;
-                background: linear-gradient(to top, rgb(0,37,71), rgb(25,78,116));
+                background: @tube-blue;
             }
         }
     }
+    .mobile-menu{
+        background: @light-blue;
+        position: fixed;
+        z-index: 10;
+        width: 100%;
+        height: 120px;
+        top: 50px;
+        display: flex !important;
+        flex-direction: column;
+        div{
+            width: 100%;
+            height: 30px;
+            align-items: flex-start;
+        }
+    }
+}
+
+
+@media(max-width: 600px){
+    .header{
+        justify-content: flex-end;
+        .menu-btn{
+            display: flex !important;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+        }
+        .menu-box{
+            display: none;
+        }
+    }
+}
+
+.activeMenu{
+    background: none !important;
+    border: 2px solid whitesmoke !important;
+    color: whitesmoke !important;
 }

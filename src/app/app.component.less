@@ -2,6 +2,9 @@
     min-height: 100%;
 }
 .header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: white;
     font-size: 50px;
     font-weight: bold;
@@ -20,4 +23,17 @@
 }
 .content{
     flex-grow: 1;
+}
+
+@media(max-width: 600px){
+    .header{
+        display: none;
+    }
+    .menu{
+        position: fixed;
+        width: 100%;
+    }
+    .content{
+        margin-top: 50px;
+    }
 }

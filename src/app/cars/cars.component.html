@@ -1,14 +1,15 @@
 <div class="container-fluid">
     <div class="d-flex py-4">
-        <div class="filters" *ngIf="showFilters">
+        <div class="filters" [ngClass] = "{'mobile-filters' : showFilters}" *ngIf="this.allCars">
             <cars-filters [allCars]="this.allCars"
                           [cars]="cars"
                           (data)="update($event)">
             </cars-filters>
         </div>
+        <div class="filters-button" [ngClass] = "{'activeButt' : showFilters}" (click)="showFilters = !showFilters">Фильтры</div>
         <div class="cars-page">
             <div class="d-flex flex-column" *ngIf="cars">
-              <div class="d-flex justify-content-between align-items-center">
+              <div class="cars-header">
                 <form [formGroup] = "sortSelect">
                   <div class="form-group">
                     <label for="sorting">Выберите сортировку:</label>
@@ -22,12 +23,15 @@
                     </select>
                   </div>
                 </form>
-                <div class="d-flex justify-content-end align-items-center">Показывать на странице: 
-                  <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 3}" (click)="pageSize=3">3</button>
-                  <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 9}" (click)="pageSize=9">9</button>
-                  <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 12}" (click)="pageSize=12">12</button>
-                  <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 24}" (click)="pageSize=24">24</button>
-                  <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 36}" (click)="pageSize=36">36</button>
+                <div class="pager">
+                  <div>Показывать на странице:</div>
+                  <div>
+                    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 3}" (click)="pageSize=3">3</button>
+                    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 9}" (click)="pageSize=9">9</button>
+                    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 12}" (click)="pageSize=12">12</button>
+                    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 24}" (click)="pageSize=24">24</button>
+                    <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 36}" (click)="pageSize=36">36</button>
+                  </div>
                 </div>
               </div>
               <div class="flex-container" *ngIf="cars.length != 0">

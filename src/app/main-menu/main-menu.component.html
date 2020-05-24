@@ -1,8 +1,9 @@
-<div class="d-flex justify-content-center align-items-center header">
-    <div class="d-flex justify-content-center align-items-center menu-box">
-        <div routerLink="/home" [routerLinkActive]='["active"]'>Главная</div>
-        <div routerLink="/cars" [routerLinkActive]='["active"]'>Автомобили</div>
-        <div routerLink="/contacts" [routerLinkActive]='["active"]'>Контакты</div>
-        <div routerLink="/profile" [routerLinkActive]='["active"]'>Личный кабинет</div>
+<div class="header">
+    <div class="menu-box" [ngClass] = "{'mobile-menu' : showMenu}">
+        <div routerLink="/home" [routerLinkActive]='["active"]' (click)="showMenu = false">Главная</div>
+        <div routerLink="/cars" [routerLinkActive]='["active"]' (click)="showMenu = false">Автомобили</div>
+        <div routerLink="/contacts" [routerLinkActive]='["active"]' (click)="showMenu = false">Контакты</div>
+        <div routerLink="/profile" [routerLinkActive]='["active"]' (click)="showMenu = false">Личный кабинет</div>
     </div>
+    <div class="menu-btn" [ngClass] = "{'activeMenu' : showMenu}" (click)="showMenu = !showMenu">Меню</div>
 </div>

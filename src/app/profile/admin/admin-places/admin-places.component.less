@@ -4,6 +4,12 @@
     text-decoration: underline;
 }
 
+.pager{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 .place{
     display: flex;
     justify-content: center;
@@ -13,5 +19,13 @@
     margin-top: 10px;
     &:hover{
         cursor: pointer;
+    }
+}
+
+@media(max-width: 600px){
+    .pager{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 }

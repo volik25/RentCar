@@ -69,7 +69,6 @@ export class CarsComponent implements OnInit {
       this.cars = cars;
       this.allCars = cars;
       this.sortCars = cars;
-      this.showFilters = true;
       this.sortSelect.get('sorting').setValue('A-Z');
       this.loadingService.removeSubscription(subscription);
     })
@@ -77,10 +76,14 @@ export class CarsComponent implements OnInit {
   }
 
   update(data){
-    if (data == 'reset') this.loadCars();
+    if (data == 'reset') {
+      this.loadCars();
+      this.showFilters = false;
+    }
     else {
       this.cars = data;
       this.sortCars = data.sort();
+      this.showFilters = false;
     };
   }
 

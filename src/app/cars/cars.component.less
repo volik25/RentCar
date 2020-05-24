@@ -4,7 +4,70 @@
 }
 .cars-page{
     width: 100%;
+    .cars-header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .pager{
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+    }
     .active{
         text-decoration: underline;
     }
+}
+
+.filters-button{
+    display: none;
+}
+
+.mobile-filters{
+    background: @form-gray;
+    position: fixed;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    width: 100%;
+    top: 50px;
+    left: 0px;
+    z-index: 9;
+    display: flex !important;
+}
+
+@media(max-width: 600px){
+    .filters{
+        display: none;
+    }
+    .filters-button{
+        top: 5px;
+        left: 10px;
+        padding: 5px;
+        width: 80px;
+        height: 40px;
+        z-index: 10;
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        background: @tube-blue;
+        color: whitesmoke;
+    }
+    .cars-header{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .pager{
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+.activeButt{
+    background: none;
+    border: 2px solid whitesmoke;
+    color: whitesmoke;
 }

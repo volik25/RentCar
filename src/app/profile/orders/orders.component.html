@@ -1,18 +1,23 @@
 <div class="d-flex flex-column" *ngIf="orders">
-  <div class="d-flex justify-content-between align-items-center mb-2">
+  <div class="pager mb-2">
     <div *ngIf="isAdmin" class="form-check ml-2" [formGroup]="forciblyStatuses">
       <input type="checkbox" class="form-check-input" id="status" formControlName="statusCheck">
       <label class="form-check-label" for="status">Принудительная смена статусов</label>
     </div>
-    <div class="d-flex justify-content-end align-items-center" [ngClass]="{'w-100':!isAdmin}">Показывать на странице: 
-      <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 3}" (click)="pageSize=3">3</button>
-      <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 9}" (click)="pageSize=9">9</button>
-      <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 12}" (click)="pageSize=12">12</button>
-      <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 24}" (click)="pageSize=24">24</button>
-      <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 36}" (click)="pageSize=36">36</button>
+    <div class="pager-select" [ngClass]="{'w-100':!isAdmin}">
+      <div>
+        Показывать на странице: 
+      </div>
+      <div>
+        <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 3}" (click)="pageSize=3">3</button>
+        <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 9}" (click)="pageSize=9">9</button>
+        <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 12}" (click)="pageSize=12">12</button>
+        <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 24}" (click)="pageSize=24">24</button>
+        <button type="button" class="btn btn-link" [ngClass]="{'active':pageSize == 36}" (click)="pageSize=36">36</button>
+      </div>
     </div>
   </div>
-  <div class="d-flex justify-content-between align-items-center mb-2">
+  <div class="statuses mb-2">
     <button type="button" class="btn btn-link" [ngClass]="{'active':statuses == 1}" (click)="showOrders(1)">Оформленные</button>
     <button type="button" class="btn btn-link" [ngClass]="{'active':statuses == 2}" (click)="showOrders(2)">Активные</button>
     <button type="button" class="btn btn-link" [ngClass]="{'active':statuses == 3}" (click)="showOrders(3)">Выполненные</button>

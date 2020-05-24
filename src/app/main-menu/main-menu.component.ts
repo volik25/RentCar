@@ -11,6 +11,7 @@ import { User } from '../models/user';
   styleUrls: ['./main-menu.component.less']
 })
 export class MainMenuComponent implements OnInit, OnDestroy {
+  public showMenu: boolean = false;
   public user: User;
   private rxAlive: boolean = true;
   constructor(private api: ApiService, private loadingService: LoadingService, private auth: AuthService) {}

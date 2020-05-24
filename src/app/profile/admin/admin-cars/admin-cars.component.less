@@ -4,6 +4,12 @@
     text-decoration: underline;
 }
 
+.pager{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 .flex-container{
     display: flex;
     flex-wrap: wrap;
@@ -60,5 +66,13 @@
             justify-content: center;
             align-items: center;
         }
+    }
+}
+
+@media(max-width: 600px){
+    .pager{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 }
