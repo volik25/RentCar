@@ -105,8 +105,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
       switch (order.status) {
         case OrderStatus.Planned:
           if (today.after(order.dateFrom as NgbDate) && today.before(order.dateTo as NgbDate) ||
-              today.equals(order.dateFrom as NgbDate) &&
-              order.time < {hour: new Date().getHours(), minute: new Date().getMinutes(), second: 0}) {
+              today.equals(order.dateFrom as NgbDate)) {
             order.status = OrderStatus.Active;
             this.statusesChanged.push({id: order.id, status: order.status});
           }
@@ -125,8 +124,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
             this.statusesChanged.push({id: order.id, status: order.status});
           }
           if (today.after(order.dateFrom as NgbDate) && today.before(order.dateTo as NgbDate) ||
-              today.equals(order.dateFrom as NgbDate) &&
-              order.time < {hour: new Date().getHours(), minute: new Date().getMinutes(), second: 0}) {
+              today.equals(order.dateFrom as NgbDate)) {
             order.status = OrderStatus.Active;
             this.statusesChanged.push({id: order.id, status: order.status});
           }

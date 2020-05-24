@@ -173,7 +173,7 @@ export class StatusPipe implements PipeTransform {
             return "Оформлен";
         }
         case OrderStatus.Active: {
-            return "В работе";
+            return "Активен";
         }
         case OrderStatus.Canceled: {
             return "Отменен";

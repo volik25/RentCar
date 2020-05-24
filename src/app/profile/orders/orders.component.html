@@ -14,7 +14,7 @@
   </div>
   <div class="d-flex justify-content-between align-items-center mb-2">
     <button type="button" class="btn btn-link" [ngClass]="{'active':statuses == 1}" (click)="showOrders(1)">Оформленные</button>
-    <button type="button" class="btn btn-link" [ngClass]="{'active':statuses == 2}" (click)="showOrders(2)">В работе</button>
+    <button type="button" class="btn btn-link" [ngClass]="{'active':statuses == 2}" (click)="showOrders(2)">Активные</button>
     <button type="button" class="btn btn-link" [ngClass]="{'active':statuses == 3}" (click)="showOrders(3)">Выполненные</button>
     <button type="button" class="btn btn-link" [ngClass]="{'active':statuses == 4}" (click)="showOrders(4)">Отмененные</button>
   </div>
