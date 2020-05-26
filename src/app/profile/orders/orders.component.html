@@ -66,14 +66,19 @@
       </div>
     </div>
   </div>
-  <div class="d-flex flex-column justify-content-center align-items-center py-3">
+  <div class="d-flex flex-column justify-content-center align-items-center py-3" *ngIf="orders?.length">
     <button *ngIf="pageSize < orders.length" type="button" class="btn btn-light mb-2" (click)="pageSize = pageSize + 9">Показать ещё</button>
     <ngb-pagination [collectionSize]="orders.length" [(page)]="page" [maxSize]="5" [pageSize]="pageSize" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
   </div>
 </div>
-<div *ngIf="!orders?.length" class="d-flex flex-column justify-content-center align-items-center">
+<div *ngIf="!orders?.length && !isAdmin" class="d-flex flex-column justify-content-center align-items-center">
     <div>
         <h2>Вы ещё не сделали ни одного заказа</h2>
     </div>
     <button type="button" class="btn btn-link" routerLink = "/cars">К автомобилям</button>
+</div>
+<div *ngIf="!orders?.length && isAdmin" class="d-flex flex-column justify-content-center align-items-center my-4">
+  <div>
+      <h2>Заказов нет</h2>
+  </div>
 </div>

@@ -112,7 +112,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
           break;
         case OrderStatus.Active:
           if (today.after(order.dateFrom as NgbDate) && today.after(order.dateTo as NgbDate) ||
-              today.equals(order.dateTo as NgbDate)) {
+              today.equals(order.dateTo as NgbDate) || !order.dateTo && today.equals(order.dateFrom as NgbDate)) {
             order.status = OrderStatus.Complete;
             this.statusesChanged.push({id: order.id, status: order.status});
           }
