@@ -32,6 +32,8 @@ import { EditUserComponent } from './profile/user/edit-user/edit-user.component'
 import { CarInfoComponent } from './cars/car-info/car-info.component';
 import { CarOrderComponent } from './cars/car-order/car-order.component';
 import { AuthModalComponent } from './profile/auth-modal/auth-modal.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { notFoundService } from './services/notFound.service';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,8 @@ import { AuthModalComponent } from './profile/auth-modal/auth-modal.component';
     StatusPipe,
     CarInfoComponent,
     CarOrderComponent,
-    AuthModalComponent
+    AuthModalComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +85,7 @@ import { AuthModalComponent } from './profile/auth-modal/auth-modal.component';
     AdminSecurity,
     ApiService,
     AuthService,
+    notFoundService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

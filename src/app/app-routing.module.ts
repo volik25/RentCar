@@ -16,10 +16,12 @@ import { EditUserComponent } from './profile/user/edit-user/edit-user.component'
 import { CarInfoComponent } from './cars/car-info/car-info.component';
 import { CarOrderComponent } from './cars/car-order/car-order.component';
 import { AuthModalComponent } from './profile/auth-modal/auth-modal.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent, pathMatch: 'full'},
+  { path: '', redirectTo: 'home', pathMatch: 'full'},
+  { path: 'home', component: HomeComponent},
   { path: 'cars', component: CarsComponent},
   { path: 'edit-car', component: EditCarComponent},
   { path: 'edit-user', component: EditUserComponent},
@@ -37,6 +39,7 @@ const routes: Routes = [
       { path: 'admin-cars', component: AdminCarsComponent, canActivate: [AdminSecurity] },
       { path: 'admin-places', component: AdminPlacesComponent, canActivate: [AdminSecurity] },
     ]},
+  { path: '**', component: NotFoundComponent},
 ];
 
 @NgModule({
