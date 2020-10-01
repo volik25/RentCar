@@ -5,6 +5,8 @@ import { tap } from 'rxjs/internal/operators';
 import { User } from '../models/user';
 import { Order, UpdateOrder, CarDates } from '../models/order';
 import { NgbDate, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+import { Car } from '../models/car';
+import { isNull } from 'util';
 
 @Injectable()
 export class ApiService {
@@ -56,8 +58,64 @@ export class ApiService {
     return this.http.post<string>(`${this.baseUrl}?key=remove-car`, car);
   }
 
-  public getCars(lim:number = null): Observable<any> {
+  public getFilteredCars(params:Car): Observable<any> {
+    let request = '';
+    for (const key in params) {
+      if (Object.prototype.hasOwnProperty.call(params, key)) {
+        const value = params[key];
+        if (!isNull(value)) {
+          switch (key) {
+            case 'minPrice':
+              request += `&minPrice=${value}`;
+              break;
+            case 'maxPrice':
+              request += `&maxPrice=${value}`;
+              break;
+            case 'AC':
+              request += `&AC=${value}`;
+              break;
+            case 'bodyType':
+              request += `&bodyType=${value}`;
+              break;
+            case 'createYear':
+              request += `&createYear=${value}`;
+              break;
+            case 'doors':
+              request += `&doors=${value}`;
+              break;
+            case 'fuelType':
+              request += `&fuelType=${value}`;
+              break;
+            case 'hasAirbags':
+              request += `&hasAirbags=${value}`;
+              break;
+            case 'kpp':
+              request += `&kpp=${value}`;
+              break;
+            case 'sits':
+              request += `&sits=${value}`;
+              break;
+            case 'steering':
+              request += `&steering=${value}`;
+              break;
+            case 'wheelDrive':
+              request += `&wheelDrive=${value}`;
+              break;
+            default:
+              break;
+          }
+        }
+      }
+    }
+    return this.http.get<any>(`${this.baseUrl}?key=get-filtered-cars${request}`);
+  }
+
+  public getCars(lim?:number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}?key=get-cars&limit=${lim}`);
+  }
+
+  public getFilters(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=get-filters`);
   }
 
   public addCar(data): Observable<any> {

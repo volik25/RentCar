@@ -1,8 +1,9 @@
 <div class="container-fluid">
     <div class="d-flex py-4">
-        <div class="filters" [ngClass] = "{'mobile-filters' : showFilters}" *ngIf="this.allCars">
-            <cars-filters [allCars]="this.allCars"
+        <div class="filters" [ngClass] = "{'mobile-filters' : showFilters}" *ngIf="this.filters">
+            <cars-filters [filters]="this.filters"
                           [cars]="cars"
+                          [params]="params"
                           (data)="update($event)">
             </cars-filters>
         </div>

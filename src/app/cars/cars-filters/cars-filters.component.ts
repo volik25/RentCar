@@ -5,7 +5,6 @@ import { Car } from 'src/app/models/car';
 import { ApiService } from 'src/app/services/api.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { bodyOptions, fuelOptions, kppOptions, acOptions, wdOptions, steeringOptions } from 'src/app/models/options';
-import { AC } from 'src/app/models/enums';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,7 +14,8 @@ import { Subscription } from 'rxjs';
 })
 export class CarsFiltersComponent implements OnInit {
   @Input() cars:Car[];
-  @Input() allCars: Car[];
+  @Input() filters: any;
+  @Input() params: any;
   @Output() data: EventEmitter<any> = new EventEmitter<any>();
   filteredCars: Car[] = [];
   subscription: Subscription = new Subscription;
@@ -42,7 +42,17 @@ export class CarsFiltersComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.setOptions(this.cars);
+    this.setOptions(this.filters);
+    if (!this.isEmpty(this.params)) {
+      this.filtersForm.patchValue(this.params);
+      if (this.params.hasAirbags) {
+        this.filtersForm.get('hasAirbags').setValue(this.params.hasAirbags === 'true');
+      }
+      if (this.params.AC) {
+        this.filtersForm.get('AC').setValue(this.params.AC === 'true');
+      }
+      this.filtersForm.get('price').setValue([this.params.minPrice, this.params.maxPrice]);
+    }
   }
 
   initForm(){
@@ -61,21 +71,14 @@ export class CarsFiltersComponent implements OnInit {
     });
   }
 
-  setOptions(carArray){
-    carArray.forEach(car => {
-      if (car.price > this.maxValue) this.maxValue = car.price;
-      if (car.price < this.minValue) this.minValue = car.price;
-      else if (this.minValue == 0) this.minValue = this.maxValue;
-      if (!this.doorsCount.includes(car.doors))this.doorsCount.push(car.doors);
-      if (!this.sitsCount.includes(car.sits)) this.sitsCount.push(car.sits);
-      if (!this.years.includes(car.createYear)) this.years.push(car.createYear);
-    });
-    if (this.doorsCount.length > 1) this.doorsCount.sort();
-    if (this.sitsCount.length > 1) this.sitsCount.sort();
-    if (this.years.length > 1) this.years.sort();
+  setOptions(filters){
+    this.maxValue = filters.price[1];
+    this.minValue = filters.price[0];
+    this.doorsCount = filters.doors;
+    this.sitsCount = filters.sits;
+    this.years = filters.createYear;
     this.options.floor = this.minValue;
     this.options.ceil = this.maxValue;
-
     this.filtersForm.get('price').setValue([this.minValue, this.maxValue]);
     this.options.translate = (value: number, label: LabelType): string => {
       switch (label) {
@@ -89,49 +92,20 @@ export class CarsFiltersComponent implements OnInit {
     }
   }
 
-  refresh(){
-    this.planFilter = 0;
-    this.filteredCars = [];
-    const params = this.filtersForm.getRawValue();
-    for (const i in params) {
-      const filter = params[i];
-      if (filter == null) {
-        delete params[i];
-      }
-      else{
-        this.planFilter++;
-      }
-    }
-    this.allCars.forEach(car => {
-      this.factFilter = 0;
-      for (const propKey in car) {
-        const property = car[propKey];
-        for (const paramKey in params) {
-          const filter = params[paramKey];
-          if (paramKey == 'hasAirbags' && propKey == 'airbags') {
-            if (property && filter == true) this.factFilter++;
-            if (!property && filter == false) this.factFilter++;
-            else break;
-          }
-          if (paramKey == propKey){
-            if (paramKey == 'price' && propKey == 'price') {
-              if (property>=filter[0] && property<=filter[1]) this.factFilter++;
-              else break;
-            }
-            if (propKey == 'AC') {
-              if (filter == false && property == AC.None) this.factFilter++;
-              if (filter == true && property != AC.None) this.factFilter++;
-              else break;
-            }
-            else if (property == filter) this.factFilter++;
-          }
+  setFilters(){
+    let params = this.filtersForm.getRawValue();
+    for (const key in params) {
+      if (Object.prototype.hasOwnProperty.call(params, key)) {
+        const value = params[key];
+        if (key == 'price') {
+          params.minPrice = value[0];
+          params.maxPrice = value[1]
+          delete params[key];
+          break;
         }
       }
-      if(this.planFilter == this.factFilter){
-        this.filteredCars.push(car);
-      }
-    });
-    this.data.emit(this.filteredCars);
+    }
+    this.data.emit(params);
   }
 
   reset(){
@@ -147,5 +121,12 @@ export class CarsFiltersComponent implements OnInit {
         else this.filtersForm.get(controlName).reset();
       }
     }
+  }
+
+  isEmpty(obj) {
+    for (let key in obj) {
+      return false;
+    }
+    return true;
   }
 }

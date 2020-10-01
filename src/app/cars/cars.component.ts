@@ -7,6 +7,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CarInfoComponent } from './car-info/car-info.component';
 import { CarOrderComponent } from './car-order/car-order.component';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cars',
@@ -15,21 +17,37 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class CarsComponent implements OnInit {
   cars: Car[];
-  allCars: Car[];
-  sortCars: Car[];
+  filters: any;
+  params: any;
   showFilters = false;
   closeResult: string;
   public page = 1;
   public pageSize = 9;
   sortSelect: FormGroup;
-  constructor(private api: ApiService, private loadingService: LoadingService, private ms:NgbModal, private fb: FormBuilder) {
+  public querySubscription: Subscription;
+  constructor(private api: ApiService,
+              private loadingService: LoadingService,
+              private ms:NgbModal,
+              private fb: FormBuilder,
+              private router: Router,
+              private route: ActivatedRoute) {
     this.sortSelect = this.fb.group({
       sorting: ['A-Z']
-    })
+    });
+
+    this.querySubscription = this.route.queryParams.subscribe(
+      (queryParam: any) => {
+        this.params = queryParam;
+        if (this.isEmpty(this.params)) {
+          this.loadCars();
+        } else {
+          this.getFilteredCars();
+        }
+      }
+    );
   }
 
   ngOnInit(): void {
-    this.loadCars();
     this.sortSelect.get('sorting').valueChanges.subscribe((value) => {
       if (this.cars.length > 0) {
         switch (value) {
@@ -65,10 +83,21 @@ export class CarsComponent implements OnInit {
   }
 
   loadCars(){
-    const subscription = this.api.getCars().subscribe(cars => {
+    const requests = [this.api.getCars(), this.api.getFilters()];
+    const subscription = forkJoin(requests).subscribe(([cars, filters]) => {
       this.cars = cars;
-      this.allCars = cars;
-      this.sortCars = cars;
+      this.filters = filters;
+      this.sortSelect.get('sorting').setValue('A-Z');
+      this.loadingService.removeSubscription(subscription);
+    })
+    this.loadingService.addSubscription(subscription);
+  }
+
+  getFilteredCars(){
+    const requests = [this.api.getFilteredCars(this.params), this.api.getFilters()];
+    const subscription = forkJoin(requests).subscribe(([cars, filters]) => {
+      this.cars = cars;
+      this.filters = filters;
       this.sortSelect.get('sorting').setValue('A-Z');
       this.loadingService.removeSubscription(subscription);
     })
@@ -78,12 +107,11 @@ export class CarsComponent implements OnInit {
   update(data){
     if (data == 'reset') {
       this.loadCars();
+      this.router.navigate(['/cars']);
       this.showFilters = false;
     }
     else {
-      this.cars = data;
-      this.sortCars = data.sort();
-      this.showFilters = false;
+      this.router.navigate(['/cars'], {queryParams: data});
     };
   }
 
@@ -103,4 +131,12 @@ export class CarsComponent implements OnInit {
       });
     }
   }
+
+  isEmpty(obj) {
+    for (let key in obj) {
+      return false;
+    }
+    return true;
+  }
+
 }

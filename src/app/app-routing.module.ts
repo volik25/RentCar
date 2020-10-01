@@ -19,8 +19,7 @@ import { AuthModalComponent } from './profile/auth-modal/auth-modal.component';
 
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, pathMatch: 'full'},
   { path: 'cars', component: CarsComponent},
   { path: 'edit-car', component: EditCarComponent},
   { path: 'edit-user', component: EditUserComponent},
