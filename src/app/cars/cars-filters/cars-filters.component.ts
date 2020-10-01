@@ -117,7 +117,7 @@ export class CarsFiltersComponent implements OnInit {
     const form = this.filtersForm.getRawValue();
     for (const controlName in form) {
       if (controlName == control) {
-        if (control == 'price') this.filtersForm.reset({price: [this.options.floor, this.options.ceil]});
+        if (control == 'price') this.filtersForm.get('price').setValue([this.options.floor, this.options.ceil]);
         else this.filtersForm.get(controlName).reset();
       }
     }
