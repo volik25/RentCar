@@ -32,13 +32,8 @@ export class HomeComponent implements OnInit {
     this.loadingService.addSubscription(subscription);
   }
 
-  toCar(car){
-    this.router.navigate(['/cars']);
-    const modal = this.ms.open(CarInfoComponent, {centered: true, size: 'lg'});
-      modal.componentInstance.car = car;
-      modal.result.then((res)=>{
-        this.closeResult = res;
-      });
+  toCar(id){
+    this.router.navigate(['/cars', id]);
   }
 
   public ngbDateToString(date: NgbDate): string {

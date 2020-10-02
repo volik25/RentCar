@@ -1,7 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Car } from 'src/app/models/car';
-import { CarOrderComponent } from '../car-order/car-order.component';
+import { ApiService } from 'src/app/services/api.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'car-info',
@@ -9,22 +11,35 @@ import { CarOrderComponent } from '../car-order/car-order.component';
   styleUrls: ['./car-info.component.less']
 })
 export class CarInfoComponent implements OnInit {
-  @Input() car: Car;
-  constructor(private activeModal: NgbActiveModal, private ms: NgbModal) { }
+  order: boolean = false;
+  cars: Car[];
+  car: Car;
+  carId: number;
+  params: any;
+  private routeSubscription: Subscription;
+  private paramSubscription: Subscription;
+  constructor(private route: ActivatedRoute,
+              public router: Router,
+              private api: ApiService,
+              public loadingService: LoadingService) {
+                this.routeSubscription = route.params.subscribe(params => {
+                  this.carId=params['id'];
+                  this.params = JSON.parse(sessionStorage.getItem('queryParams'));
+                  this.cars = JSON.parse(sessionStorage.getItem('cars'));
+                  sessionStorage.removeItem('queryParams');
+                  sessionStorage.removeItem('cars');
+                });
+              }
 
   ngOnInit() {
+    const sub = this.api.getCar(this.carId).subscribe(car => {
+      this.car = car;
+      this.loadingService.removeSubscription(sub);
+    })
+    this.loadingService.addSubscription(sub);
   }
 
-  close(){
-    this.activeModal.close();
+  goBack(){
+    this.router.navigate(['/cars'], {queryParams: this.params});
   }
-
-  order(){
-    const modal = this.ms.open(CarOrderComponent, {centered: true, size: 'lg'});
-      modal.componentInstance.car = this.car;
-      modal.result.then((res)=>{
-        this.activeModal.close();
-      });
-  }
-
 }

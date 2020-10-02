@@ -60,7 +60,7 @@
               <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
             </div>
             <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
-            <button type="button" class="btn btn-info btn-block" (click) = "toCar(car)">К автомобилю</button>
+            <button type="button" class="btn btn-info btn-block" (click) = "toCar(car.id)">К автомобилю</button>
           </div>
         </div>
       </div>
@@ -82,7 +82,7 @@
                 <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
               </div>
               <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
-              <button type="button" class="btn btn-info btn-block" (click) = "toCar(car)">К автомобилю</button>
+              <button type="button" class="btn btn-info btn-block" (click) = "toCar(car.id)">К автомобилю</button>
             </div>
         </div>
       </div>

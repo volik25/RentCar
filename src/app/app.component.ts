@@ -10,7 +10,9 @@ import { notFoundService } from './services/notFound.service';
 export class AppComponent {
   title = 'RentCar';
   notFound: boolean;
-  constructor(public loadingService: LoadingService, private cdRef: ChangeDetectorRef, public nf: notFoundService) {
+  constructor(public loadingService: LoadingService,
+              private cdRef: ChangeDetectorRef,
+              public nf: notFoundService) {
     loadingService.changeDetectorRef = cdRef;
     nf.getNotFound().subscribe(notFound => {
       this.notFound = notFound;

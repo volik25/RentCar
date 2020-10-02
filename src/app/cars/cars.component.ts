@@ -115,21 +115,18 @@ export class CarsComponent implements OnInit {
     };
   }
 
-  modalOpen(car, param){
-    if (param == 'info') {
-      const modal = this.ms.open(CarInfoComponent, {centered: true, size: 'lg'});
-      modal.componentInstance.car = car;
-      modal.result.then((res)=>{
-        this.closeResult = res;
-      });
-    }
-    if (param == 'order') {
-      const modal = this.ms.open(CarOrderComponent, {centered: true, size: 'lg'});
-      modal.componentInstance.car = car;
-      modal.result.then((res)=>{
-        this.closeResult = res;
-      });
-    }
+  infoOpen(id){
+    this.router.navigate(['/cars', id]);
+    sessionStorage.setItem('queryParams', JSON.stringify(this.params));
+    sessionStorage.setItem('cars', JSON.stringify(this.cars));
+  }
+
+  modalOpen(car){
+    const modal = this.ms.open(CarOrderComponent, {centered: true, size: 'lg'});
+    modal.componentInstance.car = car;
+    modal.result.then((res)=>{
+      this.closeResult = res;
+    });
   }
 
   isEmpty(obj) {

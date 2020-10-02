@@ -1,4 +1,4 @@
-<div class="flex-container">
+<div class="container" *ngIf="car">
     <div class="row">
         <div class="col-8 d-flex justify-content-center align-items-center">
             <h2 class="mt-3">
@@ -11,8 +11,8 @@
         <div class="col-3 d-flex align-items-center justify-content-center mt-3">
             <h2>{{car.price}}₽</h2>&nbsp;<small>в сутки</small>
         </div>
-        <div class="col-1 d-flex align-items-start justify-content-end">
-            <button type="button" class="btn dismiss-img" (click)="close()"><i class="fas fa-times"></i></button>
+        <div class="col-1 d-flex align-items-center justify-content-end mt-3">
+            <button class="btn btn-secondary" (click) = 'goBack()'>Назад</button>
         </div>
     </div>
     <div class="card my-3">
@@ -101,6 +101,6 @@
         </div>
     </div>
     <div class="d-flex justify-content-center align-items-center mb-3 btn-order">
-        <button class="btn btn-info btn-block" (click)="order()">Забронировать</button>
+        <button class="btn btn-info btn-block">Забронировать</button>
     </div>
 </div>

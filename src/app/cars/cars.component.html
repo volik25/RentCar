@@ -52,8 +52,8 @@
                       <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
                     </div>
                     <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
-                    <button type="button" class="btn btn-link btn-block" (click) = "modalOpen(car, 'info')">Карточка автомобиля</button>
-                    <button type="button" class="btn btn-info btn-block" (click) = "modalOpen(car, 'order')">Забронировать</button>
+                    <button type="button" class="btn btn-link btn-block" (click) = 'infoOpen(car.id)'>Карточка автомобиля</button>
+                    <button type="button" class="btn btn-info btn-block" (click) = "modalOpen(car)">Забронировать</button>
                   </div>
                 </div>
               </div>

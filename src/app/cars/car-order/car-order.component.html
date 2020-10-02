@@ -27,7 +27,7 @@
                         [ngClass] = "{'notValid' : isMinTime}"
                         [readonlyInputs]="true"
                         [spinners]="true"
-                        formControlName="time"
+                        formControlName="deliveryTime"
                         [(ngModel)] = "time"
                         [minuteStep]="30"></ngb-timepicker>
                     <small *ngIf="isMinTime">Минимальное время подачи -  {{minTime.hour}}:{{minTime.minute === 0 ? '00' : minTime.minute}}</small>

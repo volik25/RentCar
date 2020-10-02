@@ -25,8 +25,9 @@ const routes: Routes = [
   { path: 'cars', component: CarsComponent},
   { path: 'edit-car', component: EditCarComponent},
   { path: 'edit-user', component: EditUserComponent},
-  { path: 'car-info', component: CarInfoComponent},
-  { path: 'car-order', component: CarOrderComponent},
+  { path: 'cars/:id', component: CarInfoComponent, children: [
+    { path: 'order', component: CarOrderComponent},
+  ]},
   { path: 'contacts', component: ContactsComponent},
   { path: 'sign-in', component: SignInComponent},
   { path: 'sign-up', component: SignUpComponent},

@@ -79,7 +79,7 @@ export class CarOrderComponent implements OnInit {
             },[Validators.required]
           ],
           place: [null, Validators.required],
-          time: [{hour: 12, minute: 0, second: 0}, Validators.required],
+          deliveryTime: [{hour: 12, minute: 0, second: 0}, Validators.required],
           carId: null,
           sum: null,
         }),
@@ -108,7 +108,7 @@ export class CarOrderComponent implements OnInit {
 
       if (this.order) {
         this.orderForm.get('order').get('period').setValue({fromDate: this.order.dateFrom, toDate: this.order.dateTo});
-        this.orderForm.get('order').get('time').setValue(this.order.time);
+        this.orderForm.get('order').get('deliveryTime').setValue(this.order.time);
         this.time = this.order.time as NgbTimeStruct;
         this.orderForm.get('order').get('place').setValue(this.order.placeId);
       }
@@ -127,8 +127,8 @@ export class CarOrderComponent implements OnInit {
     this.period = this.orderForm.get('order').get('period') as FormControl;
 
     this.orderForm.get('order').valueChanges.subscribe((value) => {
-      if (value.time && this.time && this.fromDate.equals(this.calendar.getToday())) {
-        if (value.time.hour < this.minTime.hour || value.time.hour == this.minTime.hour && value.time.minute < this.minTime.minute) {
+      if (value.deliveryTime && this.time && this.fromDate.equals(this.calendar.getToday())) {
+        if (value.deliveryTime.hour < this.minTime.hour || value.deliveryTime.hour == this.minTime.hour && value.deliveryTime.minute < this.minTime.minute) {
           this.isMinTime = true;
         }
         else {
@@ -187,7 +187,7 @@ export class CarOrderComponent implements OnInit {
       placeId: orderFormValue.place,
       dateFrom: orderFormValue.period.fromDate,
       dateTo: orderFormValue.period.toDate,
-      time: orderFormValue.time,
+      time: orderFormValue.deliveryTime,
       orderSum: this.car.price * this.rangeDays,
     };
 
@@ -231,7 +231,7 @@ export class CarOrderComponent implements OnInit {
       this.setMaxDate(date);
     }
     if (!this.fromDate.equals(this.calendar.getToday()))
-    this.orderForm.get('order').get('time').setValue({hour: 12, minute: 0, second: 0});
+    this.orderForm.get('order').get('deliveryTime').setValue({hour: 12, minute: 0, second: 0});
   }
 
   setMaxDate(date: NgbDate) {
@@ -260,7 +260,7 @@ export class CarOrderComponent implements OnInit {
       this.time = {hour: new Date().getHours() + 1, minute: 30, second: 0};
       this.minTime = this.time;
     }
-    this.orderForm.get('order').get('time').setValue(this.time);
+    this.orderForm.get('order').get('deliveryTime').setValue(this.time);
   }
 
   isHovered(date: NgbDate) {
