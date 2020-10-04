@@ -1,12 +1,16 @@
 <div class="d-flex flex-column">
     <div class="header" *ngIf="!notFound">
-        RentCar - наши машины, Ваш комфорт!
+        Cars4Rent - наши машины, Ваш комфорт!
     </div>
     <div class="menu" *ngIf="!notFound">
         <main-menu></main-menu>
     </div>
+    <div class="scrollbar" *ngIf="!notFound"><div class="thumb" [style.width.%] = 'percentScrolled'></div></div>
     <div class="content">
         <router-outlet></router-outlet>
+    </div>
+    <div class="footer" *ngIf="!notFound && !loadingService.isLoading">
+        <footer></footer>
     </div>
 </div>
 <loader *ngIf="loadingService.isLoading"></loader>

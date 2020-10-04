@@ -115,7 +115,7 @@ export class CarsComponent implements OnInit {
     };
   }
 
-  infoOpen(id){
+  toCar(id){
     this.router.navigate(['/cars', id]);
     sessionStorage.setItem('queryParams', JSON.stringify(this.params));
     sessionStorage.setItem('cars', JSON.stringify(this.cars));

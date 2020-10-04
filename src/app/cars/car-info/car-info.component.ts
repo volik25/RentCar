@@ -25,9 +25,7 @@ export class CarInfoComponent implements OnInit {
                 this.routeSubscription = route.params.subscribe(params => {
                   this.carId=params['id'];
                   this.params = JSON.parse(sessionStorage.getItem('queryParams'));
-                  this.cars = JSON.parse(sessionStorage.getItem('cars'));
-                  sessionStorage.removeItem('queryParams');
-                  sessionStorage.removeItem('cars');
+                  this.carAction(this.carId, 'remove');
                 });
               }
 
@@ -41,5 +39,32 @@ export class CarInfoComponent implements OnInit {
 
   goBack(){
     this.router.navigate(['/cars'], {queryParams: this.params});
+    sessionStorage.removeItem('queryParams');
+    sessionStorage.removeItem('cars');
+  }
+
+  carAction(id, param){
+    this.cars = JSON.parse(sessionStorage.getItem('cars'));
+    if (this.cars.length > 5) {
+      this.cars = this.cars.slice(0, 5);
+    }
+    let i = 0;
+    this.cars.forEach(car => {
+      if (car.id == id) {
+        switch (param) {
+          case 'update':
+            this.car = car;
+            this.carAction(id, 'remove');
+            break;
+          case 'remove':
+            this.cars.splice(i, 1);
+            break;
+          default:
+            break;
+        }
+        return;
+      }
+      i++;
+    })
   }
 }

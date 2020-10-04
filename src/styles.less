@@ -1,3 +1,15 @@
+@import 'colors.less';
+
+body{
+  &::-webkit-scrollbar{
+      display: none;
+  }
+}
+
+.border-dot-bottom{
+  border-bottom: 2px dotted @blue;
+}
+
 @media (max-width: 600px) {
     .ngb-dp-month:nth-child(2){
       display: none;

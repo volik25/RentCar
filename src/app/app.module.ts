@@ -34,6 +34,7 @@ import { CarOrderComponent } from './cars/car-order/car-order.component';
 import { AuthModalComponent } from './profile/auth-modal/auth-modal.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { notFoundService } from './services/notFound.service';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { notFoundService } from './services/notFound.service';
     CarInfoComponent,
     CarOrderComponent,
     AuthModalComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

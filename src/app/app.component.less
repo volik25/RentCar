@@ -1,3 +1,22 @@
+@import '../colors.less';
+
+.scrollbar{
+    height: 5px;
+    background-color: @blue;
+    position: sticky;
+    top: 50px;
+    z-index: 10;
+    .thumb{
+      display: block;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      height: 5px;
+      width: 0;
+      background-color: @lighter-blue;
+      z-index: 11;
+    }
+  }
+
 .d-flex{
     min-height: 100%;
 }
