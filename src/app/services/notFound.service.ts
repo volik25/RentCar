@@ -1,5 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class notFoundService{
     private notFound = new BehaviorSubject(false);
 

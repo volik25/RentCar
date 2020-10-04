@@ -14,8 +14,8 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
   ],
 })
 export class FilesManagerComponent implements OnInit, ControlValueAccessor {
-  @ViewChild('inputFileContainer', {static:false}) private inputFileContainer: ElementRef<HTMLDivElement>;
-  @ViewChild('image', {static:false}) private image: ElementRef<HTMLImageElement>;
+  @ViewChild('inputFileContainer') private inputFileContainer: ElementRef<HTMLDivElement>;
+  @ViewChild('image') private image: ElementRef<HTMLImageElement>;
 
   public value: File;
   public disabled: boolean;
