@@ -5,7 +5,7 @@
     <div class="menu" *ngIf="!notFound">
         <main-menu></main-menu>
     </div>
-    <div class="scrollbar" *ngIf="!notFound"><div class="thumb" [style.width.%] = 'percentScrolled'></div></div>
+    <div #scrollbar class="scrollbar" *ngIf="!notFound"><div #thumb class="thumb" [style.width.%] = 'percentScrolled'></div></div>
     <div class="content">
         <router-outlet></router-outlet>
     </div>
