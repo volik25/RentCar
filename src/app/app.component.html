@@ -5,7 +5,10 @@
     <div class="menu" *ngIf="!notFound">
         <main-menu></main-menu>
     </div>
-    <div #scrollbar class="scrollbar" *ngIf="!notFound"><div #thumb class="thumb" [style.width.%] = 'percentScrolled'></div></div>
+    <div class="scroll" *ngIf="!notFound">
+        <prog-scroll [scrollColor]="'rgb(0,37,71)'"
+                     [thumbColor]="'rgb(141,180,207)'"></prog-scroll>
+    </div>
     <div class="content">
         <router-outlet></router-outlet>
     </div>

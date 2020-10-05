@@ -35,6 +35,7 @@ import { AuthModalComponent } from './profile/auth-modal/auth-modal.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { notFoundService } from './services/notFound.service';
 import { FooterComponent } from './footer/footer.component';
+import { ProgScrollComponent } from './prog-scroll/prog-scroll.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { FooterComponent } from './footer/footer.component';
     CarOrderComponent,
     AuthModalComponent,
     NotFoundComponent,
-    FooterComponent
+    FooterComponent,
+    ProgScrollComponent
   ],
   imports: [
     BrowserModule,

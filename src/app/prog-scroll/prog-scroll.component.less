@@ -1,0 +1,17 @@
+.scrollbar{
+    background-color: blue;
+    .thumb{
+      display: block;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      height: 5px;
+      width: 0;
+      background-color: yellowgreen;
+    }
+    &:hover{
+        cursor: pointer;
+        .thumb{
+            height: 15px;
+        }
+    }
+}
