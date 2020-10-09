@@ -12,7 +12,7 @@
             </div>
             <div class="d-flex flex-column justify-content-center align-items-center">
               <b>Дата аренды: </b>
-              {{ngbDateToString(order.dateFrom)}} - {{ngbDateToString(order.dateTo)}}
+              {{ngbDateToString(order.dateFrom)}}{{ngbDateToString(order.dateTo)? ' - ' + ngbDateToString(order.dateTo):''}}
             </div>
             <div class="d-flex flex-column justify-content-center align-items-center">
               <b>Время подачи: </b>

@@ -1,9 +1,18 @@
 <div class="header">
-    <div class="menu-box" [ngClass] = "{'mobile-menu' : showMenu}">
-        <div routerLink="/home" [routerLinkActive]='["active"]' (click)="showMenu = false">Главная</div>
-        <div routerLink="/cars" [routerLinkActive]='["active"]' (click)="showMenu = false">Автомобили</div>
-        <div routerLink="/contacts" [routerLinkActive]='["active"]' (click)="showMenu = false">Контакты</div>
-        <div routerLink="/profile" [routerLinkActive]='["active"]' (click)="showMenu = false">Личный кабинет</div>
+    <div>
+        <div class="menu-btn" [ngClass] = "{'activeMenu' : showMenu}" (click)="showMenu = !showMenu">Меню</div>
     </div>
-    <div class="menu-btn" [ngClass] = "{'activeMenu' : showMenu}" (click)="showMenu = !showMenu">Меню</div>
+    <div>
+        <div class="menu-box" [ngClass] = "{'mobile-menu' : showMenu}">
+            <div routerLink="/home" [routerLinkActive]='["active"]' (click)="showMenu = false">Главная</div>
+            <div routerLink="/cars" [routerLinkActive]='["active"]' (click)="showMenu = false">Автомобили</div>
+            <div routerLink="/contacts" [routerLinkActive]='["active"]' (click)="showMenu = false">Контакты</div>
+        </div>
+    </div>
+    <div>
+        <div class="personal-room" routerLink="/profile" [routerLinkActive]='["active"]' (click)="showMenu = false">
+            {{user? user.surname + ' ' + user.name : 'Личный кабинет'}}
+            <i class="far fa-user"></i>
+        </div>
+    </div>
 </div>

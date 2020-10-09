@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
 
   toCar(id){
     this.router.navigate(['/cars', id]);
+    sessionStorage.setItem('cars', JSON.stringify(this.hightCars.concat(this.lowCars)));
   }
 
   public ngbDateToString(date: NgbDate): string {
