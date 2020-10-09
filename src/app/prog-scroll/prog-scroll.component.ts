@@ -17,17 +17,17 @@ export class ProgScrollComponent implements OnInit, AfterViewInit {
   percentScrolled = 0;
   private isMouseDown = new BehaviorSubject(false);
 
-  constructor() {
-    window.addEventListener('scroll', () => {
-      let needToScroll = this.element.scrollHeight - window.innerHeight;
-      this.percentScrolled = pageYOffset/needToScroll*100;
-    });
-  }
+  constructor() { }
 
   ngOnInit(): void {
   }
 
   ngAfterViewInit(){
+    
+    window.addEventListener('scroll', () => {
+      let needToScroll = this.element.scrollHeight - window.innerHeight;
+      this.percentScrolled = pageYOffset/needToScroll*100;
+    });
     
     this.scrollbar.nativeElement.style.backgroundColor = this.scrollColor;
     this.thumb.nativeElement.style.backgroundColor = this.thumbColor;
@@ -49,8 +49,7 @@ export class ProgScrollComponent implements OnInit, AfterViewInit {
       this.getMouseDown().subscribe(isMouseDown => {
         if (isMouseDown) {
           window.getSelection().removeAllRanges();
-          let scrollPercent = event.pageX/window.innerWidth;
-          let scrolled = this.element.scrollHeight*scrollPercent;
+          let scrolled = ((this.element.scrollHeight - window.innerHeight)*event.pageX)/this.scrollbar.nativeElement.scrollWidth;
           scrollTo(0, parseInt(scrolled.toFixed(0)));
         }
       })
