@@ -1,10 +1,14 @@
 {
-  "name": "rent-car",
-  "version": "0.0.0",
+  "name": "cars-4-rent",
+  "version": "4.2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "relase": "node src/version.ts && ng build",
+    "update-major": "node src/version.ts --major",
+    "update-minor": "node src/version.ts --minor",
+    "update-patch": "node src/version.ts --patch",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
