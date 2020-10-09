@@ -16,12 +16,15 @@ if (userCommand) {
     switch (userCommand) {
         case '--major':
             package.version = majorVersion;
+            console.log('Мажорное обновление');
             break;
         case '--minor':
             package.version = minorVersion;
+            console.log('Минорное обновление');
             break;
         case '--patch':
             package.version = patchVersion;
+            console.log('Патч');
             break;
         default:
             console.log('Такой комманды не существует');
