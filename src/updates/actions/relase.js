@@ -1,5 +1,6 @@
 const cliSelect = require('cli-select');
 const package = require('./../../../package.json');
+const packageLock = require('../../../package-lock.json');
 const chalk = require('chalk');
 const fs = require(`fs`);
 const {
@@ -39,11 +40,17 @@ module.exports = {
         }).then((res) => {
             let newVersion = res.value.version;
             package.version = newVersion;
+            packageLock.version = newVersion;
             fs.writeFile('package.json', JSON.stringify(package), (err) => {
                 if (err) {
                     return console.error(`Что-то пошло не так. Обновление не удалось`);
                 }
-                return console.info(`Релиз-версия: ${package.version}`);
+                fs.writeFile('package-lock.json', JSON.stringify(packageLock), (err) => {
+                    if (err) {
+                        return console.error(`Что-то пошло не так. Обновление не удалось`);
+                    }
+                    return console.info(`Релиз-версия: ${package.version}\n`);
+                })
             });
         });
     }
