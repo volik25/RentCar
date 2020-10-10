@@ -17,6 +17,7 @@ import { CarInfoComponent } from './cars/car-info/car-info.component';
 import { CarOrderComponent } from './cars/car-order/car-order.component';
 import { AuthModalComponent } from './profile/auth-modal/auth-modal.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { UserComponent } from './profile/user/user.component';
 
 
 const routes: Routes = [
@@ -35,7 +36,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent,
     canActivate: [ProfileSecurity],
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'orders' },
+      { path: '', pathMatch: 'full', redirectTo: 'user' },
+      { path: 'user', component: UserComponent},
       { path: 'orders', component: OrdersComponent },
       { path: 'admin-cars', component: AdminCarsComponent, canActivate: [AdminSecurity] },
       { path: 'admin-places', component: AdminPlacesComponent, canActivate: [AdminSecurity] },

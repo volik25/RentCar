@@ -1,11 +1,12 @@
-<div class="container d-flex flex-column pt-3">
-    <user></user>
-    <div class="menu row my-3">
-        <div class="menu-item col" *ngFor="let tab of tabs" [routerLinkActive]='["active"]' [routerLink]='[tab.link]' >
-            {{tab.header}}
+<div class="container d-flex py-3 h-100">
+    <div>
+        <div class="menu d-flex flex-column m-3">
+            <div class="menu-item" *ngFor="let tab of tabs" [routerLinkActive]='["active"]' [routerLink]='[tab.link]' >
+                {{tab.header}}
+            </div>
         </div>
     </div>
-    <div class="content">
+    <div class="content w-100">
         <router-outlet></router-outlet>
     </div>
 </div>

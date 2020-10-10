@@ -2,7 +2,7 @@ const help = require(`./help`);
 const major = require(`./major`);
 const minor = require(`./minor`);
 const patch = require(`./patch`);
-const relase = require(`./relase`);
+const relase = require(`./release`);
 
 const Cli = {
   [help.name]: help,

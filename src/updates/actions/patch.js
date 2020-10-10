@@ -9,11 +9,11 @@ module.exports = {
         package.version = patch;
         packageLock.version = patch;
         console.log('Патч');
-        fs.writeFile('package.json', JSON.stringify(package), (err) => {
+        fs.writeFile('package.json', JSON.stringify(package, null, 2), (err) => {
             if (err) {
                 return console.error(`Что-то пошло не так. Обновление не удалось`);
             }
-            fs.writeFile('package-lock.json', JSON.stringify(packageLock), (err) => {
+            fs.writeFile('package-lock.json', JSON.stringify(packageLock, null, 2), (err) => {
                 if (err) {
                     return console.error(`Что-то пошло не так. Обновление не удалось`);
                 }
