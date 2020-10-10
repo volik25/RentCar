@@ -1,3 +1,4 @@
+import { NgbDate, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BodyTypes, FuelType, KPP, AC, SteeringType, WheelDrive } from './enums';
 
 export interface Car {
@@ -24,4 +25,15 @@ export interface Car {
   steering: SteeringType;
   trunkVolume: number;
   createYear?: number;
+}
+
+export interface Comment {
+  id?: number;
+  carId: number;
+  userId: number;
+  date: NgbDate;
+  time: NgbTimeStruct;
+  comment: string;
+  likes?: number;
+  dislikes?: number;
 }
