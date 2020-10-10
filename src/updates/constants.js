@@ -6,18 +6,19 @@ let minorVersion = `${versionArray[0]}.${versionArray[1]*1+1}.0`;
 let patchVersion = `${versionArray[0]}.${versionArray[1]}.${versionArray[2]*1+1}`;
 
 let messageText = `
-    Версии приложений спецификации semver.
+    Обновление версии приложения.
 
     Текущая версия: ${version}
 
         ${versionArray[0]} - мажорная версия. Если в обновлении какой-либо новый функционал заменил старый, сломав или удалив его,
             либо что-то было вырезано, необходимо повысить мажорную версию.
-            Новая версия: ${majorVersion} (--major)
+            Новая версия: ${majorVersion} (npm run update -- --major)
         ${versionArray[1]} - минорная версия. Если в обновлении добавлен новый функционал с полным сохранением старого.
-            Новая версия: ${minorVersion} (--minor)
+            Новая версия: ${minorVersion} (npm run update -- --minor)
         ${versionArray[2]} - патч-версия. Повышается в случае незначительных правок, например багФиксов.
-            Новая версия: ${patchVersion} (--patch)
-        Повтор данного сообщения: --help
+            Новая версия: ${patchVersion} (npm run update -- --patch)
+
+        Повтор данного сообщения: (npm run update -- --help)
     `
 
 module.exports = {

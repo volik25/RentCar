@@ -9,7 +9,16 @@ import { takeWhile } from 'rxjs/internal/operators';
   styleUrls: ['./profile.component.less']
 })
 export class ProfileComponent implements OnInit {
-  tabs = [{ header: 'История заказов', link: 'orders'}];
+  tabs = [
+    {
+      header: 'Данные пользователя',
+      link: 'user'
+    },
+    { 
+      header: 'История заказов',
+      link: 'orders'
+    }
+  ];
   rxAlive: boolean = true;
   constructor(private api: ApiService, private loadingService: LoadingService) { }
 
