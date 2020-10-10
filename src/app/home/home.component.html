@@ -3,9 +3,7 @@
     <h4 class="py-2">Несколько наших довольных клиентов:</h4>
     <div class="flex-container justify-content-around">
         <div class="car" *ngFor="let order of completeOrders">
-          <div class="image">
-            <img [src]="order.car.img"/>
-          </div>
+          <div class="image" [ngStyle]="{'background-image':'url('+order.car.img+')'}"></div>
           <div class="w-100">
             <div class="d-flex flex-column justify-content-center align-items-center">
               <b>{{order.car.name}}</b>
@@ -45,9 +43,7 @@
       <h6 class="pb-2">Недорогие и экономичные:</h6>
       <div class="flex-container justify-content-around">
         <div class="car" *ngFor="let car of lowCars">
-          <div class="image">
-            <img [src]="car.img"/>
-          </div>
+          <div class="image" [ngStyle]="{'background-image':'url('+car.img+')'}"></div>
           <div>
             <div class="title">
               <b>{{car.name}}</b>
@@ -67,9 +63,7 @@
       <h6 class="py-2">Для любителей роскоши и комфорта:</h6>
       <div class="flex-container justify-content-around">
         <div class="car" *ngFor="let car of hightCars">
-            <div class="image">
-              <img [src]="car.img"/>
-            </div>
+          <div class="image" [ngStyle]="{'background-image':'url('+car.img+')'}"></div>
             <div>
               <div class="title">
                 <b>{{car.name}}</b>

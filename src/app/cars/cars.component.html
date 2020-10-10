@@ -37,9 +37,7 @@
               </div>
               <div class="flex-container" *ngIf="cars.length != 0">
                 <div class="car" *ngFor="let car of cars | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                  <div class="image">
-                    <img [src]="car.img"/>
-                  </div>
+                  <div class="image" [ngStyle]="{'background-image':'url('+car.img+')'}"></div>
                   <div>
                     <div class="title">
                       <b>{{car.name}}</b>

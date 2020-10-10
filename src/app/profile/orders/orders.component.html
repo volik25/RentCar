@@ -25,9 +25,7 @@
   </div>
   <div class="flex-container">
     <div class="car" *ngFor="let order of orders | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-      <div class="image">
-        <img [src]="order.car.img"/>
-      </div>
+      <div class="image" [ngStyle]="{'background-image':'url('+order.car.img+')'}"></div>
       <div class="w-100">
         <div class="d-flex flex-column justify-content-center align-items-center">
           <b>{{order.car.name}}</b>

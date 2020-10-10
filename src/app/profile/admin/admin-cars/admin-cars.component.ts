@@ -39,7 +39,7 @@ export class AdminCarsComponent implements OnInit {
   }
 
   modalOpen(param, car = null){
-    const modal = this.mS.open(EditCarComponent, {centered: true, size: 'xl', });
+    const modal = this.mS.open(EditCarComponent, {centered: true, size: 'lg', });
     switch (param) {
       case 'add':
         modal.result.then((res)=>{
