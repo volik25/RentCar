@@ -1,1 +1,39 @@
-<p>car-comments works!</p>
+<div *ngIf="comments.length">
+    {{comments[0].comment}}
+</div>
+<div *ngIf="!comments.length">
+    <h3>Никто ещё не оставил комментариев</h3>
+</div>
+<div>
+    <form [formGroup]="commentForm" (submit)="addComment()">
+        <div class="form-group">
+          <label for="userName">Фамилия и имя</label>
+          <input type="text" class="form-control" id="userName" placeholder="Иванов Иван">
+        </div>
+        <div formArrayName="pluses">
+            <label>Плюсы</label>
+            <button type="button" class="btn btn-primary fas fa-plus mx-2" (click)="addRow('plus')" *ngIf="commentForm.get('pluses').valid"></button>
+            <div *ngFor="let control of getFormControls('pluses'); let i = index">
+                <div  class="form-group d-flex">
+                    <input class="form-control mr-1" [formControlName]="i" type="text">
+                    <button type="button" class="btn btn-primary fas fa-minus mx-2" (click)="removeControl(i, 'pluses')"></button>
+                </div>
+            </div>
+        </div>
+        <div formArrayName="minuses">
+            <label>Минусы</label>
+            <button type="button" class="btn btn-primary fas fa-plus mx-2" (click)="addRow('minus')" *ngIf="commentForm.get('minuses').valid"></button>
+            <div *ngFor="let control of getFormControls('minuses'); let i = index">
+                <div  class="form-group d-flex">
+                    <input class="form-control mr-1" [formControlName]="i" type="text">
+                    <button type="button" class="btn btn-primary fas fa-minus mx-2" (click)="removeControl(i, 'minuses')"></button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="comment">Ваш отзыв</label>
+          <textarea formControlName="comment" class="form-control" id="comment" rows="3"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Отправить отзыв</button>
+    </form>
+</div>

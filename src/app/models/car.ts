@@ -31,8 +31,10 @@ export interface Comment {
   id?: number;
   carId: number;
   userId: number;
-  date: NgbDate;
-  time: NgbTimeStruct;
+  date?: NgbDate;
+  time?: NgbTimeStruct;
+  pluses: string;
+  minuses: string;
   comment: string;
   likes?: number;
   dislikes?: number;

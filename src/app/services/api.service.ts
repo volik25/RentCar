@@ -41,8 +41,8 @@ export class ApiService {
     return this.http.get<any>(`${this.baseUrl}?key=get-places`);
   }
 
-  public getComments(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}?key=get-comments`);
+  public getComments(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=get-comments&carId=${id}`);
   }
 
   public addComment(comment): Observable<number> {
