@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { Comment } from 'src/app/models/car';
-import { User } from 'src/app/models/user';
+import { AuthModalComponent } from 'src/app/profile/auth-modal/auth-modal.component';
 import { ApiService } from 'src/app/services/api.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
@@ -13,18 +15,25 @@ import { LoadingService } from 'src/app/services/loading.service';
 })
 export class CarCommentsComponent implements OnInit {
   @Input() carId: number;
-  user: User;
+  userId: number;
   public comments: Comment[] = [];
   public commentForm: FormGroup;
-  constructor(private api: ApiService, private ls: LoadingService, private fb: FormBuilder) {
+  constructor(private api: ApiService,
+              private ls: LoadingService,
+              private fb: FormBuilder,
+              private auth: AuthService,
+              private ms: NgbModal) {
     this.initForm();
   }
 
   ngOnInit(): void {
-    const requests = [this.api.getUser(), this.api.getComments(this.carId)]
-    const subs = forkJoin(requests).subscribe(([user, comments]) => {
+    const requests = [this.api.getComments(this.carId)]
+    if (this.auth.getToken()) {
+      requests.push(this.api.getUserId());
+    }
+    const subs = forkJoin(requests).subscribe(([comments, userId]) => {
       this.comments = comments;
-      this.user = user;
+      this.userId = userId;
       this.ls.removeSubscription(subs);
     })
     this.ls.addSubscription(subs);
@@ -65,6 +74,20 @@ export class CarCommentsComponent implements OnInit {
   }
 
   addComment(){
+    let comment = this.commentForm.getRawValue();
+    comment['userId'] = this.userId;
+    comment['carId'] = this.carId;
+    console.log(comment);
+    
+  }
 
+  enter(){
+    const modal = this.ms.open(AuthModalComponent, {centered: true, size: 'xl'});
+    modal.result.then((res)=>{
+      this.userId = res;
+      // const userForm = this.orderForm.get('user') as FormGroup;
+      // userForm.patchValue(this.user);
+      // userForm.disable();
+    });
   }
 }

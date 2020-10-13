@@ -5,7 +5,12 @@
     <h3>Никто ещё не оставил комментариев</h3>
 </div>
 <div>
-    <form [formGroup]="commentForm" (submit)="addComment()">
+    <h4>Ваш комментарий:</h4>
+    <div *ngIf="!userId" class="d-flex flex-column justify-content-center align-items-center border-bottom border-top p-3">
+        <button class="btn btn-outline-primary" (click)="enter()">Войти в личный кабинет</button>
+        <small class="text-muted d-block mt-1">Необходимо войти в личный кабинет или зарегистрироваться</small>
+    </div>
+    <form [formGroup]="commentForm" (submit)="addComment()" *ngIf="userId">
         <div class="form-group">
           <label for="userName">Фамилия и имя</label>
           <input type="text" class="form-control" id="userName" placeholder="Иванов Иван">
@@ -13,20 +18,20 @@
         <div formArrayName="pluses">
             <label>Плюсы</label>
             <button type="button" class="btn btn-primary fas fa-plus mx-2" (click)="addRow('plus')" *ngIf="commentForm.get('pluses').valid"></button>
-            <div *ngFor="let control of getFormControls('pluses'); let i = index">
+            <div class="mt-2" *ngFor="let control of getFormControls('pluses'); let i = index">
                 <div  class="form-group d-flex">
                     <input class="form-control mr-1" [formControlName]="i" type="text">
-                    <button type="button" class="btn btn-primary fas fa-minus mx-2" (click)="removeControl(i, 'pluses')"></button>
+                    <button type="button" class="btn btn-primary fas fa-minus mx-2" *ngIf="i != 0" (click)="removeControl(i, 'pluses')"></button>
                 </div>
             </div>
         </div>
         <div formArrayName="minuses">
             <label>Минусы</label>
             <button type="button" class="btn btn-primary fas fa-plus mx-2" (click)="addRow('minus')" *ngIf="commentForm.get('minuses').valid"></button>
-            <div *ngFor="let control of getFormControls('minuses'); let i = index">
+            <div class="mt-2" *ngFor="let control of getFormControls('minuses'); let i = index">
                 <div  class="form-group d-flex">
                     <input class="form-control mr-1" [formControlName]="i" type="text">
-                    <button type="button" class="btn btn-primary fas fa-minus mx-2" (click)="removeControl(i, 'minuses')"></button>
+                    <button type="button" class="btn btn-primary fas fa-minus mx-2" *ngIf="i != 0" (click)="removeControl(i, 'minuses')"></button>
                 </div>
             </div>
         </div>

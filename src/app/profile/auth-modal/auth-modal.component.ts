@@ -9,7 +9,7 @@ import { LoadingService } from 'src/app/services/loading.service';
   styleUrls: ['./auth-modal.component.less']
 })
 export class AuthModalComponent implements OnInit {
-
+  onDisplay = 'sign-in';
   constructor(private activeModal: NgbActiveModal, private api: ApiService,
     private loadingService: LoadingService) { }
 
@@ -22,5 +22,9 @@ export class AuthModalComponent implements OnInit {
       this.loadingService.removeSubscription(subscription);
     })
     this.loadingService.addSubscription(subscription);
+  }
+
+  changeForm(form: string){
+    this.onDisplay = form;
   }
 }

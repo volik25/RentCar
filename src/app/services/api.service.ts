@@ -29,6 +29,10 @@ export class ApiService {
     return this.http.post<any>(`${this.baseUrl}?key=update-user`, user);
   }
 
+  public getUserId(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=get-user-id`);
+  }
+
   public getUser(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}?key=get-user`);
   }
