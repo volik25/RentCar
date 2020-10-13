@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { Comment } from 'src/app/models/car';
+import { User } from 'src/app/models/user';
 import { AuthModalComponent } from 'src/app/profile/auth-modal/auth-modal.component';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,6 +17,7 @@ import { LoadingService } from 'src/app/services/loading.service';
 export class CarCommentsComponent implements OnInit {
   @Input() carId: number;
   userId: number;
+  user: User;
   public comments: Comment[] = [];
   public commentForm: FormGroup;
   constructor(private api: ApiService,
@@ -29,11 +31,12 @@ export class CarCommentsComponent implements OnInit {
   ngOnInit(): void {
     const requests = [this.api.getComments(this.carId)]
     if (this.auth.getToken()) {
-      requests.push(this.api.getUserId());
+      requests.push(this.api.getUserId(), this.api.getUser());
     }
-    const subs = forkJoin(requests).subscribe(([comments, userId]) => {
+    const subs = forkJoin(requests).subscribe(([comments, userId, user]) => {
       this.comments = comments;
       this.userId = userId;
+      this.user = user;
       this.ls.removeSubscription(subs);
     })
     this.ls.addSubscription(subs);
@@ -74,11 +77,16 @@ export class CarCommentsComponent implements OnInit {
   }
 
   addComment(){
-    let comment = this.commentForm.getRawValue();
+    let comment= this.commentForm.getRawValue();
     comment['userId'] = this.userId;
     comment['carId'] = this.carId;
     console.log(comment);
     
+    const subs = this.api.addComment(comment).subscribe(() => {
+      this.commentForm.reset();
+      this.ls.removeSubscription(subs)
+    });
+    this.ls.addSubscription(subs);
   }
 
   enter(){

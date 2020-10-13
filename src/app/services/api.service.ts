@@ -58,7 +58,7 @@ export class ApiService {
   }
 
   public deleteComment(id): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}?key=delete-comment&placeId=${id}`);
+    return this.http.get<any>(`${this.baseUrl}?key=delete-comment&commentId=${id}`);
   }
   
   public likeAction(action): Observable<any> {

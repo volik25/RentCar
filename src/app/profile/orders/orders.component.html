@@ -62,7 +62,7 @@
               order.orderSum/order.car.price + ' сутки' : order.orderSum/order.car.price + ' суток'}}
             </span>
         </div>
-        <button type="button" class="btn btn-info btn-block" (click) = "modalOpen(order)">Изменить</button>
+        <button type="button" class="btn btn-info btn-block" *ngIf="order.status == '1'" (click) = "modalOpen(order)">Изменить</button>
       </div>
     </div>
   </div>

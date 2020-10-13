@@ -1,5 +1,12 @@
+<h2>Отзывы</h2>
 <div *ngIf="comments.length">
-    {{comments[0].comment}}
+    <div>
+        <div *ngFor="let comment of comments">
+            <div>{{user.surname + ' ' + user.name}}</div>
+            <div *ngFor="let plus of comment.pluses">{{plus}}</div>
+            <div *ngFor="let minus of comment.minuses">{{minus}}</div>
+        </div>
+    </div>
 </div>
 <div *ngIf="!comments.length">
     <h3>Никто ещё не оставил комментариев</h3>
