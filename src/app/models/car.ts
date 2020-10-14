@@ -33,8 +33,8 @@ export interface Comment {
   carId: number;
   userId: number;
   createDate?: string;
-  pluses: string;
-  minuses: string;
+  pluses: string[];
+  minuses: string[];
   comment: string;
   likes?: number;
   dislikes?: number;

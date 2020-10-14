@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
@@ -16,8 +16,12 @@ import { LoadingService } from 'src/app/services/loading.service';
 })
 export class CarCommentsComponent implements OnInit, OnChanges {
   @Input() carId: number;
+  @ViewChild('form') form: ElementRef<HTMLElement>;
+  edit: boolean = false;
   userId: number;
   user: User;
+  public commentId: number;
+  public isAdmin = false;
   public comments: Comment[] = [];
   public commentForm: FormGroup;
   constructor(private api: ApiService,
@@ -29,12 +33,13 @@ export class CarCommentsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    const requests = [this.api.getComments(this.carId)]
+    const requests = [this.api.getComments(this.carId), this.api.checkAccess()]
     if (this.auth.getToken()) {
       requests.push(this.api.getUserId(), this.api.getUser());
     }
-    const subs = forkJoin(requests).subscribe(([comments, userId, user]) => {
+    const subs = forkJoin(requests).subscribe(([comments, isAdmin, userId, user]) => {
       this.comments = comments;
+      this.isAdmin = isAdmin;
       this.userId = userId;
       this.user = user;
       this.ls.removeSubscription(subs);
@@ -85,14 +90,78 @@ export class CarCommentsComponent implements OnInit, OnChanges {
     form.removeAt(index);
   }
 
-  addComment(){
+  sendComment(){
     let comment= this.commentForm.getRawValue();
     comment['userId'] = this.userId;
     comment['carId'] = this.carId;
+    if (this.edit) {
+      this.editComment(comment);
+    }
+    else{
+      this.addComment(comment);
+    }
+  }
+
+  addComment(comment){
     const subs = this.api.addComment(comment).subscribe(() => {
-      this.commentForm.reset();
+      const sub = this.api.getComments(this.carId).subscribe(comments => {
+        this.comments = comments;
+        this.initForm();
+        this.ls.removeSubscription(sub);
+      });
+      this.ls.addSubscription(sub);
       this.ls.removeSubscription(subs)
     });
+    this.ls.addSubscription(subs);
+  }
+
+  scrollToForm(comment: Comment) {
+    this.initForm();
+    this.form.nativeElement.scrollIntoView({block: 'nearest', behavior: 'smooth'});
+    for (let i = 0; i < comment.pluses.length; i++) {
+      if (i > 0) {
+        const plusControl = <FormArray>this.commentForm.get('pluses');
+        plusControl.push(this.fb.control('', Validators.required));
+      }
+      
+    }
+    for (let i = 0; i < comment.minuses.length; i++) {
+      if (i > 0) {
+        const minusControl = <FormArray>this.commentForm.get('minuses');
+        minusControl.push(this.fb.control('', Validators.required));
+      }
+      
+    }
+    this.edit = true;
+    this.commentId = comment.id;
+    this.commentForm.patchValue(comment);
+  }
+
+  editComment(comment: Comment){
+    comment['id'] = this.commentId;
+    const subs = this.api.updateComment(comment).subscribe(() => {
+      const sub = this.api.getComments(this.carId).subscribe(comments => {
+        this.comments = comments;
+        this.initForm();
+        this.ls.removeSubscription(sub);
+      });
+      this.ls.addSubscription(sub);
+      this.ls.removeSubscription(subs);
+    });
+    this.ls.addSubscription(subs);
+  }
+
+  removeComment(id){
+    const subs = this.api.deleteComment(id).subscribe(() => {
+      for (let i = 0; i < this.comments.length; i++) {
+        const comment = this.comments[i];
+        if (comment.id === id) {
+          this.comments.splice(i, 1);
+          break;
+        }
+      }
+      this.ls.removeSubscription(subs);
+    })
     this.ls.addSubscription(subs);
   }
 
@@ -104,9 +173,6 @@ export class CarCommentsComponent implements OnInit, OnChanges {
         this.ls.removeSubscription(sub);
       })
       this.ls.addSubscription(sub);
-      // const userForm = this.orderForm.get('user') as FormGroup;
-      // userForm.patchValue(this.user);
-      // userForm.disable();
     });
   }
 }

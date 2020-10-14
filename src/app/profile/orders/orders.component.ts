@@ -32,7 +32,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const subscription = this.api.checkAccess().subscribe(res => {
-      console.log(res);
       this.isAdmin = res;
       this.loadingService.removeSubscription(subscription);
     })
