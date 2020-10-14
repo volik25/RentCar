@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
@@ -14,7 +14,7 @@ import { LoadingService } from 'src/app/services/loading.service';
   templateUrl: './car-comments.component.html',
   styleUrls: ['./car-comments.component.less']
 })
-export class CarCommentsComponent implements OnInit {
+export class CarCommentsComponent implements OnInit, OnChanges {
   @Input() carId: number;
   userId: number;
   user: User;
@@ -39,6 +39,15 @@ export class CarCommentsComponent implements OnInit {
       this.user = user;
       this.ls.removeSubscription(subs);
     })
+    this.ls.addSubscription(subs);
+  }
+
+  ngOnChanges(changes: SimpleChanges){
+    this.carId = changes.carId.currentValue;
+    const subs = this.api.getComments(this.carId).subscribe(comments => {
+      this.comments = comments;
+      this.ls.removeSubscription(subs)
+    });
     this.ls.addSubscription(subs);
   }
 
@@ -80,8 +89,6 @@ export class CarCommentsComponent implements OnInit {
     let comment= this.commentForm.getRawValue();
     comment['userId'] = this.userId;
     comment['carId'] = this.carId;
-    console.log(comment);
-    
     const subs = this.api.addComment(comment).subscribe(() => {
       this.commentForm.reset();
       this.ls.removeSubscription(subs)
@@ -90,9 +97,13 @@ export class CarCommentsComponent implements OnInit {
   }
 
   enter(){
-    const modal = this.ms.open(AuthModalComponent, {centered: true, size: 'xl'});
-    modal.result.then((res)=>{
-      this.userId = res;
+    const modal = this.ms.open(AuthModalComponent, {centered: true, size: 'lg'});
+    modal.result.then(()=>{
+      const sub = this.api.getUserId().subscribe(id => {
+        this.userId = id;
+        this.ls.removeSubscription(sub);
+      })
+      this.ls.addSubscription(sub);
       // const userForm = this.orderForm.get('user') as FormGroup;
       // userForm.patchValue(this.user);
       // userForm.disable();
