@@ -1,0 +1,84 @@
+<h2>Отзывы</h2>
+<div *ngIf="comments.length">
+    <div class="d-flex comment my-3" *ngFor="let comment of comments">
+        <div class="user-image"></div>
+        <div class="d-flex flex-column w-100 px-3">
+            <div class="form-group d-flex justify-content-between w-100 mt-2">
+                <div class="py-2">
+                    {{comment.createDate | date: 'dd.MM.yyyy'}}
+                    {{comment.createDate | date: 'HH:mm'}}
+                </div>
+                <div>
+                    <button type="button" (click)="scrollToForm(comment)" class="btn btn-link" *ngIf="comment.userId == userId">Редактировать</button>
+                    <button type="button" (click)="removeComment(comment.id)" class="btn btn-link text-danger" *ngIf="isAdmin || comment.userId == userId">Удалить</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Пользователь:</label>
+                <div>{{comment.user.surname + ' ' + comment.user.name}}</div>
+            </div>
+            <div class="form-group">
+                <label>Плюсы</label>
+                <div *ngFor="let plus of comment.pluses">+ {{plus}}</div>
+            </div>
+            <div class="form-group">
+                <label>Минусы</label>
+                <div *ngFor="let minus of comment.minuses">- {{minus}}</div>
+            </div>
+            <div class="form-group">
+                <label>Отзыв:</label>
+                <div>{{comment.comment}}</div>
+            </div>
+            <div class="d-flex justify-content-end align-items-center">
+                <div (click)="likeAction(comment, 'like')">
+                    <i class="hover fa-thumbs-up mr-1" [ngClass]="comment.isLike == 1 ? 'fas' : 'far'"></i>{{comment.likes}}
+                </div>
+                <div (click)="likeAction(comment, 'disLike')">
+                    <i class="hover fa-thumbs-down ml-4 mr-1" [ngClass]="comment.isLike == 0? 'fas' : 'far'"></i>{{comment.disLikes}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!comments.length">
+    <h3>Никто ещё не оставил комментариев</h3>
+</div>
+<div>
+    <h4>Ваш комментарий:</h4>
+    <div *ngIf="!userId" class="d-flex flex-column justify-content-center align-items-center border-bottom border-top p-3">
+        <button class="btn btn-outline-primary" (click)="enter()">Войти в личный кабинет</button>
+        <small class="text-muted d-block mt-1">Необходимо войти в личный кабинет или зарегистрироваться</small>
+    </div>
+    <form [formGroup]="commentForm" (submit)="sendComment()" *ngIf="userId" #form>
+        <div class="form-group">
+          <label for="userName">Фамилия и имя</label>
+          <input type="text" class="form-control" id="userName" placeholder="Иванов Иван">
+        </div>
+        <div formArrayName="pluses">
+            <label>Плюсы</label>
+            <button type="button" class="btn btn-primary fas fa-plus mx-2" (click)="addRow('plus')" *ngIf="commentForm.get('pluses').valid"></button>
+            <div class="mt-2" *ngFor="let control of getFormControls('pluses'); let i = index">
+                <div  class="form-group d-flex">
+                    <input class="form-control mr-1" [formControlName]="i" type="text">
+                    <button type="button" class="btn btn-primary fas fa-minus mx-2" *ngIf="i != 0" (click)="removeControl(i, 'pluses')"></button>
+                </div>
+            </div>
+        </div>
+        <div formArrayName="minuses">
+            <label>Минусы</label>
+            <button type="button" class="btn btn-primary fas fa-plus mx-2" (click)="addRow('minus')" *ngIf="commentForm.get('minuses').valid"></button>
+            <div class="mt-2" *ngFor="let control of getFormControls('minuses'); let i = index">
+                <div  class="form-group d-flex">
+                    <input class="form-control mr-1" [formControlName]="i" type="text">
+                    <button type="button" class="btn btn-primary fas fa-minus mx-2" *ngIf="i != 0" (click)="removeControl(i, 'minuses')"></button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="comment">Ваш отзыв</label>
+          <textarea formControlName="comment" class="form-control" id="comment" rows="3"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Отправить отзыв</button>
+        <button class="btn btn-link" type="button" (click)="initForm()">Очистить</button>
+    </form>
+</div>

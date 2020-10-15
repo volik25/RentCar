@@ -14,6 +14,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class SignInComponent implements OnInit {
   @Input() modal = false;
   @Output() closed: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onDisplay: EventEmitter<any> = new EventEmitter<any>();
   public enterForm: FormGroup;
   public showError: boolean;
   constructor( private auth: AuthService, private api: ApiService,
@@ -58,5 +59,9 @@ export class SignInComponent implements OnInit {
       }
     )
     this.loadingService.addSubscription(subscription);
+  }
+
+  changeForm(){
+    this.onDisplay.emit('sign-up');
   }
 }

@@ -36,6 +36,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { notFoundService } from './services/notFound.service';
 import { FooterComponent } from './footer/footer.component';
 import { ProgScrollComponent } from './prog-scroll/prog-scroll.component';
+import { CarCommentsComponent } from './cars/car-info/car-comments/car-comments.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { ProgScrollComponent } from './prog-scroll/prog-scroll.component';
     AuthModalComponent,
     NotFoundComponent,
     FooterComponent,
-    ProgScrollComponent
+    ProgScrollComponent,
+    CarCommentsComponent
   ],
   imports: [
     BrowserModule,
