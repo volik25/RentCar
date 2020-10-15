@@ -53,8 +53,13 @@ export class CarInfoComponent implements OnInit {
       if (car.id == id) {
         switch (param) {
           case 'update':
-            this.car = car;
-            this.carAction(id, 'remove');
+            const sub = this.api.getCar(id).subscribe(car => {
+              this.car = car;
+              this.carId = id;
+              this.carAction(id, 'remove');
+              this.loadingService.removeSubscription(sub);
+            })
+            this.loadingService.addSubscription(sub);
             break;
           case 'remove':
             this.cars.splice(i, 1);

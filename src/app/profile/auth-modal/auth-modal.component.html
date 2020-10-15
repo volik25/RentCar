@@ -1,8 +1,4 @@
-<div class="d-flex">
-    <div style="width: 50%;">
-        <sign-in [modal]=true (closed)="close()"></sign-in>
-    </div>
-    <div style="width: 50%;">
-        <sign-up [modal]=true (closed)="close()"></sign-up>
-    </div>
+<div class="d-flex flex-column">
+    <sign-in *ngIf="onDisplay == 'sign-in'" [modal]=true (closed)="close()" (onDisplay)="changeForm($event)"></sign-in>
+    <sign-up *ngIf="onDisplay == 'sign-up'" [modal]=true (closed)="close()" (onDisplay)="changeForm($event)"></sign-up>
 </div>

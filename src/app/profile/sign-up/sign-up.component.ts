@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class SignUpComponent implements OnInit {
   @Input() modal = false;
   @Output() closed: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onDisplay: EventEmitter<any> = new EventEmitter<any>();
   public userForm: FormGroup;
   public showError: boolean;
 
@@ -53,5 +54,9 @@ export class SignUpComponent implements OnInit {
       this.loadingService.removeSubscription(subscription);
     });
     this.loadingService.addSubscription(subscription);
+  }
+  
+  changeForm(){
+    this.onDisplay.emit('sign-in');
   }
 }

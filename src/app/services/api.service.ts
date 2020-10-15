@@ -6,7 +6,6 @@ import { User } from '../models/user';
 import { Order, UpdateOrder, CarDates } from '../models/order';
 import { NgbDate, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Car } from '../models/car';
-import { isNull } from 'util';
 
 @Injectable()
 export class ApiService {
@@ -30,6 +29,10 @@ export class ApiService {
     return this.http.post<any>(`${this.baseUrl}?key=update-user`, user);
   }
 
+  public getUserId(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=get-user-id`);
+  }
+
   public getUser(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}?key=get-user`);
   }
@@ -40,6 +43,34 @@ export class ApiService {
 
   public getPlaces(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}?key=get-places`);
+  }
+
+  public getComments(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=get-comments&carId=${id}`);
+  }
+
+  public addComment(comment): Observable<number> {
+    return this.http.post<number>(`${this.baseUrl}?key=add-comment`, comment);
+  }
+
+  public updateComment(comment): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}?key=update-comment`, comment);
+  }
+
+  public deleteComment(id): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=delete-comment&id=${id}`);
+  }
+  
+  public isUserLike(id): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=user-like&id=${id}`);
+  }
+
+  public getLikes(id): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=get-likes&id=${id}`);
+  }
+
+  public likeAction(action): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}?key=like-action`, action);
   }
 
   public addPlace(data): Observable<number> {
@@ -63,7 +94,7 @@ export class ApiService {
     for (const key in params) {
       if (Object.prototype.hasOwnProperty.call(params, key)) {
         const value = params[key];
-        if (!isNull(value)) {
+        if (value !== null) {
           switch (key) {
             case 'minPrice':
               request += `&minPrice=${value}`;
