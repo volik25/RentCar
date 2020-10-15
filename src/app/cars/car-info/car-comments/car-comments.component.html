@@ -29,6 +29,14 @@
                 <label>Отзыв:</label>
                 <div>{{comment.comment}}</div>
             </div>
+            <div class="d-flex justify-content-end align-items-center">
+                <div (click)="likeAction(comment, 'like')">
+                    <i class="hover fa-thumbs-up mr-1" [ngClass]="comment.isLike == 1 ? 'fas' : 'far'"></i>{{comment.likes}}
+                </div>
+                <div (click)="likeAction(comment, 'disLike')">
+                    <i class="hover fa-thumbs-down ml-4 mr-1" [ngClass]="comment.isLike == 0? 'fas' : 'far'"></i>{{comment.disLikes}}
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -71,5 +79,6 @@
           <textarea formControlName="comment" class="form-control" id="comment" rows="3"></textarea>
         </div>
         <button class="btn btn-primary" type="submit">Отправить отзыв</button>
+        <button class="btn btn-link" type="button" (click)="initForm()">Очистить</button>
     </form>
 </div>

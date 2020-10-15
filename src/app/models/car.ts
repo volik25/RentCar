@@ -37,7 +37,12 @@ export interface Comment {
   minuses: string[];
   comment: string;
   likes?: number;
-  dislikes?: number;
-
+  disLikes?: number;
+  isLike?: number; 
   user: User;
+}
+
+export interface Like {
+  commentId: number;
+  isLike: number;
 }

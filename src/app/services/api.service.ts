@@ -61,6 +61,14 @@ export class ApiService {
     return this.http.get<any>(`${this.baseUrl}?key=delete-comment&id=${id}`);
   }
   
+  public isUserLike(id): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=user-like&id=${id}`);
+  }
+
+  public getLikes(id): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?key=get-likes&id=${id}`);
+  }
+
   public likeAction(action): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}?key=like-action`, action);
   }

@@ -42,6 +42,7 @@ export class CarCommentsComponent implements OnInit, OnChanges {
       this.isAdmin = isAdmin;
       this.userId = userId;
       this.user = user;
+      if (this.userId) this.setLikes(this.userId);
       this.ls.removeSubscription(subs);
     })
     this.ls.addSubscription(subs);
@@ -54,6 +55,25 @@ export class CarCommentsComponent implements OnInit, OnChanges {
       this.ls.removeSubscription(subs)
     });
     this.ls.addSubscription(subs);
+  }
+
+  setLikes(id){
+    const sub = this.api.isUserLike(id).subscribe(likes => {
+      likes.forEach(like => {
+        this.comments.forEach(comment => {
+          if (comment.id == like.commentId) {
+            if (like.isLike == 1) {
+              comment.isLike = 1;
+            }
+            if (like.isLike == 0){
+              comment.isLike = 0;
+            }
+          }
+        });
+      });
+      this.ls.removeSubscription(sub)
+    });
+    this.ls.addSubscription(sub);
   }
 
   initForm(){
@@ -100,6 +120,7 @@ export class CarCommentsComponent implements OnInit, OnChanges {
     else{
       this.addComment(comment);
     }
+    this.edit = false;
   }
 
   addComment(comment){
@@ -137,6 +158,11 @@ export class CarCommentsComponent implements OnInit, OnChanges {
     this.commentForm.patchValue(comment);
   }
 
+  clearForm(){
+    this.edit = false;
+    this.initForm();
+  }
+
   editComment(comment: Comment){
     comment['id'] = this.commentId;
     const subs = this.api.updateComment(comment).subscribe(() => {
@@ -163,6 +189,48 @@ export class CarCommentsComponent implements OnInit, OnChanges {
       this.ls.removeSubscription(subs);
     })
     this.ls.addSubscription(subs);
+  }
+
+  likeAction(comment: Comment, action: string){
+    let data = {
+      commentId: comment.id,
+      userId: this.userId
+    }
+    switch (action) {
+      case 'like':
+        if (comment.isLike == 1) {
+          data['isLike'] = null;
+          comment.isLike = null;
+        }
+        else{
+          data['isLike'] = 1;
+          comment.isLike = 1;
+        }
+        break;
+      case 'disLike':
+        if (comment.isLike == 0) {
+          data['islike'] = null;
+          comment.isLike = null;
+        }
+        else{
+          data['islike'] = 0;
+          comment.isLike = 0;
+        }
+        break;
+      default:
+        break;
+    }
+    this.api.likeAction(data).subscribe(() => {
+      this.api.getLikes(comment.id).subscribe(likes => {
+        let id = comment.id;
+        this.comments.forEach(comment => {
+          if (comment.id == id) {
+            comment.likes = likes.likes;
+            comment.disLikes = likes.disLikes;
+          }
+        })
+      })
+    })
   }
 
   enter(){
