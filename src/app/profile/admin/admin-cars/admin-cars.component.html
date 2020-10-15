@@ -19,9 +19,7 @@
   <div class="flex-container">
     <div class="car" *ngFor="let car of cars | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
       <button type="button" class="btn dismiss" title="Удалить" (click)="removeCar(car.id, car.img)"><i class="fas fa-times"></i></button>
-      <div class="image">
-        <img [src]="car.img"/>
-      </div>
+      <div class="image" [ngStyle]="{'background-image':'url('+car.img+')'}"></div>
       <div>
         <div class="title">
           <b>{{car.name}}</b>
