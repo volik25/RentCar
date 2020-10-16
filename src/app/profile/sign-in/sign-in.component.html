@@ -13,11 +13,12 @@
                 <input id="password" type="password" class="form-control" formControlName="password" />
             </div>
             <div class="alert alert-danger" role="alert" *ngIf="showError">
-            Неверный email или пароль
+                {{messageText}}
             </div>
             <button type="submit" class="btn btn-primary">Вход</button>
             <a *ngIf='!modal' class="btn btn-link" routerLink="/sign-up">Регистрация</a>
-            <button *ngIf='modal' class="btn btn-link" (click)="changeForm()">Регистрация</button>
+            <button type="button" *ngIf='modal' class="btn btn-link" (click)="changeForm()">Регистрация</button>
+            <button type="button" *ngIf='errorCount > 2' class="btn btn-link text-warning" (click)="changePassword()">Забыл пароль</button>
         </form>
     </div>
 </div>

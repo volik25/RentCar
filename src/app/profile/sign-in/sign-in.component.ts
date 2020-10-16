@@ -17,6 +17,8 @@ export class SignInComponent implements OnInit {
   @Output() onDisplay: EventEmitter<any> = new EventEmitter<any>();
   public enterForm: FormGroup;
   public showError: boolean;
+  public messageText;
+  public errorCount = 0;
   constructor( private auth: AuthService, private api: ApiService,
               private loadingService: LoadingService, private router: Router,
               private fb: FormBuilder, private activeModal: NgbActiveModal) {
@@ -39,29 +41,36 @@ export class SignInComponent implements OnInit {
       }
       return;
     }
-    const subscription = this.api.signIn(this.enterForm.getRawValue()).subscribe(
-      (token) => {
-        if (token) {
-          this.auth.setToken(token);
-          if (this.modal) {
-            this.closed.emit();
-          }
-          else this.router.navigate([this.auth.redirectUrl]);
-        } else {
-          this.showError = true;
+    const subscription = this.api.signIn(this.enterForm.getRawValue()).subscribe(request => {
+      let token = request['token'];
+      if (token){
+        this.auth.setToken(token);
+        if (this.modal) {
+          this.closed.emit();
         }
-        this.loadingService.removeSubscription(subscription);
-
-      },
-      (error) => {
-        console.log(error);
-        this.loadingService.removeSubscription(subscription);
+        else this.router.navigate([this.auth.redirectUrl]);
       }
-    )
+      else{
+        this.messageText = request['message'];
+        this.showError = true;
+        if (this.messageText == 'Неверный пароль') {
+          this.errorCount++;
+        }
+      }
+      this.loadingService.removeSubscription(subscription);
+    });
     this.loadingService.addSubscription(subscription);
   }
 
   changeForm(){
     this.onDisplay.emit('sign-up');
+  }
+
+  changePassword(){
+    let email = this.enterForm.getRawValue().email;
+    this.api.changePassword(email).subscribe(request => {
+      this.messageText = request['message'];
+      this.showError = true;
+    })
   }
 }

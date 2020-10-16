@@ -14,6 +14,7 @@ export class EditUserComponent implements OnInit {
   public user: User;
   public userForm: FormGroup;
   public showError = false;
+  public passwordVerify = true;
   constructor(private fb: FormBuilder, private api: ApiService,
     private loadingService: LoadingService, private activeModal: NgbActiveModal) {
     this.userForm = this.fb.group({
@@ -22,7 +23,18 @@ export class EditUserComponent implements OnInit {
       secondname: null,
       email: [null, [Validators.required, Validators.email]],
       phone: null,
+      password: null,
+      passwordVerify: null
     });
+    this.userForm.get('passwordVerify').valueChanges.subscribe(value => {
+      let password = this.userForm.get('password').value;
+      if (value != password) {
+        this.passwordVerify = false;
+      }
+      else {
+        this.passwordVerify = true;
+      }
+    })
   }
 
   ngOnInit() {
@@ -40,6 +52,15 @@ export class EditUserComponent implements OnInit {
 
   save(){
     const newData = this.userForm.getRawValue();
+    delete newData.passwordVerify;
+    if (newData.password) {
+      if (!this.passwordVerify) {
+        return;
+      }
+    }
+    else{
+      delete newData.password;
+    }
     const subscription = this.api.updateUser(newData).subscribe((data) => {
       console.log(data);
       this.activeModal.close();
