@@ -86,6 +86,11 @@ export class CarsComponent implements OnInit {
     const requests = [this.api.getCars(), this.api.getFilters()];
     const subscription = forkJoin(requests).subscribe(([cars, filters]) => {
       this.cars = cars;
+      this.cars.forEach(car => {
+        this.api.getRating(car.id).subscribe(rate => {
+          car.rating = rate;
+        })
+      })
       this.filters = filters;
       this.sortSelect.get('sorting').setValue('A-Z');
       this.loadingService.removeSubscription(subscription);

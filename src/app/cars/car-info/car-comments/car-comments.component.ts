@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { Comment } from 'src/app/models/car';
@@ -84,7 +84,8 @@ export class CarCommentsComponent implements OnInit, OnChanges {
       minuses: this.fb.array([
         this.fb.control('', Validators.required)
       ]),
-      comment: [null, Validators.required]
+      comment: [null, Validators.required],
+      rating: this.fb.control(null, Validators.required)
     })
   }
 
@@ -111,6 +112,14 @@ export class CarCommentsComponent implements OnInit, OnChanges {
   }
 
   sendComment(){
+    if (this.commentForm.invalid) {
+      for (let [, value] of Object.entries(this.commentForm.controls)) {
+        if (value.invalid) {
+          value.markAsTouched();
+        }
+      }
+      return;
+    }
     let comment= this.commentForm.getRawValue();
     comment['userId'] = this.userId;
     comment['carId'] = this.carId;
@@ -144,14 +153,12 @@ export class CarCommentsComponent implements OnInit, OnChanges {
         const plusControl = <FormArray>this.commentForm.get('pluses');
         plusControl.push(this.fb.control('', Validators.required));
       }
-      
     }
     for (let i = 0; i < comment.minuses.length; i++) {
       if (i > 0) {
         const minusControl = <FormArray>this.commentForm.get('minuses');
         minusControl.push(this.fb.control('', Validators.required));
       }
-      
     }
     this.edit = true;
     this.commentId = comment.id;

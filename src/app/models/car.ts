@@ -26,6 +26,7 @@ export interface Car {
   steering: SteeringType;
   trunkVolume: number;
   createYear?: number;
+  rating?:number;
 }
 
 export interface Comment {
@@ -36,6 +37,7 @@ export interface Comment {
   pluses: string[];
   minuses: string[];
   comment: string;
+  rating: number;
   likes?: number;
   disLikes?: number;
   isLike?: number; 

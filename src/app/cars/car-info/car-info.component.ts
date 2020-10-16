@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin, Subscription } from 'rxjs';
 import { Car } from 'src/app/models/car';
 import { ApiService } from 'src/app/services/api.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -12,16 +13,20 @@ import { LoadingService } from 'src/app/services/loading.service';
 })
 export class CarInfoComponent implements OnInit {
   order: boolean = false;
+  rate: number;
   cars: Car[];
   car: Car;
   carId: number;
   params: any;
   private routeSubscription: Subscription;
   private paramSubscription: Subscription;
-  constructor(private route: ActivatedRoute,
+  constructor(public config: NgbRatingConfig,
+              private route: ActivatedRoute,
               public router: Router,
               private api: ApiService,
               public loadingService: LoadingService) {
+                config.max = 5;
+                config.readonly = true;
                 this.routeSubscription = route.params.subscribe(params => {
                   this.carId=params['id'];
                   this.params = JSON.parse(sessionStorage.getItem('queryParams'));
@@ -30,8 +35,12 @@ export class CarInfoComponent implements OnInit {
               }
 
   ngOnInit() {
-    const sub = this.api.getCar(this.carId).subscribe(car => {
+    const request = [this.api.getCar(this.carId), this.api.getRating(this.carId)]
+    const sub = forkJoin(request).subscribe(([car, rate]) => {
       this.car = car;
+      if (rate) {
+        this.rate = rate.toFixed(2);
+      }
       this.loadingService.removeSubscription(sub);
     })
     this.loadingService.addSubscription(sub);
