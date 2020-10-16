@@ -10,6 +10,11 @@
     </div>
   </div>
   <div class="d-flex justify-content-around align-items-center form">
+    <div class="user-image" [ngStyle]="{'background-image':'url('+user?.image+')'}">
+      <div class="edit" (click)="onUploadFileClick($event)">
+        <small>Изменить</small>
+      </div>
+    </div>
     <div class="form-group d-flex flex-column align-items-end">
       <label>ФИО</label>
       <h6>{{ user?.surname }} {{ user?.name }} {{ user?.secondname }}</h6>

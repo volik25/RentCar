@@ -109,6 +109,7 @@ export class EditCarComponent implements OnInit {
     if (img instanceof File) {
       const formData = new FormData();
       formData.append('CarImage', img, img.name.replace(' ', '_'));
+      formData.append('path', 'cars');
       return this.api.uploadCarImg(formData);
     } else {
       return of(img);

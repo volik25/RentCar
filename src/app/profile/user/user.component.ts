@@ -38,6 +38,35 @@ export class UserComponent implements OnInit {
     });
   }
 
+  onUploadFileClick(event: PointerEvent): void {
+    event.preventDefault();
+    const fileInput = this.createUploadFileInput();
+
+    fileInput.addEventListener('change', (event) => {
+      const file = (event.target as HTMLInputElement).files[0];
+      const formData = new FormData();
+      formData.append('CarImage', file, file.name.replace(' ', '_'));
+      formData.append('path', 'avatars');
+      this.api.uploadCarImg(formData).subscribe(img => {
+        this.user['oldImg'] = this.user.image;
+        this.user.image = img;
+        this.api.updateUser(this.user).subscribe();
+      })
+      fileInput.remove();
+    });
+    fileInput.click();
+  }
+
+  private createUploadFileInput(): HTMLInputElement {
+    const wrapper = document.createElement('div');
+
+    wrapper.innerHTML = `
+      <input hidden name="images" type="file" accept="image/*">
+    `;
+
+    return wrapper.firstElementChild as HTMLInputElement;
+  }
+
   public exit() {
     this.auth.exit();
     this.router.navigate(['/sign-in']);
