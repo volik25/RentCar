@@ -20,15 +20,19 @@ export class CarCommentsComponent implements OnInit, OnChanges {
   edit: boolean = false;
   userId: number;
   user: User;
+  public userImage: string = 'http://vdknf.beget.tech/RentCarBack/Files/user.jpg';
   public commentId: number;
   public isAdmin = false;
   public comments: Comment[] = [];
+  public userName: FormControl;
   public commentForm: FormGroup;
+  public submitted = false;
   constructor(private api: ApiService,
               private ls: LoadingService,
               private fb: FormBuilder,
               private auth: AuthService,
               private ms: NgbModal) {
+    this.userName = this.fb.control('');
     this.initForm();
   }
 
@@ -42,7 +46,10 @@ export class CarCommentsComponent implements OnInit, OnChanges {
       this.isAdmin = isAdmin;
       this.userId = userId;
       this.user = user;
+      this.userName.setValue(this.user.surname + ' ' + this.user.name);
+      this.userName.disable();
       if (this.userId) this.setLikes(this.userId);
+      if (this.user.image) this.userImage = this.user.image;
       this.ls.removeSubscription(subs);
     })
     this.ls.addSubscription(subs);
@@ -77,6 +84,7 @@ export class CarCommentsComponent implements OnInit, OnChanges {
   }
 
   initForm(){
+    this.submitted = false;
     this.commentForm = this.fb.group({
       pluses: this.fb.array([
         this.fb.control('', Validators.required)
@@ -112,12 +120,8 @@ export class CarCommentsComponent implements OnInit, OnChanges {
   }
 
   sendComment(){
+    this.submitted = true;
     if (this.commentForm.invalid) {
-      for (let [, value] of Object.entries(this.commentForm.controls)) {
-        if (value.invalid) {
-          value.markAsTouched();
-        }
-      }
       return;
     }
     let comment= this.commentForm.getRawValue();
@@ -250,4 +254,6 @@ export class CarCommentsComponent implements OnInit, OnChanges {
       this.ls.addSubscription(sub);
     });
   }
+
+  get f() { return this.commentForm.controls; };
 }

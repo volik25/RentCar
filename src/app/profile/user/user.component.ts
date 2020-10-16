@@ -14,7 +14,8 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 })
 export class UserComponent implements OnInit {
   public user: User;
-  closeResult: string;
+  public userImage: string;
+  public closeResult: string;
   constructor( private auth: AuthService, private router: Router, private api: ApiService,
     private loadingService: LoadingService, private mS: NgbModal) {}
 
@@ -25,6 +26,12 @@ export class UserComponent implements OnInit {
   private getUser() {
     const subscription = this.api.getUser().subscribe((user) => {
       this.user = user;
+      if (user.image) {
+        this.userImage = this.user.image;
+      }
+      else{
+        this.userImage = this.api.userImage;
+      }
       this.loadingService.removeSubscription(subscription);
     });
     this.loadingService.addSubscription(subscription);
@@ -41,17 +48,20 @@ export class UserComponent implements OnInit {
   onUploadFileClick(event: PointerEvent): void {
     event.preventDefault();
     const fileInput = this.createUploadFileInput();
-
     fileInput.addEventListener('change', (event) => {
       const file = (event.target as HTMLInputElement).files[0];
       const formData = new FormData();
       formData.append('CarImage', file, file.name.replace(' ', '_'));
       formData.append('path', 'avatars');
-      this.api.uploadCarImg(formData).subscribe(img => {
+      const sub = this.api.uploadImg(formData).subscribe(img => {
         this.user['oldImg'] = this.user.image;
         this.user.image = img;
-        this.api.updateUser(this.user).subscribe();
-      })
+        this.api.updateUser(this.user).subscribe(() => {
+          this.userImage = img;
+        });
+        this.loadingService.removeSubscription(sub);
+      });
+      this.loadingService.addSubscription(sub);
       fileInput.remove();
     });
     fileInput.click();
@@ -59,12 +69,20 @@ export class UserComponent implements OnInit {
 
   private createUploadFileInput(): HTMLInputElement {
     const wrapper = document.createElement('div');
-
     wrapper.innerHTML = `
       <input hidden name="images" type="file" accept="image/*">
     `;
-
     return wrapper.firstElementChild as HTMLInputElement;
+  }
+
+  public revoeImg(){
+    this.user['oldImg'] = this.user.image;
+    this.user.image = null;
+    this.userImage = this.api.userImage;
+    this.api.updateUser(this.user).subscribe(res => {
+      console.log(res);
+      
+    });
   }
 
   public exit() {
