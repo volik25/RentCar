@@ -12,6 +12,22 @@ body{
   }
 }
 
+.star {
+  position: relative;
+  display: inline-block;
+  font-size: 1rem;
+  color: #d3d3d3;
+}
+.full {
+  color: @rating;
+}
+.half {
+  position: absolute;
+  display: inline-block;
+  overflow: hidden;
+  color: @rating;
+}
+
 .border-dot-bottom{
   border-bottom: 2px dotted @blue;
 }

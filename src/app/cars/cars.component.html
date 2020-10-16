@@ -37,6 +37,19 @@
               </div>
               <div class="flex-container" *ngIf="cars.length != 0">
                 <div class="car" *ngFor="let car of cars | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                  <div class="d-flex mb-1">
+                    <i class="d-flex justify-content-center align-items-center mr-2">Рейтинг:</i>
+                    <ng-template #rating let-fill="fill">
+                      <span class="star" [class.full]="fill === 100">
+                          <span class="half" [style.width.%]="fill">
+                              <i class="fas fa-star"></i>
+                          </span>
+                          <i class="fas fa-star"></i>
+                      </span>
+                    </ng-template>
+                    <ngb-rating *ngIf="car.rating" [starTemplate]="rating" [rate]="car.rating" [max]='5' [readonly]='true'></ngb-rating>
+                    <div *ngIf="!car.rating">Нет оценки</div>
+                  </div>
                   <div class="image" [ngStyle]="{'background-image':'url('+car.img+')'}"></div>
                   <div>
                     <div class="title">
