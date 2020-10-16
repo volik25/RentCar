@@ -46,10 +46,7 @@ export class CarCommentsComponent implements OnInit, OnChanges {
       this.isAdmin = isAdmin;
       this.userId = userId;
       this.user = user;
-      this.userName.setValue(this.user.surname + ' ' + this.user.name);
-      this.userName.disable();
-      if (this.userId) this.setLikes(this.userId);
-      if (this.user.image) this.userImage = this.user.image;
+      this.isUser();
       this.ls.removeSubscription(subs);
     })
     this.ls.addSubscription(subs);
@@ -81,6 +78,15 @@ export class CarCommentsComponent implements OnInit, OnChanges {
       this.ls.removeSubscription(sub)
     });
     this.ls.addSubscription(sub);
+  }
+
+  isUser(){
+    if(this.user){
+      this.userName.setValue(this.user.surname + ' ' + this.user.name);
+      this.userName.disable();
+      if (this.user.image) this.userImage = this.user.image;
+    }
+    if (this.userId) this.setLikes(this.userId);
   }
 
   initForm(){
@@ -245,10 +251,12 @@ export class CarCommentsComponent implements OnInit, OnChanges {
   }
 
   enter(){
-    const modal = this.ms.open(AuthModalComponent, {centered: true, size: 'lg'});
-    modal.result.then(()=>{
-      const sub = this.api.getUserId().subscribe(id => {
+    const modal = this.ms.open(AuthModalComponent, {centered: true, size: 'lg', backdrop: "static"});
+    modal.result.then( user =>{
+      this.user = user;
+      const sub = this.api.getUserId().subscribe( id => {
         this.userId = id;
+        this.isUser();
         this.ls.removeSubscription(sub);
       })
       this.ls.addSubscription(sub);
