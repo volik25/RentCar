@@ -17,6 +17,10 @@ export class ApiService {
     return this.http.get<boolean>(`${this.baseUrl}?key=check-admin`);
   }
 
+  public changePassword(email): Observable<boolean> {
+    return this.http.get<any>(`${this.baseUrl}?key=password-change&email=${email}`);
+  }
+
   public signIn(userData): Observable<string> {
     return this.http.post<string>(`${this.baseUrl}?key=sign-in`, userData);
   }
