@@ -1,7 +1,7 @@
 <h2>Отзывы</h2>
 <div *ngIf="comments.length">
     <div class="d-flex comment my-3" *ngFor="let comment of comments">
-        <div class="user-image"></div>
+        <div class="user-image" [ngStyle]="{'background-image':'url('+userImage+')'}"></div>
         <div class="d-flex flex-column w-100 px-3">
             <div class="form-group d-flex justify-content-between w-100 mt-2">
                 <div class="py-2">
@@ -64,14 +64,14 @@
     <form [formGroup]="commentForm" (submit)="sendComment()" *ngIf="userId" #form>
         <div class="form-group">
           <label for="userName">Фамилия и имя</label>
-          <input type="text" class="form-control" id="userName" placeholder="Иванов Иван">
+          <input [formControl]="userName" type="text" class="form-control" id="userName" placeholder="Иванов Иван">
         </div>
         <div formArrayName="pluses">
             <label>Плюсы</label>
             <button type="button" class="btn btn-primary fas fa-plus mx-2" (click)="addRow('plus')" *ngIf="commentForm.get('pluses').valid"></button>
             <div class="mt-2" *ngFor="let control of getFormControls('pluses'); let i = index">
                 <div  class="form-group d-flex">
-                    <input class="form-control mr-1" [formControlName]="i" type="text">
+                    <input class="form-control mr-1" [ngClass]="{'border-danger': (submitted && control.errors)}" [formControlName]="i" type="text">
                     <button type="button" class="btn btn-primary fas fa-minus mx-2" *ngIf="i != 0" (click)="removeControl(i, 'pluses')"></button>
                 </div>
             </div>
@@ -81,17 +81,17 @@
             <button type="button" class="btn btn-primary fas fa-plus mx-2" (click)="addRow('minus')" *ngIf="commentForm.get('minuses').valid"></button>
             <div class="mt-2" *ngFor="let control of getFormControls('minuses'); let i = index">
                 <div  class="form-group d-flex">
-                    <input class="form-control mr-1" [formControlName]="i" type="text">
+                    <input class="form-control mr-1" [ngClass]="{'border-danger': (submitted && control.errors)}" [formControlName]="i" type="text">
                     <button type="button" class="btn btn-primary fas fa-minus mx-2" *ngIf="i != 0" (click)="removeControl(i, 'minuses')"></button>
                 </div>
             </div>
         </div>
         <div class="form-group">
           <label for="comment">Ваш отзыв</label>
-          <textarea formControlName="comment" class="form-control" id="comment" rows="3"></textarea>
+          <textarea [ngClass]="{'border-danger': (submitted && f.comment.errors)}" formControlName="comment" class="form-control" id="comment" rows="3"></textarea>
         </div>
         <div class="form-group">
-            <label>Ваша оценка:</label>
+            <label [ngClass]="{'text-danger' : (submitted && f.rating.errors)}">Ваша оценка:</label>
             <div>
                 <ng-template #commentRate let-fill="fill">
                     <span class="star" [class.full]="fill === 100">

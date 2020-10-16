@@ -75,7 +75,7 @@ export class EditCarComponent implements OnInit {
     }
     const newCar = this.carForm.getRawValue();
     delete newCar.hasAirbags;
-    this.subs = this.uploadCarImg(newCar.img).subscribe((data) => {
+    this.subs = this.uploadImg(newCar.img).subscribe((data) => {
       console.log(data);
       newCar.img = data;
       if (this.car) {
@@ -105,11 +105,12 @@ export class EditCarComponent implements OnInit {
     }
   }
 
-  uploadCarImg(img): Observable<string> {
+  uploadImg(img): Observable<string> {
     if (img instanceof File) {
       const formData = new FormData();
       formData.append('CarImage', img, img.name.replace(' ', '_'));
-      return this.api.uploadCarImg(formData);
+      formData.append('path', 'cars');
+      return this.api.uploadImg(formData);
     } else {
       return of(img);
     }

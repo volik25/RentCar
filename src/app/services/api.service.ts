@@ -10,6 +10,7 @@ import { Car } from '../models/car';
 @Injectable()
 export class ApiService {
   private baseUrl: string = "http://vdknf.beget.tech/RentCarBack/controller.php";
+  public userImage: string = 'http://vdknf.beget.tech/RentCarBack/Files/user.jpg';
   constructor(private http: HttpClient) {}
 
   /** Проверка доступа админа */
@@ -165,7 +166,7 @@ export class ApiService {
     return this.http.post<any>(`${this.baseUrl}?key=update-car`, data);
   }
 
-  public uploadCarImg(data): Observable<string> {
+  public uploadImg(data): Observable<string> {
     return this.http.post<string>(`${this.baseUrl}?key=upload-img`, data);
   }
 
