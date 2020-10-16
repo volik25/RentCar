@@ -21,6 +21,7 @@ export class CarCommentsComponent implements OnInit, OnChanges {
   userId: number;
   user: User;
   public userImage: string = 'http://vdknf.beget.tech/RentCarBack/Files/user.jpg';
+  public commentImages = [];
   public commentId: number;
   public isAdmin = false;
   public comments: Comment[] = [];
@@ -43,6 +44,16 @@ export class CarCommentsComponent implements OnInit, OnChanges {
     }
     const subs = forkJoin(requests).subscribe(([comments, isAdmin, userId, user]) => {
       this.comments = comments;
+      this.commentImages = [];
+      for (let i = 0; i < this.comments.length; i++) {
+        const comment = this.comments[i];
+        if (comment.user.image) {
+          this.commentImages.push(comment.user.image);
+        }
+        else{
+          this.commentImages.push(this.userImage);
+        }
+      }
       this.isAdmin = isAdmin;
       this.userId = userId;
       this.user = user;
@@ -56,6 +67,16 @@ export class CarCommentsComponent implements OnInit, OnChanges {
     this.carId = changes.carId.currentValue;
     const subs = this.api.getComments(this.carId).subscribe(comments => {
       this.comments = comments;
+      this.commentImages = [];
+      for (let i = 0; i < this.comments.length; i++) {
+        const comment = this.comments[i];
+        if (comment.user.image) {
+          this.commentImages.push(comment.user.image);
+        }
+        else{
+          this.commentImages.push(this.userImage);
+        }
+      }
       this.ls.removeSubscription(subs)
     });
     this.ls.addSubscription(subs);
