@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ProgScrollComponent } from './prog-scroll.component';
 
@@ -6,7 +6,7 @@ describe('ProgScrollComponent', () => {
   let component: ProgScrollComponent;
   let fixture: ComponentFixture<ProgScrollComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ProgScrollComponent ]
     })
