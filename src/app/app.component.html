@@ -2,12 +2,20 @@
     <div class="header" *ngIf="!notFound">
         Cars4Rent - наши машины, Ваш комфорт!
     </div>
-    <div class="menu" *ngIf="!notFound">
-        <main-menu></main-menu>
-    </div>
     <div class="scroll" *ngIf="!notFound">
         <prog-scroll [scrollColor]="'rgb(0,37,71)'"
                      [thumbColor]="'rgb(141,180,207)'"></prog-scroll>
+    </div>
+    <div class="menu" *ngIf="!notFound">
+        <!-- <main-menu></main-menu> -->
+        <p-menubar [model]="items">
+            <ng-template pTemplate="start">
+                <img src="../assets/cars4rent.png" height="40" class="p-mr-2">
+            </ng-template>
+            <ng-template pTemplate="end">
+                <p-dropdown [options]="themes" [(ngModel)]="currentTheme" optionLabel="label"></p-dropdown>
+            </ng-template>
+        </p-menubar>
     </div>
     <div class="content">
         <router-outlet></router-outlet>

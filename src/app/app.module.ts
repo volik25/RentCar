@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
@@ -37,6 +38,9 @@ import { notFoundService } from './services/notFound.service';
 import { FooterComponent } from './footer/footer.component';
 import { ProgScrollComponent } from './prog-scroll/prog-scroll.component';
 import { CarCommentsComponent } from './cars/car-info/car-comments/car-comments.component';
+import {MenubarModule} from 'primeng/menubar';
+import { SharedModule } from 'primeng/api';
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -76,12 +80,16 @@ import { CarCommentsComponent } from './cars/car-info/car-comments/car-comments.
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     Ng5SliderModule,
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    MenubarModule,
+    SharedModule,
+    DropdownModule
   ],
   providers: [
     NgbActiveModal,

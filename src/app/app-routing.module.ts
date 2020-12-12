@@ -21,8 +21,7 @@ import { UserComponent } from './profile/user/user.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full'},
-  { path: 'home', component: HomeComponent},
+  { path: '', component: HomeComponent},
   { path: 'cars', component: CarsComponent},
   { path: 'edit-car', component: EditCarComponent},
   { path: 'edit-user', component: EditUserComponent},
