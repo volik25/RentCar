@@ -1,7 +1,10 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "projects",
+  "cli": {
+    "analytics": false,
+    "defaultCollection": "@nrwl/angular"
+  },
+  "defaultProject": "RentCar",
   "projects": {
     "RentCar": {
       "projectType": "application",
@@ -10,25 +13,25 @@
           "style": "less"
         }
       },
-      "root": "",
-      "sourceRoot": "src",
+      "root": "apps/RentCar",
+      "sourceRoot": "apps/RentCar/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/RentCar",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
+            "outputPath": "dist/apps/RentCar",
+            "index": "apps/RentCar/src/index.html",
+            "main": "apps/RentCar/src/main.ts",
+            "polyfills": "apps/RentCar/src/polyfills.ts",
+            "tsConfig": "apps/RentCar/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "apps/RentCar/src/favicon.ico",
+              "apps/RentCar/src/assets"
             ],
             "styles": [
-              "src/styles.less",
+              "apps/RentCar/src/styles.less",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/primeng.min.css"
             ],
@@ -38,8 +41,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "apps/RentCar/src/environments/environment.ts",
+                  "with": "apps/RentCar/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -83,16 +86,16 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
+            "main": "apps/RentCar/src/test.ts",
+            "polyfills": "apps/RentCar/src/polyfills.ts",
+            "tsConfig": "apps/RentCar/tsconfig.spec.json",
+            "karmaConfig": "apps/RentCar/karma.conf.js",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "apps/RentCar/src/favicon.ico",
+              "apps/RentCar/src/assets"
             ],
             "styles": [
-              "src/styles.less"
+              "apps/RentCar/src/styles.less"
             ],
             "scripts": []
           }
@@ -101,9 +104,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
+              "apps/RentCar/tsconfig.app.json",
+              "apps/RentCar/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -123,10 +125,33 @@
           }
         }
       }
+    },
+    "RentCar-e2e": {
+      "root": "apps/RentCar-e2e",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps/RentCar-e2e/protractor.conf.js",
+            "devServerTarget": "RentCar:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "RentCar:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/RentCar-e2e/tsconfig.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
-  },
-  "defaultProject": "RentCar",
-  "cli": {
-    "analytics": false
   }
 }
