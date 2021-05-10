@@ -1,6 +1,6 @@
-import { Component, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { LoadingService } from './services/loading.service';
-import { notFoundService } from './services/notFound.service';
+import { Component, ChangeDetectorRef } from '@angular/core';
+import { LoadingService } from './_services/loading.service';
+import { notFoundService } from './_services/notFound.service';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +13,9 @@ export class AppComponent{
 
   constructor(public loadingService: LoadingService,
               private cdRef: ChangeDetectorRef,
-              public nf: notFoundService) {
-
+              public notFoundService: notFoundService) {
     loadingService.changeDetectorRef = cdRef;
-    nf.getNotFound().subscribe(notFound => {
+    notFoundService.getNotFound().subscribe(notFound => {
       this.notFound = notFound;
     });
   }
