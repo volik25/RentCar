@@ -4,12 +4,12 @@ import { Subject } from 'rxjs';
 @Injectable()
 export class AuthService {
   private token: string;
-  private readonly KEY = 'bookingUserToken';
+  private readonly KEY = 'rentCar.user.token';
   public redirectUrl: string = '/profile';
   public $userUpdate: Subject<boolean> = new Subject();
 
   constructor() {
-    this.token = sessionStorage.getItem('bookingUserToken');
+    this.token = sessionStorage.getItem('rentCar.user.token');
   }
 
   public setToken(token: string): void {
