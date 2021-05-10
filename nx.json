@@ -7,19 +7,11 @@
     "nx.json": "*",
     "tsconfig.base.json": "*"
   },
-  "affected": {
-    "defaultBase": "master"
-  },
+  "affected": { "defaultBase": "master" },
   "npmScope": "rent-car",
   "projects": {
-    "RentCar": {
-      "tags": []
-    },
-    "RentCar-e2e": {
-      "tags": [],
-      "implicitDependencies": [
-        "RentCar"
-      ]
-    }
+    "RentCar": { "tags": [] },
+    "RentCar-e2e": { "tags": [], "implicitDependencies": ["RentCar"] },
+    "api-rent-car": { "tags": [] }
   }
 }

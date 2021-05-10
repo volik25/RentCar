@@ -94,9 +94,7 @@
               "apps/RentCar/src/favicon.ico",
               "apps/RentCar/src/assets"
             ],
-            "styles": [
-              "apps/RentCar/src/styles.less"
-            ],
+            "styles": ["apps/RentCar/src/styles.less"],
             "scripts": []
           }
         },
@@ -107,9 +105,7 @@
               "apps/RentCar/tsconfig.app.json",
               "apps/RentCar/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
@@ -146,9 +142,57 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/RentCar-e2e/tsconfig.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "api-rent-car": {
+      "root": "apps/api-rent-car",
+      "sourceRoot": "apps\\api-rent-car\\src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/api-rent-car",
+            "main": "apps/api-rent-car/src/main.ts",
+            "tsConfig": "apps/api-rent-car/tsconfig.app.json",
+            "assets": ["apps/api-rent-car/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api-rent-car/src/environments/environment.ts",
+                  "with": "apps/api-rent-car/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api-rent-car:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/api-rent-car/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/api-rent-car"],
+          "options": {
+            "jestConfig": "apps/api-rent-car/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
