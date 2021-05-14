@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../services/api.service';
-import { LoadingService } from '../services/loading.service';
-import { Car } from '../models/car';
-import { forkJoin } from 'rxjs';
-import { Order } from '../models/order';
-import { NgbDate, NgbTimeStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingService } from '../_services/loading.service';
 import { Router } from '@angular/router';
-import { CarInfoComponent } from '../cars/car-info/car-info.component';
+import { NgbDate, NgbTimeStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CarEntity } from '@rent/interfaces/modules/car/entities/car.entity';
+import { OrderEntity } from '@rent/interfaces/modules/order/entities/order.entity';
+import { FindCarTypes } from '@rent/interfaces/enums/findCarsType.enum';
+import { CarService } from '../_services/car.service';
+import { OrderService } from '../_services/order.service';
+import { switchMap } from 'rxjs/internal/operators';
 
 @Component({
   selector: 'home',
@@ -14,18 +15,29 @@ import { CarInfoComponent } from '../cars/car-info/car-info.component';
   styleUrls: ['./home.component.less']
 })
 export class HomeComponent implements OnInit {
-  public lowCars: Car[];
-  public hightCars: Car[];
-  public completeOrders: Order[];
+  public lowCars: CarEntity[];
+  public hightCars: CarEntity[];
+  public completeOrders: OrderEntity[];
   closeResult;
-  constructor(private api: ApiService, private loadingService: LoadingService, 
-              private router: Router, private ms: NgbModal) { }
+  constructor(
+    private carService: CarService,
+    private orderService: OrderService,
+    private loadingService: LoadingService, 
+    private router: Router,
+    private ms: NgbModal) { }
 
   ngOnInit() {
-    const requests = [this.api.getCars(1), this.api.getCars(2), this.api.getOrders(true)];
-    const subscription = forkJoin(requests).subscribe(([lowCost, hightCost, orders]) => {
-      this.lowCars = lowCost;
-      this.hightCars = hightCost;
+    const subscription = this.carService.find<CarEntity>({ findType: FindCarTypes.LOW_CARS })
+    .pipe(
+      switchMap(lowCost => {
+        this.lowCars = lowCost;
+        return this.carService.find<CarEntity>({ findType: FindCarTypes.HIGHT_CARS })
+      }),
+      switchMap(hightCost => {
+        this.hightCars = hightCost;
+        return this.orderService.find<OrderEntity>({ findOrderTypes: 'main'})
+      })
+    ).subscribe(orders => {
       this.completeOrders = orders;
       this.loadingService.removeSubscription(subscription);
     })

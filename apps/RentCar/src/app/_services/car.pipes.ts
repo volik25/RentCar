@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { OrderStatus } from '../models/order';
-import { BodyTypes } from '../../../../../libs/interfaces/enums/bodyTypes.enum';
-import { KPP } from '../../../../../libs/interfaces/enums/kpp.enum';
-import { WheelDrive } from '../../../../../libs/interfaces/enums/wheelDrive.enum';
-import { AC } from '../../../../../libs/interfaces/enums/ac.enum';
-import { SteeringType } from '../../../../../libs/interfaces/enums/steeringType.enum';
-import { FuelType } from '../../../../../libs/interfaces/enums/fuelTypes.enum';
+import { AC } from '@rent/interfaces/enums/ac.enum';
+import { BodyTypes } from '@rent/interfaces/enums/bodyTypes.enum';
+import { FuelType } from '@rent/interfaces/enums/fuelTypes.enum';
+import { KPP } from '@rent/interfaces/enums/kpp.enum';
+import { SteeringType } from '@rent/interfaces/enums/steeringType.enum';
+import { WheelDrive } from '@rent/interfaces/enums/wheelDrive.enum';
+import { OrderStatus } from '../_models/order';
 
 @Pipe({name: 'BodyTypes'})
 export class BodyTypesPipe implements PipeTransform {

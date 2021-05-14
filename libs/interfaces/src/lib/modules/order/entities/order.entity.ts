@@ -1,6 +1,7 @@
 import { NgbDate, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { OrderStatus } from '../../../enums/order.status.enum'
-import { BaseEntity, Column, Entity, Generated, Index, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, Generated, ManyToOne, PrimaryColumn } from 'typeorm';
+import { CarEntity } from '../../car/entities/car.entity';
 
 @Entity('order', {
     schema: 'car'
@@ -66,4 +67,7 @@ export class OrderEntity extends BaseEntity {
         nullable: false
       })
     time: NgbTimeStruct | string;
+
+    @ManyToOne(() => CarEntity, Car => Car.id)
+    car: CarEntity;
 }

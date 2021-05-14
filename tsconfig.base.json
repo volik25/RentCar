@@ -11,18 +11,27 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ],
-    "paths": {},
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2018", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "paths": {
+      "@rent/interfaces/*": [
+        "libs/interfaces/src/lib/*"
+      ],
+      "@rent/api/*": [
+        "apps/api-rent-car/src/app/*"
+      ],
+      "@rent/web/*": [
+        "apps/RentCar/src/app/*"
+      ]
+    },
     "rootDir": "."
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "strictInjectionParameters": true,
+    "strictTemplates": true,
+    "enableIvy": true
   }
 }

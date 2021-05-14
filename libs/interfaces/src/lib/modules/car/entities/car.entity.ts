@@ -5,7 +5,8 @@ import { WheelDrive } from '../../../enums/wheelDrive.enum';
 import { AC } from '../../../enums/ac.enum';
 import { SteeringType } from '../../../enums/steeringType.enum';
 import { OrderEntity } from '../../order/entities/order.entity'
-import { BaseEntity, Column, Entity, Generated, Index, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, Generated, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import { CommentEntity } from './comment.entity';
 
 @Entity('car', {
     schema: 'car'
@@ -145,4 +146,7 @@ export class CarEntity extends BaseEntity {
 
     @OneToMany(() => OrderEntity, Order => Order.id)
     orders: OrderEntity[];
+
+    @ManyToOne(() => CommentEntity, Comment => Comment.id)
+    comments: CommentEntity[];
 }

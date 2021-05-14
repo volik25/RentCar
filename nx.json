@@ -12,6 +12,7 @@
   "projects": {
     "RentCar": { "tags": [] },
     "RentCar-e2e": { "tags": [], "implicitDependencies": ["RentCar"] },
-    "api-rent-car": { "tags": [] }
+    "api-rent-car": { "tags": [] },
+    "interfaces": { "tags": [] }
   }
 }

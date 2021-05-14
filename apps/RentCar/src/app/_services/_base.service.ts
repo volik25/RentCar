@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BaseEntity } from '../../../../../libs/interfaces/modules/core/base.entity';
+import { BaseEntity } from '@rent/interfaces/modules/core/base.entity';
 
 import { Observable } from 'rxjs';
 
