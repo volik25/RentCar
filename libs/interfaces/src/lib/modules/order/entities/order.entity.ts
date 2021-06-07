@@ -1,7 +1,9 @@
 import { NgbDate, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { OrderStatus } from '../../../enums/order.status.enum'
-import { BaseEntity, Column, Entity, Generated, ManyToOne, PrimaryColumn } from 'typeorm';
+import { OrderStatusEnum } from '@rent/interfaces/enums/order.status.enum';
+import { BaseEntity, Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { CarEntity } from '../../car/entities/car.entity';
+import { UserEntity } from '../../security/entities/user.entity';
+import { PlaceEntity } from './place.entity';
 
 @Entity('order', {
     schema: 'car'
@@ -18,25 +20,10 @@ export class OrderEntity extends BaseEntity {
     })
     id: number;
 
-    @Column('number', {
-        nullable: false
-      })
-    carId: number;
-
-    @Column('number', {
-        nullable: false
-      })
-    userId: number;
-
-    @Column('number', {
-        nullable: false
-      })
-    placeId: number;
-
     @Column('string', {
         nullable: false
       })
-    status: OrderStatus;
+    status: OrderStatusEnum;
 
     @Column('string', {
         nullable: false
@@ -68,6 +55,21 @@ export class OrderEntity extends BaseEntity {
       })
     time: NgbTimeStruct | string;
 
-    @ManyToOne(() => CarEntity, Car => Car.id)
+    @ManyToOne(() => CarEntity, Car => Car.orders)
+    @JoinColumn({
+      name: 'car_id'
+    })
     car: CarEntity;
+
+    @ManyToOne(() => UserEntity, User => User.orders)
+    @JoinColumn({
+      name: 'user_id'
+    })
+    user: UserEntity
+
+    @ManyToOne(() => PlaceEntity, Place => Place.orders)
+    @JoinColumn({
+      name: 'place_id'
+    })
+    place: PlaceEntity
 }

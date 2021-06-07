@@ -1,42 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../services/api.service';
-import { LoadingService } from '../services/loading.service';
 import { takeWhile } from 'rxjs/internal/operators';
+import { LoadingService } from '../_services/loading.service';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.less']
+  styleUrls: ['./profile.component.less'],
 })
 export class ProfileComponent implements OnInit {
   tabs = [
     {
       header: 'Данные пользователя',
-      link: 'user'
+      link: 'user',
     },
-    { 
+    {
       header: 'История заказов',
-      link: 'orders'
-    }
+      link: 'orders',
+    },
   ];
   rxAlive: boolean = true;
-  constructor(private api: ApiService, private loadingService: LoadingService) { }
+  constructor(
+    private userService: UserService,
+    private loadingService: LoadingService
+  ) {}
 
   ngOnInit() {
-    this.api
-      .checkAccess()
-      .pipe(takeWhile(() => this.rxAlive))
-      .subscribe((isAdmin) => {
-        if (isAdmin) {
-          this.tabs.push(
-            { header: 'Автомобили', link: 'admin-cars'},
-            { header: 'Места подачи', link: 'admin-places'}
-          );
-        }
-      });
+    // this.api
+    //   .checkAccess()
+    //   .pipe(takeWhile(() => this.rxAlive))
+    //   .subscribe((isAdmin) => {
+    //     if (isAdmin) {
+    //       this.tabs.push(
+    //         { header: 'Автомобили', link: 'admin-cars' },
+    //         { header: 'Места подачи', link: 'admin-places' }
+    //       );
+    //     }
+    //   });
   }
   ngOnDestroy() {
     this.rxAlive = false;
   }
-
 }

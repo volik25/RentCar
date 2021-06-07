@@ -35,7 +35,7 @@
                         <i class="fas fa-star"></i>
                     </span>
                 </ng-template>
-                <ngb-rating [rate]='rate' [starTemplate]="rating"></ngb-rating>
+                <!-- <ngb-rating [rate]='rate' [starTemplate]="rating"></ngb-rating> -->
             </div>
             <div class="col-4 d-flex align-items-center justify-content-center mt-3">
                 <h2>{{car.price}}₽</h2>&nbsp;<small>в сутки</small>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-4 border-dot-bottom"></div>
                 <div class="col-4 d-flex justify-content-start align-items-end">
-                    <div>{{car.bodyType | BodyTypes}}</div>
+                    <div>{{car.bodyType}}</div>
                 </div>
             </div>
             <div class="row mx-0 my-3 py-1">
@@ -66,7 +66,7 @@
                 </div>
                 <div class="col-4 border-dot-bottom"></div>
                 <div class="col-4 d-flex justify-content-start align-items-end">
-                    <div>{{car.fuelType | carFuel}}</div>
+                    <div>{{car.fuelType}}</div>
                 </div>
             </div>
             <div class="row mx-0 my-3 py-1">
@@ -122,7 +122,7 @@
                 </div>
                 <div class="col-4 border-dot-bottom"></div>
                 <div class="col-4 d-flex justify-content-start align-items-end">
-                    <div>{{car.kpp | carInfoKPP}}</div>
+                    <div>{{car.kpp}}</div>
                 </div>
             </div>
             <div class="row mx-0 my-3 py-1">
@@ -140,7 +140,7 @@
                 </div>
                 <div class="col-4 border-dot-bottom"></div>
                 <div class="col-4 d-flex justify-content-start align-items-end">
-                    <div>{{car.wheelDrive | carWD}}</div>
+                    <div>{{car.wheelDrive}}</div>
                 </div>
             </div>
             <div class="row mx-0 my-3 py-1">
@@ -185,7 +185,7 @@
                 </div>
                 <div class="col-4 border-dot-bottom"></div>
                 <div class="col-4 d-flex justify-content-start align-items-end">
-                    <div>{{car.AC | carInfoAC}}</div>
+                    <div>{{car.AC}}</div>
                 </div>
             </div>
             <div class="row mx-0 my-3 py-1">
@@ -194,7 +194,7 @@
                 </div>
                 <div class="col-4 border-dot-bottom"></div>
                 <div class="col-4 d-flex justify-content-start align-items-end">
-                    <div>{{car.steering | steeringType}}</div>
+                    <div>{{car.steering}}</div>
                 </div>
             </div>
         </div>

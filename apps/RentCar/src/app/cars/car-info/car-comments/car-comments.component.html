@@ -8,10 +8,10 @@
                     {{comment.createDate | date: 'dd.MM.yyyy'}}
                     {{comment.createDate | date: 'HH:mm'}}
                 </div>
-                <div>
+                <!-- <div>
                     <button type="button" (click)="scrollToForm(comment)" class="btn btn-link" *ngIf="comment.userId == userId">Редактировать</button>
                     <button type="button" (click)="removeComment(comment.id)" class="btn btn-link text-danger" *ngIf="isAdmin || comment.userId == userId">Удалить</button>
-                </div>
+                </div> -->
             </div>
             <div class="form-group">
                 <label>Пользователь:</label>
@@ -19,15 +19,15 @@
             </div>
             <div class="form-group">
                 <label>Плюсы</label>
-                <div *ngFor="let plus of comment.pluses">+ {{plus}}</div>
+                <div *ngFor="let plus of comment.grades">+ {{plus.comment}}</div>
             </div>
             <div class="form-group">
                 <label>Минусы</label>
-                <div *ngFor="let minus of comment.minuses">- {{minus}}</div>
+                <div *ngFor="let minus of comment.grades">- {{minus.comment}}</div>
             </div>
             <div class="form-group">
                 <label>Отзыв:</label>
-                <div>{{comment.comment}}</div>
+                <div>{{comment.text}}</div>
             </div>
             <div class="form-group">
                 <label class="mr-1">Оценка:</label>
@@ -39,16 +39,16 @@
                         <i class="fas fa-star"></i>
                     </span>
                 </ng-template>
-                <ngb-rating [rate]="comment.rating" [starTemplate]="rating" [max]='5' [readonly]='true'></ngb-rating>
+                <!-- <ngb-rating [rate]="comment.rating" [starTemplate]="rating" [max]='5' [readonly]='true'></ngb-rating> -->
             </div>
-            <div class="d-flex justify-content-end align-items-center">
+            <!-- <div class="d-flex justify-content-end align-items-center">
                 <div (click)="likeAction(comment, 'like')">
                     <i class="hover fa-thumbs-up mr-1" [ngClass]="comment.isLike == 1 ? 'fas' : 'far'"></i>{{comment.likes}}
                 </div>
                 <div (click)="likeAction(comment, 'disLike')">
                     <i class="hover fa-thumbs-down ml-4 mr-1" [ngClass]="comment.isLike == 0? 'fas' : 'far'"></i>{{comment.disLikes}}
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
@@ -101,7 +101,7 @@
                         <i class="fas fa-star"></i>
                     </span>
                 </ng-template>
-                <ngb-rating formControlName="rating" [starTemplate]="commentRate" [max]="5" [readonly]="false"></ngb-rating>
+                <!-- <ngb-rating formControlName="rating" [starTemplate]="commentRate" [max]="5" [readonly]="false"></ngb-rating> -->
             </div>
         </div>
         <button class="btn btn-primary" type="submit">Отправить отзыв</button>

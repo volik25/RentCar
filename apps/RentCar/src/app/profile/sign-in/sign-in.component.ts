@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
-import { ApiService } from 'src/app/services/api.service';
-import { LoadingService } from 'src/app/services/loading.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from '@rent/web/_services/auth.service';
+import { UserService } from '@rent/web/_services/user.service';
+import { LoadingService } from '@rent/web/_services/loading.service';
 
 @Component({
   selector: 'sign-in',
@@ -19,7 +19,7 @@ export class SignInComponent implements OnInit {
   public showError: boolean;
   public messageText;
   public errorCount = 0;
-  constructor( private auth: AuthService, private api: ApiService,
+  constructor( private auth: AuthService, private userService: UserService,
               private loadingService: LoadingService, private router: Router,
               private fb: FormBuilder, private activeModal: NgbActiveModal) {
     this.enterForm = this.fb.group({
@@ -41,7 +41,7 @@ export class SignInComponent implements OnInit {
       }
       return;
     }
-    const subscription = this.api.signIn(this.enterForm.getRawValue()).subscribe(request => {
+    const subscription = this.userService.signIn(this.enterForm.getRawValue()).subscribe(request => {
       let token = request['token'];
       if (token){
         this.auth.setToken(token);
@@ -68,7 +68,7 @@ export class SignInComponent implements OnInit {
 
   changePassword(){
     let email = this.enterForm.getRawValue().email;
-    this.api.changePassword(email).subscribe(request => {
+    this.userService.changePassword(email).subscribe(request => {
       this.messageText = request['message'];
       this.showError = true;
     })

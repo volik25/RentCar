@@ -1,14 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Car } from '../models/car';
-import { ApiService } from '../services/api.service';
-import { LoadingService } from '../services/loading.service';
-import { Options } from 'ng5-slider';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CarInfoComponent } from './car-info/car-info.component';
 import { CarOrderComponent } from './car-order/car-order.component';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, Subscription } from 'rxjs';
+import { CarEntity } from '@rent/interfaces/modules/car/entities/car.entity';
+import { CarService } from '../_services/car.service';
+import { LoadingService } from '../_services/loading.service';
 
 @Component({
   selector: 'cars',
@@ -16,7 +14,7 @@ import { forkJoin, Subscription } from 'rxjs';
   styleUrls: ['./cars.component.less']
 })
 export class CarsComponent implements OnInit {
-  cars: Car[];
+  cars: CarEntity[];
   filters: any;
   params: any;
   showFilters = false;
@@ -25,7 +23,7 @@ export class CarsComponent implements OnInit {
   public pageSize = 9;
   sortSelect: FormGroup;
   public querySubscription: Subscription;
-  constructor(private api: ApiService,
+  constructor(private carService: CarService,
               private loadingService: LoadingService,
               private ms:NgbModal,
               private fb: FormBuilder,
@@ -38,11 +36,7 @@ export class CarsComponent implements OnInit {
     this.querySubscription = this.route.queryParams.subscribe(
       (queryParam: any) => {
         this.params = queryParam;
-        if (this.isEmpty(this.params)) {
-          this.loadCars();
-        } else {
-          this.getFilteredCars();
-        }
+        this.loadCars()
       }
     );
   }
@@ -83,23 +77,7 @@ export class CarsComponent implements OnInit {
   }
 
   loadCars(){
-    const requests = [this.api.getCars(), this.api.getFilters()];
-    const subscription = forkJoin(requests).subscribe(([cars, filters]) => {
-      this.cars = cars;
-      this.cars.forEach(car => {
-        this.api.getRating(car.id).subscribe(rate => {
-          car.rating = rate;
-        })
-      })
-      this.filters = filters;
-      this.sortSelect.get('sorting').setValue('A-Z');
-      this.loadingService.removeSubscription(subscription);
-    })
-    this.loadingService.addSubscription(subscription);
-  }
-
-  getFilteredCars(){
-    const requests = [this.api.getFilteredCars(this.params), this.api.getFilters()];
+    const requests = [this.carService.find<CarEntity[]>(this.params), this.carService.getCarsFilters<any>()];
     const subscription = forkJoin(requests).subscribe(([cars, filters]) => {
       this.cars = cars;
       this.filters = filters;
@@ -132,13 +110,6 @@ export class CarsComponent implements OnInit {
     modal.result.then((res)=>{
       this.closeResult = res;
     });
-  }
-
-  isEmpty(obj) {
-    for (let key in obj) {
-      return false;
-    }
-    return true;
   }
 
 }

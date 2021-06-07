@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { notFoundService } from '../services/notFound.service';
+import { notFoundService } from '../_services/notFound.service';
 
 @Component({
   selector: 'not-found',

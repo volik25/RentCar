@@ -31,9 +31,7 @@
               "apps/RentCar/src/assets"
             ],
             "styles": [
-              "apps/RentCar/src/styles.less",
-              "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "apps/RentCar/src/styles.less"
             ],
             "scripts": []
           },

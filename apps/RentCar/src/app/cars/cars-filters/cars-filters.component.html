@@ -15,7 +15,7 @@
             (click)="clearFilter('bodyType')"
             *ngIf="filtersForm.get('bodyType').value"><i class="fas fa-times"></i></button>
           <select class="form-control" id="bodyType" formControlName="bodyType">
-            <option *ngFor="let item of bodyTypes" [value]="item.type">{{item.value}}</option>
+            <!-- <option *ngFor="let item of bodyTypes" [value]="item.type">{{item.value}}</option> -->
           </select>
         </div>
       </div>
@@ -26,7 +26,7 @@
             (click)="clearFilter('fuelType')"
             *ngIf="filtersForm.get('fuelType').value"><i class="fas fa-times"></i></button>
           <select class="form-control" id="fuelType" formControlName="fuelType">
-            <option *ngFor="let item of fuelTypes" [value]="item.type">{{item.value}}</option>
+            <!-- <option *ngFor="let item of fuelTypes" [value]="item.type">{{item.value}}</option> -->
           </select>
         </div>
       </div>
@@ -39,7 +39,7 @@
             (click)="clearFilter('kpp')"
             *ngIf="filtersForm.get('kpp').value"><i class="fas fa-times"></i></button>
           <select class="form-control" id="kpp" formControlName="kpp">
-            <option *ngFor="let item of kppTypes" [value]="item.type">{{item.value}}</option>
+            <!-- <option *ngFor="let item of kppTypes" [value]="item.type">{{item.value}}</option> -->
           </select>
         </div>
       </div>
@@ -50,7 +50,7 @@
             (click)="clearFilter('wheelDrive')"
             *ngIf="filtersForm.get('wheelDrive').value"><i class="fas fa-times"></i></button>
           <select class="form-control" id="wheelDrive" formControlName="wheelDrive">
-            <option *ngFor="let item of wdTypes" [value]="item.type">{{item.value}}</option>
+            <!-- <option *ngFor="let item of wdTypes" [value]="item.type">{{item.value}}</option> -->
           </select>
         </div>
       </div>
@@ -145,7 +145,7 @@
             (click)="clearFilter('steering')"
             *ngIf="filtersForm.get('steering').value"><i class="fas fa-times"></i></button>
           <select class="form-control" id="steering" formControlName="steering">
-            <option *ngFor="let item of steeringTypes" [value]="item.type">{{item.value}}</option>
+            <!-- <option *ngFor="let item of steeringTypes" [value]="item.type">{{item.value}}</option> -->
           </select>
         </div>
       </div>

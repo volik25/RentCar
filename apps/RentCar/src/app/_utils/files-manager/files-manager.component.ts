@@ -53,12 +53,12 @@ export class FilesManagerComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {}
 
-  onRemoveFileClick(event: PointerEvent): void {
+  onRemoveFileClick(event: MouseEvent): void {
     event.preventDefault();
     this.updateValue(null);
   }
 
-  onUploadFileClick(event: PointerEvent): void {
+  onUploadFileClick(event: MouseEvent): void {
     event.preventDefault();
     const fileInput = this.createUploadFileInput();
     this.inputFileContainer.nativeElement.append(fileInput);

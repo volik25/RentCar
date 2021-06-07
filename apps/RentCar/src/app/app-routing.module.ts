@@ -6,11 +6,9 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SignInComponent } from './profile/sign-in/sign-in.component';
 import { SignUpComponent } from './profile/sign-up/sign-up.component';
-import { ProfileSecurity } from './security/profile.security';
 import { AdminCarsComponent } from './profile/admin/admin-cars/admin-cars.component';
 import { AdminPlacesComponent } from './profile/admin/admin-places/admin-places.component';
 import { OrdersComponent } from './profile/orders/orders.component';
-import { AdminSecurity } from './security/admin.security';
 import { EditCarComponent } from './profile/admin/admin-cars/edit-car/edit-car.component';
 import { EditUserComponent } from './profile/user/edit-user/edit-user.component';
 import { CarInfoComponent } from './cars/car-info/car-info.component';
@@ -18,6 +16,8 @@ import { CarOrderComponent } from './cars/car-order/car-order.component';
 import { AuthModalComponent } from './profile/auth-modal/auth-modal.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { UserComponent } from './profile/user/user.component';
+import { AdminSecurity } from './_security/admin.security';
+import { ProfileSecurity } from './_security/profile.security';
 
 
 const routes: Routes = [

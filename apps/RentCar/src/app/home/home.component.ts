@@ -8,6 +8,7 @@ import { FindCarTypes } from '@rent/interfaces/enums/findCarsType.enum';
 import { CarService } from '../_services/car.service';
 import { OrderService } from '../_services/order.service';
 import { switchMap } from 'rxjs/internal/operators';
+import { OrderStatusEnum } from '@rent/interfaces/enums/order.status.enum';
 
 @Component({
   selector: 'home',
@@ -19,6 +20,12 @@ export class HomeComponent implements OnInit {
   public hightCars: CarEntity[];
   public completeOrders: OrderEntity[];
   closeResult;
+
+  
+  get OrderStatus() {
+    return OrderStatusEnum
+  }
+
   constructor(
     private carService: CarService,
     private orderService: OrderService,

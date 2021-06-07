@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/internal/operators';
-import { User } from '../models/user';
-import { Order, UpdateOrder, CarDates } from '../models/order';
 import { NgbDate, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { Car } from '../models/car';
+import { UserEntity } from '@rent/interfaces/modules/security/entities/user.entity';
+import { CarEntity } from '@rent/interfaces/modules/car/entities/car.entity';
+import { OrderEntity } from '@rent/interfaces/modules/order/entities/order.entity';
 
 @Injectable()
 export class ApiService {
@@ -30,7 +30,7 @@ export class ApiService {
     return this.http.post<string>(`${this.baseUrl}?key=sign-up`, userData);
   }
 
-  public updateUser(user: User): Observable<any> {
+  public updateUser(user: UserEntity): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}?key=update-user`, user);
   }
 
@@ -98,7 +98,7 @@ export class ApiService {
     return this.http.post<string>(`${this.baseUrl}?key=remove-car`, car);
   }
 
-  public getFilteredCars(params:Car): Observable<any> {
+  public getFilteredCars(params:CarEntity): Observable<any> {
     let request = '';
     for (const key in params) {
       if (Object.prototype.hasOwnProperty.call(params, key)) {
@@ -170,14 +170,14 @@ export class ApiService {
     return this.http.post<string>(`${this.baseUrl}?key=upload-img`, data);
   }
 
-  public addOrder(order: Order): Observable<any> {
+  public addOrder(order: OrderEntity): Observable<any> {
     order.dateFrom = this.ngbDateToString(order.dateFrom as NgbDate);
     order.dateTo = order.dateTo ? this.ngbDateToString(order.dateTo as NgbDate) : null;
     order.time = this.ngbTimeToString(order.time as NgbTimeStruct);
     return this.http.post<any>(`${this.baseUrl}?key=add-order`, order);
   }
 
-  public updateOrder(order: UpdateOrder): Observable<any> {
+  public updateOrder(order: OrderEntity): Observable<any> {
     order.dateFrom = this.ngbDateToString(order.dateFrom as NgbDate);
     order.dateTo = order.dateTo ? this.ngbDateToString(order.dateTo as NgbDate) : null;
     order.time = this.ngbTimeToString(order.time as NgbTimeStruct);
@@ -192,8 +192,8 @@ export class ApiService {
     return this.http.post<any>(`${this.baseUrl}?key=update-statuses`, data);
   }
 
-  public getOrders(lim:boolean = false): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}?key=get-orders&limit=${lim}`).pipe(
+  public getOrders(lim:boolean = false): Observable<OrderEntity[]> {
+    return this.http.get<OrderEntity[]>(`${this.baseUrl}?key=get-orders&limit=${lim}`).pipe(
       tap((orders) => {
         orders.forEach((order) => {
           order.dateFrom = this.stringToNgbDate(order.dateFrom as string);
@@ -204,16 +204,16 @@ export class ApiService {
     );
   }
   
-  public getCarDates(id: number): Observable<CarDates[]> {
-    return this.http.get<CarDates[]>(`${this.baseUrl}?key=get-car-dates&carId=${id}`).pipe(
-      tap((dates) => {
-        dates.forEach((date) => {
-          date.dateFrom = this.stringToNgbDate(date.dateFrom as string);
-          date.dateTo = date.dateTo ? this.stringToNgbDate(date.dateTo as string) : null;
-        });
-      })
-    );
-  }
+  // public getCarDates(id: number): Observable<CarDates[]> {
+  //   return this.http.get<CarDates[]>(`${this.baseUrl}?key=get-car-dates&carId=${id}`).pipe(
+  //     tap((dates) => {
+  //       dates.forEach((date) => {
+  //         date.dateFrom = this.stringToNgbDate(date.dateFrom as string);
+  //         date.dateTo = date.dateTo ? this.stringToNgbDate(date.dateTo as string) : null;
+  //       });
+  //     })
+  //   );
+  // }
 
   private ngbDateToString(date: NgbDate): string {
     if(!date){

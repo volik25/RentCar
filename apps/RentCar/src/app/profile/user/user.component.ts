@@ -1,45 +1,52 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/models/user';
-import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/services/api.service';
-import { LoadingService } from 'src/app/services/loading.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserEntity } from '@rent/interfaces/modules/security/entities/user.entity';
+import { AuthService } from '@rent/web/_services/auth.service';
+import { LoadingService } from '@rent/web/_services/loading.service';
+import { UserService } from '@rent/web/_services/user.service';
 import { EditUserComponent } from './edit-user/edit-user.component';
 
 @Component({
   selector: 'user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.less']
+  styleUrls: ['./user.component.less'],
 })
 export class UserComponent implements OnInit {
-  public user: User;
+  public user: UserEntity;
   public userImage: string;
   public closeResult: string;
-  constructor( private auth: AuthService, private router: Router, private api: ApiService,
-    private loadingService: LoadingService, private mS: NgbModal) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private userService: UserService,
+    private loadingService: LoadingService,
+    private mS: NgbModal
+  ) {}
 
   public ngOnInit(): void {
     this.getUser();
   }
 
   private getUser() {
-    const subscription = this.api.getUser().subscribe((user) => {
-      this.user = user;
-      if (user.image) {
-        this.userImage = this.user.image;
-      }
-      else{
-        this.userImage = this.api.userImage;
-      }
-      this.loadingService.removeSubscription(subscription);
-    });
-    this.loadingService.addSubscription(subscription);
+    // const subscription = this.userService.getUser().subscribe((user) => {
+    //   this.user = user;
+    //   if (user.image) {
+    //     this.userImage = this.user.image;
+    //   } else {
+    //     this.userImage = this.api.userImage;
+    //   }
+    //   this.loadingService.removeSubscription(subscription);
+    // });
+    // this.loadingService.addSubscription(subscription);
   }
 
-  modalOpen(){
-    const modal = this.mS.open(EditUserComponent, {centered: true, size: 'xl', });
-    modal.result.then((res)=>{
+  modalOpen() {
+    const modal = this.mS.open(EditUserComponent, {
+      centered: true,
+      size: 'xl',
+    });
+    modal.result.then((res) => {
       this.closeResult = res;
       this.getUser();
     });
@@ -53,15 +60,15 @@ export class UserComponent implements OnInit {
       const formData = new FormData();
       formData.append('CarImage', file, file.name.replace(' ', '_'));
       formData.append('path', 'avatars');
-      const sub = this.api.uploadImg(formData).subscribe(img => {
-        this.user['oldImg'] = this.user.image;
-        this.user.image = img;
-        this.api.updateUser(this.user).subscribe(() => {
-          this.userImage = img;
-        });
-        this.loadingService.removeSubscription(sub);
-      });
-      this.loadingService.addSubscription(sub);
+      // const sub = this.api.uploadImg(formData).subscribe((img) => {
+      //   this.user['oldImg'] = this.user.image;
+      //   this.user.image = img;
+      //   this.api.updateUser(this.user).subscribe(() => {
+      //     this.userImage = img;
+      //   });
+      //   this.loadingService.removeSubscription(sub);
+      // });
+      // this.loadingService.addSubscription(sub);
       fileInput.remove();
     });
     fileInput.click();
@@ -75,13 +82,12 @@ export class UserComponent implements OnInit {
     return wrapper.firstElementChild as HTMLInputElement;
   }
 
-  public revoeImg(){
+  public revoeImg() {
     this.user['oldImg'] = this.user.image;
     this.user.image = null;
-    this.userImage = this.api.userImage;
-    this.api.updateUser(this.user).subscribe(res => {
+    // this.userImage = this.api.userImage;
+    this.userService.update<UserEntity>(this.user).subscribe((res) => {
       console.log(res);
-      
     });
   }
 

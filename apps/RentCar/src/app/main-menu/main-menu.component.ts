@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { UserEntity } from '@rent/interfaces/modules/security/entities/user.entity';
 import { takeWhile } from 'rxjs/internal/operators';
-import { ApiService } from '../services/api.service';
-import { LoadingService } from '../services/loading.service';
-import { AuthService } from '../services/auth.service';
-import { User } from '../models/user';
+import { AuthService } from '../_services/auth.service';
+import { LoadingService } from '../_services/loading.service';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'main-menu',
@@ -12,9 +12,9 @@ import { User } from '../models/user';
 })
 export class MainMenuComponent implements OnInit, OnDestroy {
   public showMenu: boolean = false;
-  public user: User;
+  public user: UserEntity;
   private rxAlive: boolean = true;
-  constructor(private api: ApiService, private loadingService: LoadingService, private auth: AuthService) {}
+  constructor(private userService: UserService, private loadingService: LoadingService, private auth: AuthService) {}
 
   ngOnInit(): void {
     this.getUser();
@@ -30,12 +30,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   getUser() {
     this.user = null;
-    if (this.auth.getToken()) {
-      const subscription = this.api.getUser().subscribe((user) => {
-        this.user = user;
-        this.loadingService.removeSubscription(subscription);
-      });
-      this.loadingService.addSubscription(subscription);
-    }
+    // if (this.auth.getToken()) {
+    //   const subscription = this.userService.findById(this.user).subscribe((user) => {
+    //     this.user = user;
+    //     this.loadingService.removeSubscription(subscription);
+    //   });
+    //   this.loadingService.addSubscription(subscription);
+    // }
   }
 }

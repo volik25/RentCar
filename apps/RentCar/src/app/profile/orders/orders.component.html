@@ -36,22 +36,25 @@
         </div>
         <div class="d-flex flex-column justify-content-center align-items-center">
           <b>Дата аренды: </b>
-          {{order.dateTo ? ngbDateToString(order.dateFrom) + ' - ' + ngbDateToString(order.dateTo) : ngbDateToString(order.dateFrom)}}
+          <!-- {{order.dateTo ? ngbDateToString(order.dateFrom) + ' - ' + ngbDateToString(order.dateTo) : ngbDateToString(order.dateFrom)}} -->
         </div>
         <div class="d-flex flex-column justify-content-center align-items-center">
           <b>Время подачи: </b>
-          {{ngbTimeToString(order.time)}}
+          <!-- {{ngbTimeToString(order.time)}} -->
         </div>
         <div class="d-flex flex-column justify-content-center align-items-center">
           <b>Место подачи: </b>
           {{order.place.name}}
         </div>
         <div class="d-flex flex-column justify-content-center align-items-center"
-        [ngClass]="{'planned': order.status == '1', 'activeOrder': order.status == '2',
-                    'complete': order.status == '3', 'canceled': order.status == '4', 'admin': isAdmin}"
+        [ngClass]="{'planned': order.status == OrderStatus.PLANNED,
+                    'activeOrder': order.status == OrderStatus.ACTIVE,
+                    'complete': order.status == OrderStatus.COMPLETE,
+                    'canceled': order.status == OrderStatus.CANCELED,
+                    'admin': isAdmin}"
                     (click) = "isAdmin ? changeStatus(order) : ''">
           <b>Статус заказа: </b>
-          {{order.status | orderStatus}}
+          <!-- {{order.status | orderStatus}} -->
         </div>
         <div class="price">
           <b>{{order.orderSum}}₽</b>
@@ -60,7 +63,7 @@
               order.orderSum/order.car.price + ' сутки' : order.orderSum/order.car.price + ' суток'}}
             </span>
         </div>
-        <button type="button" class="btn btn-info btn-block" *ngIf="order.status == '1'" (click) = "modalOpen(order)">Изменить</button>
+        <button type="button" class="btn btn-info btn-block" *ngIf="order.status == OrderStatus.PLANNED" (click) = "modalOpen(order)">Изменить</button>
       </div>
     </div>
   </div>

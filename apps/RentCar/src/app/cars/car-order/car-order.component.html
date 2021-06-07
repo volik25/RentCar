@@ -1,7 +1,7 @@
 <div class="row d-flex flex-column pt-4">
     <div class="row d-flex justify-content-end align-items-center px-4"
-        [ngClass]="{'justify-content-between' : order && order.status != '4'}">
-        <div *ngIf="order && order.status != '4'">
+        [ngClass]="{'justify-content-between' : order && order.status != 'CANCELED'}">
+        <div *ngIf="order && order.status != 'CANCELED'">
             <button type="button" class="btn btn-danger" (click)="removeOrder()">Отменить заказ</button>
         </div>
         <div>

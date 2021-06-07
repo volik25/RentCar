@@ -1,10 +1,10 @@
 import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { CarEntity } from '@rent/interfaces/modules/car/entities/car.entity';
+import { CarService } from '@rent/web/_services/car.service';
+import { LoadingService } from '@rent/web/_services/loading.service';
 import { forkJoin, Subscription } from 'rxjs';
-import { Car } from 'src/app/models/car';
-import { ApiService } from 'src/app/services/api.service';
-import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'car-info',
@@ -14,8 +14,8 @@ import { LoadingService } from 'src/app/services/loading.service';
 export class CarInfoComponent implements OnInit {
   order: boolean = false;
   rate: number;
-  cars: Car[];
-  car: Car;
+  cars: CarEntity[];
+  car: CarEntity;
   carId: number;
   params: any;
   private routeSubscription: Subscription;
@@ -23,7 +23,7 @@ export class CarInfoComponent implements OnInit {
   constructor(public config: NgbRatingConfig,
               private route: ActivatedRoute,
               public router: Router,
-              private api: ApiService,
+              private carService: CarService,
               public loadingService: LoadingService) {
                 config.max = 5;
                 config.readonly = true;
@@ -35,12 +35,9 @@ export class CarInfoComponent implements OnInit {
               }
 
   ngOnInit() {
-    const request = [this.api.getCar(this.carId), this.api.getRating(this.carId)]
-    const sub = forkJoin(request).subscribe(([car, rate]) => {
+    const sub = this.carService.findById<CarEntity>(this.carId)
+    .subscribe(car => {
       this.car = car;
-      if (rate) {
-        this.rate = rate.toFixed(2);
-      }
       this.loadingService.removeSubscription(sub);
     })
     this.loadingService.addSubscription(sub);
@@ -62,7 +59,7 @@ export class CarInfoComponent implements OnInit {
       if (car.id == id) {
         switch (param) {
           case 'update':
-            const sub = this.api.getCar(id).subscribe(car => {
+            const sub = this.carService.findById<CarEntity>(id).subscribe(car => {
               this.car = car;
               this.carId = id;
               this.carAction(id, 'remove');

@@ -16,7 +16,7 @@
           Изменить
         </small>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <div class="dropdown-item" (click)="onUploadFileClick($event)">Загрузить</div>
+          <!-- <div class="dropdown-item" (click)="onUploadFileClick($event)">Загрузить</div> -->
           <div class="dropdown-item" [ngClass]="{'disabled' : !user?.image}" (click)="revoeImg()">Удалить</div>
         </div>
       </div>

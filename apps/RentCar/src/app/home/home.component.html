@@ -10,21 +10,23 @@
             </div>
             <div class="d-flex flex-column justify-content-center align-items-center">
               <b>Дата аренды: </b>
-              {{ngbDateToString(order.dateFrom)}}{{ngbDateToString(order.dateTo)? ' - ' + ngbDateToString(order.dateTo):''}}
+              <!-- {{ngbDateToString(order.dateFrom)}}{{ngbDateToString(order.dateTo)? ' - ' + ngbDateToString(order.dateTo):''}} -->
             </div>
             <div class="d-flex flex-column justify-content-center align-items-center">
               <b>Время подачи: </b>
-              {{ngbTimeToString(order.time)}}
+              <!-- {{ngbTimeToString(order.time)}} -->
             </div>
             <div class="d-flex flex-column justify-content-center align-items-center">
               <b>Место подачи: </b>
               {{order.place.name}}
             </div>
             <div class="d-flex flex-column justify-content-center align-items-center"
-            [ngClass]="{'planned': order.status == '1', 'activeOrder': order.status == '2',
-                        'complete': order.status == '3', 'canceled': order.status == '4'}">
+            [ngClass]="{'planned': order.status === OrderStatus.PLANNED,
+                        'activeOrder': order.status === OrderStatus.ACTIVE,
+                        'complete': order.status === OrderStatus.COMPLETE,
+                        'canceled': order.status === OrderStatus.CANCELED}">
               <b>Статус заказа: </b>
-              {{order.status | orderStatus}}
+              {{order.status}}
             </div>
             <div class="price">
               <b>{{order.orderSum}}₽</b>
@@ -51,9 +53,9 @@
             </div>
             <div class="details">
               <span><i class="fas fa-users"></i>{{ car.sits }}</span>
-              <span><i class="fas fa-cogs"></i>{{ car.kpp | carKPP}}</span>
-              <span><i class="fas fa-fan"></i>{{ car.AC | carAC}}</span>
-              <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
+              <span><i class="fas fa-cogs"></i>{{ car.kpp}}</span>
+              <span><i class="fas fa-fan"></i>{{ car.AC}}</span>
+              <span><i class="fas fa-gas-pump"></i>{{ car.fuelType}}</span>
             </div>
             <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
             <button type="button" class="btn btn-info btn-block" (click) = "toCar(car.id)">К автомобилю</button>
@@ -71,9 +73,9 @@
               </div>
               <div class="details">
                 <span><i class="fas fa-users"></i>{{ car.sits }}</span>
-                <span><i class="fas fa-cogs"></i>{{ car.kpp | carKPP}}</span>
-                <span><i class="fas fa-fan"></i>{{ car.AC | carAC}}</span>
-                <span><i class="fas fa-gas-pump"></i>{{ car.fuelType | carFuel}}</span>
+                <span><i class="fas fa-cogs"></i>{{ car.kpp}}</span>
+                <span><i class="fas fa-fan"></i>{{ car.AC}}</span>
+                <span><i class="fas fa-gas-pump"></i>{{ car.fuelType}}</span>
               </div>
               <div class="price"><b>{{car.price}}₽</b><span>&nbsp;в сутки</span></div>
               <button type="button" class="btn btn-info btn-block" (click) = "toCar(car.id)">К автомобилю</button>

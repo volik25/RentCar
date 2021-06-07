@@ -1,14 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ApiService } from 'src/app/services/api.service';
-import { LoadingService } from 'src/app/services/loading.service';
-import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '@rent/web/_services/auth.service';
+import { LoadingService } from '@rent/web/_services/loading.service';
+import { UserService } from '@rent/web/_services/user.service';
 
 @Component({
   selector: 'sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.less']
+  styleUrls: ['./sign-up.component.less'],
 })
 export class SignUpComponent implements OnInit {
   @Input() modal = false;
@@ -17,7 +17,13 @@ export class SignUpComponent implements OnInit {
   public userForm: FormGroup;
   public showError: boolean;
 
-  constructor(private fb: FormBuilder, private api: ApiService, private loadingService: LoadingService, private auth: AuthService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private loadingService: LoadingService,
+    private auth: AuthService,
+    private router: Router
+  ) {
     this.userForm = this.fb.group({
       name: [null, Validators.required],
       surname: [null, Validators.required],
@@ -41,22 +47,23 @@ export class SignUpComponent implements OnInit {
       return;
     }
     console.log(this.userForm.getRawValue());
-    const subscription = this.api.signUp(this.userForm.getRawValue()).subscribe((token) => {
-      if (token) {
-        this.auth.setToken(token);
-        if (this.modal) {
-          this.closed.emit();
+    const subscription = this.userService
+      .signUp(this.userForm.getRawValue())
+      .subscribe((token) => {
+        if (token) {
+          this.auth.setToken(token);
+          if (this.modal) {
+            this.closed.emit();
+          } else this.router.navigate([this.auth.redirectUrl]);
+        } else {
+          this.showError = true;
         }
-        else this.router.navigate([this.auth.redirectUrl]);
-      } else {
-        this.showError = true;
-      }
-      this.loadingService.removeSubscription(subscription);
-    });
+        this.loadingService.removeSubscription(subscription);
+      });
     this.loadingService.addSubscription(subscription);
   }
-  
-  changeForm(){
+
+  changeForm() {
     this.onDisplay.emit('sign-in');
   }
 }

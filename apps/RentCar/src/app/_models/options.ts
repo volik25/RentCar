@@ -1,4 +1,9 @@
-import { BodyTypes, FuelType, KPP, AC, SteeringType, WheelDrive } from './enums';
+import { AC } from "@rent/interfaces/enums/ac.enum";
+import { BodyTypes } from "@rent/interfaces/enums/bodyTypes.enum";
+import { FuelType } from "@rent/interfaces/enums/fuelTypes.enum";
+import { KPP } from "@rent/interfaces/enums/kpp.enum";
+import { SteeringType } from "@rent/interfaces/enums/steeringType.enum";
+import { WheelDrive } from "@rent/interfaces/enums/wheelDrive.enum";
 
 export interface Option{
     value: string;
@@ -31,27 +36,27 @@ export interface SteeringOption extends Option{
 
 export const bodyOptions: BodyOption[] = [
     {
-      type: BodyTypes.Sedan,
+      type: BodyTypes.SEDAN,
       value: 'Седан',
     },
     {
-      type: BodyTypes.HatchBack,
+      type: BodyTypes.HATCHBACK,
       value: 'Хэтчбек',
     },
     {
-      type: BodyTypes.Wagon,
+      type: BodyTypes.WAGON,
       value: 'Универсал',
     },
     {
-      type: BodyTypes.SportWagon,
+      type: BodyTypes.SPORTWAGON,
       value: 'Лифтбек',
     },
     {
-      type: BodyTypes.Coupe,
+      type: BodyTypes.COUPE,
       value: 'Купе',
     },
     {
-      type: BodyTypes.Cabrio,
+      type: BodyTypes.CABRIO,
       value: 'Кабриолет',
     }
   ];
@@ -74,26 +79,26 @@ export const bodyOptions: BodyOption[] = [
       value: 'АИ-100',
     },
     {
-      type: FuelType.Diesel,
+      type: FuelType.DIESEL,
       value: 'Дизельное топливо',
     }
   ];
 
   export const kppOptions: KppOption[] = [
     {
-      type: KPP.Manual,
+      type: KPP.MANUAL,
       value: 'Механическая',
     },
     {
-      type: KPP.Auto,
+      type: KPP.AUTO,
       value: 'Автоматическая',
     },
     {
-      type: KPP.SemiAuto,
+      type: KPP.SEMIAUTO,
       value: 'Роботизированная',
     },
     {
-      type: KPP.Variator,
+      type: KPP.VARIATOR,
       value: 'Вариатор',
     }
   ];
@@ -115,34 +120,34 @@ export const bodyOptions: BodyOption[] = [
 
   export const acOptions: AcOption[] = [
     {
-      type: AC.None,
+      type: AC.NONE,
       value: 'Нет',
     },
     {
-      type: AC.OneZone,
+      type: AC.ONE_ZONE,
       value: 'Однозонный',
     },
     {
-      type: AC.TwoZone,
+      type: AC.TWO_ZONE,
       value: 'Двухзонный',
     },
     {
-      type: AC.ThreeZone,
+      type: AC.THREE_ZONE,
       value: 'Трехзонный',
     },
     {
-      type: AC.FourZone,
+      type: AC.FOUR_ZONE,
       value: 'Четырехзонный',
     }
   ];
 
   export const steeringOptions: SteeringOption[] = [
     {
-      type: SteeringType.Left,
+      type: SteeringType.LEFT,
       value: 'Левый руль',
     },
     {
-      type: SteeringType.Right,
+      type: SteeringType.RIGHT,
       value: 'Правый руль',
     }
   ];

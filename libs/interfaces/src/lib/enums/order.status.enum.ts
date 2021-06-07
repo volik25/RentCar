@@ -1,6 +1,6 @@
-export enum OrderStatus {
-    PLANNED = 'PLANNED',
-    ACTIVE = 'ACTIVE',
-    COMPLETE = 'COMPLETE',
-    CANCELED = 'CANCELED',
-  }
+export enum OrderStatusEnum {
+  PLANNED = 'PLANNED',
+  ACTIVE = 'ACTIVE',
+  COMPLETE = 'COMPLETE',
+  CANCELED = 'CANCELED',
+}
