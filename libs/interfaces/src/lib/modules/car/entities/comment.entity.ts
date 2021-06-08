@@ -1,4 +1,4 @@
-import { Column, Entity, Generated, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import { UserEntity } from "../../security/entities/user.entity";
 import { CarEntity } from "./car.entity";
 import { GradeEntity } from "./grade.entity";
@@ -25,21 +25,21 @@ export class CommentEntity {
     text: string;
     rating: number;
 
-    @ManyToOne(() => UserEntity, User => User.comments)
+    @ManyToOne(() => UserEntity, (User) => User.comments)
     @JoinColumn({
         name: 'user_id',
         referencedColumnName: 'id'
     })
     user: UserEntity;
 
-    @ManyToOne(() => CarEntity, Car => Car.comments)
+    @ManyToOne(() => CarEntity, (Car) => Car.comments)
     @JoinColumn({
         name: 'car_id',
         referencedColumnName: 'id',
     })
     car: CarEntity;
 
-    @ManyToMany(() => LikeEntity, Like => Like.comments)
+    @OneToMany(() => LikeEntity, (Like) => Like.comment)
     likes: LikeEntity[];
 
     @OneToMany(() => GradeEntity, (grade) => grade.comment)

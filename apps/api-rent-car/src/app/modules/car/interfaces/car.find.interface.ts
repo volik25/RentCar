@@ -1,4 +1,4 @@
-import { CarEntity } from "../../../../../../../libs/interfaces/modules/car/entities/car.entity";
+import { CarEntity } from '@rent/interfaces/modules/car/entities/car.entity'
 
 export interface CarFindInterface {
     cars: CarEntity[],

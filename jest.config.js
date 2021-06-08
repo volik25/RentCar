@@ -1,3 +1,3 @@
 module.exports = {
-  projects: ['<rootDir>/apps/api-rent-car', '<rootDir>/libs/interfaces'],
+  projects: ['<rootDir>/apps/api-rent-car', '<rootDir>/apps/RentCar', '<rootDir>/libs/interfaces'],
 };

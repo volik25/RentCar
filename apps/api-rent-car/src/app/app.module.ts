@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
 import { CarModule } from './modules/car/car.module';
 import { OrderModule } from './modules/order/order.module';
-import { UserModule } from './modules/user/user.module';
+import { SecurityModule } from './modules/security/security.module';
 import { getMetadataArgsStorage } from 'typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { QueryLogger } from '../../../../libs/interfaces/modules/logger/query.logger';
+import { QueryLogger } from '@rent/interfaces/modules/logger/query.logger';
 
 @Module({
   imports: [
     CarModule,
     OrderModule,
-    UserModule,
+    SecurityModule,
     TypeOrmModule.forRootAsync({
       useFactory: () => {
         return AppModule.getDatabaseConfig();
@@ -21,21 +21,21 @@ import { QueryLogger } from '../../../../libs/interfaces/modules/logger/query.lo
   providers: [],
 })
 export class AppModule {
-  public static getDatabaseConfig() {
+  public static getDatabaseConfig(): unknown {
     const defaultOptions = {
       name: 'default',
       type: 'postgres',
       autoLoadEntities: true,
+      synchronize: true,
       entities: getMetadataArgsStorage()
         .tables.filter((table) => !!table.schema)
         .map((tbl) => tbl.target),
       logging: true,
       logger: new QueryLogger(),
-      synchronize: false,
-      host: '127.0.0.1',
-      port: '3306',
-      username: 'root',
-      password: '',
+      host: 'localhost',
+      port: '5432',
+      username: 'postgres',
+      password: 'example',
       database: 'cars4rent'
     };
     return defaultOptions;

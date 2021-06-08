@@ -1,4 +1,4 @@
-import { IsDefined, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDefined, IsOptional } from 'class-validator';
 import { AC } from '../../../enums/ac.enum';
 import { BodyTypes } from '../../../enums/bodyTypes.enum';
 import { FuelType } from '../../../enums/fuelTypes.enum';

@@ -14,11 +14,11 @@ import {
 } from '@nestjs/common';
 import { JwtGuard } from '../../../guards/jwt.guard';
 import { CarService } from '../services/car.service';
-import { CreateCarDTO } from '../../../../../../../libs/interfaces/modules/car/dtos/сreate.car.dto'
-import { CarEntity } from '../../../../../../../libs/interfaces/modules/car/entities/car.entity';
 import { CarFindInterface } from '../interfaces/car.find.interface';
 import { SortUtil } from '../../../utils/sort.util';
-import { UpdateCarDTO } from '../../../../../../../libs/interfaces/modules/car/dtos/update.car.dto';
+import { CarEntity } from '@rent/interfaces/modules/car/entities/car.entity';
+import { CreateCarDTO } from '@rent/interfaces/modules/car/dtos/сreate.car.dto';
+import { UpdateCarDTO } from '@rent/interfaces/modules/car/dtos/update.car.dto';
 
 @Controller('car')
 export class CarController {

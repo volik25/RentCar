@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { logger } from '../../../../../../../libs/interfaces/modules/logger/logger';
-import { CarEntity } from '../../../../../../../libs/interfaces/modules/car/entities/car.entity';
-import { UpdateCarDTO } from '../../../../../../../libs/interfaces/modules/car/dtos/update.car.dto'
+import { UpdateCarDTO } from '@rent/interfaces/modules/car/dtos/update.car.dto';
+import { CarEntity } from '@rent/interfaces/modules/car/entities/car.entity';
+import { logger } from '@rent/interfaces/modules/logger/logger';
 
 @Injectable()
 export class CarService {

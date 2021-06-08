@@ -6,7 +6,7 @@ import { UserEntity } from '../../security/entities/user.entity';
 import { PlaceEntity } from './place.entity';
 
 @Entity('order', {
-    schema: 'car'
+    schema: 'order'
   })
 export class OrderEntity extends BaseEntity {
 
@@ -20,54 +20,54 @@ export class OrderEntity extends BaseEntity {
     })
     id: number;
 
-    @Column('string', {
+    @Column('character varying', {
         nullable: false
       })
     status: OrderStatusEnum;
 
-    @Column('string', {
+    @Column('character varying', {
         nullable: false
       })
     statusText: string;
 
-    @Column('string', {
+    @Column('character varying', {
         nullable: false
       })
     statusClass: string;
 
-    @Column('number', {
+    @Column('int', {
         nullable: false
       })
     orderSum: number;
 
-    @Column('string', {
+    @Column('character varying', {
         nullable: false
       })
     dateFrom: NgbDate | string;
 
-    @Column('string', {
+    @Column('character varying', {
         nullable: false
       })
     dateTo: NgbDate | string;
 
-    @Column('string', {
+    @Column('character varying', {
         nullable: false
       })
     time: NgbTimeStruct | string;
 
-    @ManyToOne(() => CarEntity, Car => Car.orders)
+    @ManyToOne(() => CarEntity, (Car) => Car.orders)
     @JoinColumn({
       name: 'car_id'
     })
     car: CarEntity;
 
-    @ManyToOne(() => UserEntity, User => User.orders)
+    @ManyToOne(() => UserEntity, (User) => User.orders)
     @JoinColumn({
       name: 'user_id'
     })
     user: UserEntity
 
-    @ManyToOne(() => PlaceEntity, Place => Place.orders)
+    @ManyToOne(() => PlaceEntity, (Place) => Place.orders)
     @JoinColumn({
       name: 'place_id'
     })

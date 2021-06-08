@@ -29,122 +29,122 @@ export class CarEntity extends BaseEntity {
   })
   id: number;
 
-  @Column('string', {
+  @Column('character', {
     nullable: false,
   })
   img: string;
 
-  @Column('string', {
+  @Column('character', {
     nullable: false,
   })
   name: string;
 
-  @Column('string', {
+  @Column('character', {
     nullable: false,
   })
   description: string;
 
-  @Column('number', {
+  @Column('int', {
     nullable: false,
   })
   price: number;
 
-  @Column('string', {
+  @Column('character', {
     nullable: false,
   })
   bodyType: BodyTypes;
 
-  @Column('string', {
+  @Column('character', {
     nullable: false,
   })
   fuelType: FuelType;
 
-  @Column('number', {
+  @Column('int', {
     nullable: false,
   })
   fuelCity: number;
 
-  @Column('number', {
+  @Column('int', {
     nullable: false,
   })
   fuelTrack: number;
 
-  @Column('number', {
+  @Column('int', {
     nullable: false,
   })
   enginePower: number;
 
-  @Column('number', {
+  @Column('int', {
     nullable: true,
     default: null,
   })
   engineVolume: number;
 
-  @Column('number', {
+  @Column('int', {
     nullable: true,
     default: null,
   })
   maxSpeed: number;
 
-  @Column('number', {
+  @Column('int', {
     nullable: true,
     default: null,
   })
   accelerationTime: number;
 
-  @Column('string', {
+  @Column('character', {
     nullable: false,
   })
   kpp: KPP;
 
-  @Column('number', {
+  @Column('int', {
     nullable: false,
   })
   gears: number;
 
-  @Column('string', {
+  @Column('character', {
     nullable: false,
   })
   wheelDrive: WheelDrive;
 
-  @Column('number', {
+  @Column('int', {
     nullable: false,
   })
   doors: number;
 
-  @Column('number', {
+  @Column('int', {
     nullable: false,
   })
   sits: number;
 
-  @Column('number', {
+  @Column('int', {
     nullable: true,
     default: null,
   })
   airbags: number;
 
-  @Column('string', {
+  @Column('character', {
     nullable: false,
   })
   AC: AC;
 
-  @Column('string', {
+  @Column('character', {
     nullable: false,
   })
   steering: SteeringType;
 
-  @Column('number', {
+  @Column('int', {
     nullable: false,
   })
   trunkVolume: number;
 
-  @Column('number', {
+  @Column('int', {
     nullable: true,
     default: null,
   })
   createYear: number;
 
-  @Column('number', {
+  @Column('int', {
     nullable: true,
     default: null,
   })

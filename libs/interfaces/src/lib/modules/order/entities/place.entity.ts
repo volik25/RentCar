@@ -18,7 +18,7 @@ export class PlaceEntity extends BaseEntity {
     nullable: false,
     length: 128,
   })
-  name: string;
+  address: string;
 
   @OneToMany(() => OrderEntity, (order) => order.place)
   orders: OrderEntity[];

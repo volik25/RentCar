@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BadRequestException, Injectable } from "@nestjs/common";
+import { logger } from "@rent/interfaces/modules/logger/logger";
 import moment = require("moment");
-import { logger } from "../../../../../libs/interfaces/modules/logger/logger";
 
 @Injectable()
 export class SortUtil {
